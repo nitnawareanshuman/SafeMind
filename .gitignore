@@ -1,0 +1,6 @@
+DerivedData/
+build/
+*.xcworkspace
+xcuserdata/
+.DS_Store
+GoogleService-Info.plist
