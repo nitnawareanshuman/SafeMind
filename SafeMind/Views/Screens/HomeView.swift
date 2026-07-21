@@ -42,7 +42,7 @@ struct HomeView: View {
                             NavigationLink { CBTView() } label: {
                                 quickCard(title: "CBT Thought Record",   icon: "brain.head.profile", color: .purple)
                             }
-                            NavigationLink { AcupressureListView() } label: {
+                            NavigationLink { AccupressureView() } label: {
                                 quickCard(title: "Acupressure Points", icon: "hand.point.up", color: .orange)
                             }
                             NavigationLink {

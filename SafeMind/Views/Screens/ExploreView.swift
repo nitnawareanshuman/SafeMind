@@ -17,7 +17,7 @@ struct ExploreView: View {
                 VStack(spacing: 20) {
                     
                     ExploreCard(title: "Acupressure", icon: "hand.point.up.left.fill") {
-                        AcupressureListView() 
+                        AccupressureView()
                     }
                     
                     ExploreCard(title: "Breathing", icon: "lungs.fill") {
