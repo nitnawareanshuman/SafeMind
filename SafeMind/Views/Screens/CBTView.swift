@@ -136,7 +136,7 @@ struct CBTView: View {
         // 🔥 Calculate session duration
         let duration = Int(Date().timeIntervalSince(startTime))
 
-        // 🔥 Save session to Firestore
+        // Save the completed session.
         Task {
             guard let uid = authVM.user?.uid else { return }
 

@@ -26,117 +26,118 @@ struct SignUpView: View {
         ZStack {
             LoginBackground()
 
-            VStack {
-                
-                Spacer()
+            VStack(spacing: 0) {
 
-                // Center Content
-                VStack(spacing: 25) {
+                // Center Content — fixed from top, scrolls if keyboard needs room
+                ScrollView {
+                    VStack(spacing: 25) {
 
-                    // Title
-                    Text("SIGN UP")
-                        .font(.largeTitle.bold())
-                        .foregroundColor(.white)
+                        // Title
+                        Text("SIGN UP")
+                            .font(.largeTitle.bold())
+                            .foregroundColor(.white)
 
-                    // Input Fields
-                    VStack(spacing: 15) {
+                        // Input Fields
+                        VStack(spacing: 15) {
 
-                        inputField(
-                            icon: "person.fill",
-                            placeholder: "First Name",
-                            text: $firstName
-                        )
+                            inputField(
+                                icon: "person.fill",
+                                placeholder: "First Name",
+                                text: $firstName
+                            )
 
-                        inputField(
-                            icon: "person.fill",
-                            placeholder: "Last Name",
-                            text: $lastName
-                        )
+                            inputField(
+                                icon: "person.fill",
+                                placeholder: "Last Name",
+                                text: $lastName
+                            )
 
-                        inputField(
-                            icon: "envelope.fill",
-                            placeholder: "Email",
-                            text: $email,
-                            keyboard: .emailAddress
-                        )
+                            inputField(
+                                icon: "envelope.fill",
+                                placeholder: "Email",
+                                text: $email,
+                                keyboard: .emailAddress
+                            )
 
-                        secureField(
-                            icon: "lock.fill",
-                            placeholder: "Password",
-                            text: $password
-                        )
+                            secureField(
+                                icon: "lock.fill",
+                                placeholder: "Password",
+                                text: $password
+                            )
 
-                        Text("8+ chars · 1 number · 1 uppercase · 1 special character")
-                            .font(.caption)
-                            .foregroundColor(.white.opacity(0.65))
-                            .multilineTextAlignment(.center)
-                    }
+                            Text("8+ chars · 1 number · 1 uppercase · 1 special character")
+                                .font(.caption)
+                                .foregroundColor(.white.opacity(0.65))
+                                .multilineTextAlignment(.center)
+                        }
 
-                    // Error
-                    if let error = errorMsg {
-                        Text(error)
+                        // Error — reserved height so it doesn't shift layout
+                        Text(errorMsg ?? " ")
                             .foregroundColor(.red)
                             .font(.caption)
                             .multilineTextAlignment(.center)
-                    }
+                            .opacity(errorMsg == nil ? 0 : 1)
 
-                    // Sign Up Button
-                    GradientButton(
-                        title: isLoading ? "Creating account…" : "Sign Up",
-                        icon: "arrow.right"
-                    ) {
-                        guard !isLoading else { return }
+                        // Sign Up Button
+                        GradientButton(
+                            title: isLoading ? "Creating account…" : "Sign Up",
+                            icon: "arrow.right"
+                        ) {
+                            guard !isLoading else { return }
 
-                        if firstName.isEmpty ||
-                            lastName.isEmpty ||
-                            email.isEmpty ||
-                            password.isEmpty {
-                            errorMsg = "Please fill all fields"
-                            return
-                        }
+                            if firstName.isEmpty ||
+                                lastName.isEmpty ||
+                                email.isEmpty ||
+                                password.isEmpty {
+                                errorMsg = "Please fill all fields"
+                                return
+                            }
 
-                        errorMsg = nil
-                        isLoading = true
+                            errorMsg = nil
+                            isLoading = true
 
-                        Task {
-                            let success = await authVM.signUp(
-                                email: email,
-                                password: password,
-                                name: fullName
-                            )
+                            Task {
+                                let success = await authVM.signUp(
+                                    email: email,
+                                    password: password,
+                                    name: fullName
+                                )
 
-                            isLoading = false
+                                isLoading = false
 
-                            if success {
-                                goToEmailVerification = true
-                            } else {
-                                errorMsg = authVM.errorMessage ?? "Sign up failed"
+                                if success {
+                                    goToEmailVerification = true
+                                } else {
+                                    errorMsg = authVM.errorMessage ?? "Sign up failed"
+                                }
                             }
                         }
-                    }
 
-                    // Terms
-                    VStack(spacing: 4) {
-                        Text("By signing up you agree to our")
-                            .foregroundColor(.white.opacity(0.7))
-                            .font(.caption)
-
-                        HStack(spacing: 4) {
-                            Button("Terms & Conditions") {}
-                                .foregroundColor(.white)
-
-                            Text("and")
+                        // Terms
+                        VStack(spacing: 4) {
+                            Text("By signing up you agree to our")
                                 .foregroundColor(.white.opacity(0.7))
+                                .font(.caption)
 
-                            Button("Privacy Policy") {}
-                                .foregroundColor(.white)
+                            HStack(spacing: 4) {
+                                Button("Terms & Conditions") {}
+                                    .foregroundColor(.white)
+
+                                Text("and")
+                                    .foregroundColor(.white.opacity(0.7))
+
+                                Button("Privacy Policy") {}
+                                    .foregroundColor(.white)
+                            }
+                            .font(.caption)
                         }
-                        .font(.caption)
                     }
+                    .padding(.horizontal)
+                    .padding(.top, 60)
+                    .padding(.bottom, 20)
                 }
-                .padding(.horizontal)
-
-                Spacer()
+                .scrollDismissesKeyboard(.interactively)
+                .scrollBounceBehavior(.basedOnSize)
 
                 // Bottom Fixed Login Row
                 HStack {
@@ -168,7 +169,7 @@ struct SignUpView: View {
                 .padding(.horizontal)
                 .padding(.bottom, 20)
             }
-            .ignoresSafeArea(.keyboard)
+            .ignoresSafeArea(.keyboard, edges: .bottom)
         }
         .navigationBarBackButtonHidden(true)
         .navigationDestination(isPresented: $goToLogin) {

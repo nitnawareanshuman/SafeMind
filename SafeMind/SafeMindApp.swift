@@ -6,40 +6,24 @@
 //
 
 import SwiftUI
-import FirebaseCore
-import Firebase
-import GoogleSignIn
-
+import Supabase
+ 
 @main
 struct SafeMindApp: App {
-    
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @StateObject private var authViewModel = AuthViewModel()
+    @StateObject private var authViewModel: AuthViewModel
+ 
+    init() {
+        let users = UserManager(client: supabase)
+        _authViewModel = StateObject(wrappedValue: AuthViewModel(authManager: AuthManager(client: supabase, userManager: users)))
+    }
     
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(authViewModel)
+                .onOpenURL { url in
+                    Task { try? await supabase.auth.session(from: url) }
+                }
         }
     }
 }
-
-class AppDelegate: NSObject, UIApplicationDelegate {
-    
-    func application(
-        _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
-    ) -> Bool {
-        FirebaseApp.configure()
-        return true
-    }
-    
-    func application(
-        _ app: UIApplication,
-        open url: URL,
-        options: [UIApplication.OpenURLOptionsKey : Any] = [:]
-    ) -> Bool {
-        return GIDSignIn.sharedInstance.handle(url)
-    }
-}
-

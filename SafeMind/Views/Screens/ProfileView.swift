@@ -59,7 +59,7 @@ struct ProfileView: View {
     private var profileHeader: some View {
         VStack(spacing: 12) {
             ZStack(alignment: .bottomTrailing) {
-                // ✅ Show real photo from Firebase Storage URL if available
+                // Show the configured profile image URL when available.
                 Group {
                     if let photoURL = vm.user?.photoURL, !photoURL.isEmpty,
                        let url = URL(string: photoURL) {

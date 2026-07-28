@@ -6,8 +6,6 @@
 //
 
 import SwiftUI
-import FirebaseAuth
-import Combine
 
 struct EmailVerificationView: View {
 
@@ -16,8 +14,6 @@ struct EmailVerificationView: View {
 
     @State private var message: String? = nil
 
-    // Auto check every 3 seconds
-    let timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
 
     var body: some View {
         ZStack {
@@ -26,8 +22,6 @@ struct EmailVerificationView: View {
             LoginBackground()
 
             VStack {
-
-                Spacer()
 
                 VStack(spacing: 22) {
 
@@ -42,7 +36,7 @@ struct EmailVerificationView: View {
                             .foregroundColor(.white.opacity(0.8))
                             .font(.subheadline)
 
-                        Text(Auth.auth().currentUser?.email ?? "your@email.com")
+                        Text(authVM.user?.email ?? "your@email.com")
                             .font(.headline)
                             .foregroundColor(.white)
 
@@ -57,7 +51,7 @@ struct EmailVerificationView: View {
                     Button {
                         Task {
                             do {
-                                try await AuthenticationManager.shared.sendEmailVerification()
+                                try await authVM.resendVerification(email: authVM.user?.email ?? "")
                                 message = "Verification email sent"
                             } catch {
                                 message = error.localizedDescription
@@ -75,15 +69,15 @@ struct EmailVerificationView: View {
                             )
                     }
 
-                    // Status Message
-                    if let message = message {
-                        Text(message)
-                            .foregroundColor(.white)
-                            .font(.caption)
-                            .multilineTextAlignment(.center)
-                    }
+                    // Status Message — reserved height so it doesn't shift layout
+                    Text(message ?? " ")
+                        .foregroundColor(.white)
+                        .font(.caption)
+                        .multilineTextAlignment(.center)
+                        .opacity(message == nil ? 0 : 1)
                 }
                 .padding(.horizontal, 24)
+                .padding(.top, 100)
 
                 Spacer()
 
@@ -126,12 +120,6 @@ struct EmailVerificationView: View {
             }
         }
 
-        // Auto-check every 3 seconds
-        .onReceive(timer) { _ in
-            Task {
-                await checkVerificationStatus()
-            }
-        }
     }
 
     // MARK: - Auto Check Verification
@@ -139,13 +127,7 @@ struct EmailVerificationView: View {
     private func checkVerificationStatus() async {
         await authVM.reloadVerificationStatus()
 
-        if authVM.isEmailVerified {
-            if let firebaseUser = Auth.auth().currentUser {
-                authVM.user = AuthDataResultModel(user: firebaseUser)
-            }
-
-            message = "Email verified successfully ✅"
-        }
+        if authVM.isEmailVerified { message = "Email verified successfully ✅" }
     }
 }
 

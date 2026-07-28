@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import AuthenticationServices
 
 struct LoginView: View {
     
@@ -26,125 +25,100 @@ struct LoginView: View {
                 
                 LoginBackground()
                 
-                VStack {
+                VStack(spacing: 0) {
                     
-                    Spacer()
-                    
-                    // Center Content
-                    VStack(spacing: 25) {
-                        
-                        // Title
-                        Text("LOGIN")
-                            .font(.largeTitle.bold())
-                            .foregroundColor(.white)
-                        
-                        // Input Fields
-                        VStack(spacing: 15) {
+                    // Center Content — fixed from top, scrolls if keyboard needs room
+                    ScrollView {
+                        VStack(spacing: 25) {
                             
-                            // Email
-                            HStack {
-                                Image(systemName: "envelope.fill")
-                                    .foregroundColor(.black)
-                                
-                                TextField("Enter Email", text: $email)
-                                    .foregroundColor(.black)
-                                    .autocapitalization(.none)
-                                    .disableAutocorrection(true)
-                            }
-                            .padding()
-                            .background(
-                                RoundedRectangle(cornerRadius: 15)
-                                    .fill(Color.white)
-                            )
+                            // Title
+                            Text("LOGIN")
+                                .font(.largeTitle.bold())
+                                .foregroundColor(.white)
                             
-                            // Password
-                            HStack {
-                                Image(systemName: "lock.fill")
-                                    .foregroundColor(.black)
+                            // Input Fields
+                            VStack(spacing: 15) {
                                 
-                                SecureField("Enter Password", text: $password)
-                                    .foregroundColor(.black)
+                                // Email
+                                HStack {
+                                    Image(systemName: "envelope.fill")
+                                        .foregroundColor(.black)
+                                    
+                                    TextField("Enter Email", text: $email)
+                                        .foregroundColor(.black)
+                                        .autocapitalization(.none)
+                                        .disableAutocorrection(true)
+                                }
+                                .padding()
+                                .background(
+                                    RoundedRectangle(cornerRadius: 15)
+                                        .fill(Color.white)
+                                )
+                                
+                                // Password
+                                HStack {
+                                    Image(systemName: "lock.fill")
+                                        .foregroundColor(.black)
+                                    
+                                    SecureField("Enter Password", text: $password)
+                                        .foregroundColor(.black)
+                                }
+                                .padding()
+                                .background(
+                                    RoundedRectangle(cornerRadius: 15)
+                                        .fill(Color.white)
+                                )
                             }
-                            .padding()
-                            .background(
-                                RoundedRectangle(cornerRadius: 15)
-                                    .fill(Color.white)
-                            )
-                        }
-                        
-                        // Error Message
-                        if let error = errorMsg {
-                            Text(error)
+                            
+                            // Error Message — reserved height so it doesn't shift layout
+                            Text(errorMsg ?? " ")
                                 .foregroundColor(.red)
                                 .font(.caption)
-                        }
-                        
-                        // Buttons
-                        VStack(spacing: 15) {
+                                .opacity(errorMsg == nil ? 0 : 1)
                             
-                            // Email Login
-                            GradientButton(title: "Login", icon: "arrow.right") {
+                            // Buttons
+                            VStack(spacing: 15) {
                                 
-                                if email.isEmpty || password.isEmpty {
-                                    errorMsg = "Please fill all fields"
-                                } else {
-                                    errorMsg = nil
+                                // Email Login
+                                GradientButton(title: "Login", icon: "arrow.right") {
                                     
-                                    Task {
-                                        let success = await authVM.signIn(
-                                            email: email,
-                                            password: password
-                                        )
+                                    if email.isEmpty || password.isEmpty {
+                                        errorMsg = "Please fill all fields"
+                                    } else {
+                                        errorMsg = nil
                                         
-                                        if !success {
-                                            errorMsg = authVM.errorMessage ?? "Login failed"
+                                        Task {
+                                            let success = await authVM.signIn(
+                                                email: email,
+                                                password: password
+                                            )
+                                            
+                                            if !success {
+                                                errorMsg = authVM.errorMessage ?? "Login failed"
+                                            }
                                         }
                                     }
                                 }
-                            }
-                            
-                            // Forgot Password
-                            HStack {
-                                Text("Forget your password?")
-                                    .foregroundColor(.white.opacity(0.7))
                                 
-                                Button("Click Here") {
-                                    goToForgotPassword = true
+                                // Forgot Password
+                                HStack {
+                                    Text("Forget your password?")
+                                        .foregroundColor(.white.opacity(0.7))
+                                    
+                                    Button("Click Here") {
+                                        goToForgotPassword = true
+                                    }
+                                    .foregroundColor(.white)
                                 }
-                                .foregroundColor(.white)
+                                
                             }
-                            
-                            Text("OR")
-                                .font(.headline.bold())
-                                .foregroundColor(.white)
-                                .padding(.vertical, 8)
-                            
-                            // Google Sign In
-                            AuthButton(
-                                text: "Continue with Google",
-                                icon: "Google"
-                            ) {
-                                authVM.signInWithGoogle()
-                            }
-                            
-                            // Apple Sign In
-                            SignInWithAppleButton(
-                                .signIn,
-                                onRequest: { request in
-                                    authVM.signInWithAppleRequest(request)
-                                },
-                                onCompletion: { result in
-                                    authVM.handleSignInWithAppleCompletion(result)
-                                }
-                            )
-                            .signInWithAppleButtonStyle(.white)
-                            .frame(height: 50)
-                            .cornerRadius(14)
                         }
+                        .padding(.horizontal)
+                        .padding(.top, 80)
+                        .padding(.bottom, 20)
                     }
-                    .padding(.horizontal)
-                    
-                    Spacer()
+                    .scrollDismissesKeyboard(.interactively)
+                    .scrollBounceBehavior(.basedOnSize)
                     
                     // Bottom Fixed Sign Up Row
                     HStack {
@@ -176,7 +150,7 @@ struct LoginView: View {
                     .padding(.horizontal)
                     .padding(.bottom, 20)
                 }
-                .ignoresSafeArea(.keyboard)
+                .ignoresSafeArea(.keyboard, edges: .bottom)
             }
             .navigationBarBackButtonHidden(true)
             .navigationDestination(isPresented: $goToSignUp) {

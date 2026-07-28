@@ -7,12 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5B06DBE12F7D39500019C4D0 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 5B06DBE02F7D39500019C4D0 /* FirebaseAuth */; };
-		5B4ABEFB2F7BEDA0009A64A3 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 5B4ABEFA2F7BEDA0009A64A3 /* FirebaseAnalytics */; };
+		5B3D8854300F65BA00EDB954 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = 5B3D8853300F65BA00EDB954 /* Auth */; };
+		5B3D8856300F65BA00EDB954 /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = 5B3D8855300F65BA00EDB954 /* Functions */; };
+		5B3D8858300F65BA00EDB954 /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = 5B3D8857300F65BA00EDB954 /* PostgREST */; };
+		5B3D885A300F65BA00EDB954 /* Realtime in Frameworks */ = {isa = PBXBuildFile; productRef = 5B3D8859300F65BA00EDB954 /* Realtime */; };
+		5B3D885C300F65BA00EDB954 /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = 5B3D885B300F65BA00EDB954 /* Storage */; };
+		5B3D885E300F65BA00EDB954 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 5B3D885D300F65BA00EDB954 /* Supabase */; };
 		5B9F15BF2F8EC56600BE13E8 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 5B9F15BE2F8EC56600BE13E8 /* GoogleSignIn */; };
 		5B9F15C12F8EC56600BE13E8 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5B9F15C02F8EC56600BE13E8 /* GoogleSignInSwift */; };
-		5BD2B71B2F8EE70D002B1B87 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 5BD2B71A2F8EE70D002B1B87 /* FirebaseFirestore */; };
-		5BD2B71D2F8EE71D002B1B87 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 5BD2B71C2F8EE71D002B1B87 /* FirebaseStorage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,7 +22,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		5BB3FD612F9AAFF200E8493C /* Exceptions for "SafeMind" folder in "SafeMind" target */ = {
+		5B3D8864300F771200EDB954 /* Exceptions for "SafeMind" folder in "SafeMind" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -33,7 +35,7 @@
 		5B57F7AB2F58240B00D832A6 /* SafeMind */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				5BB3FD612F9AAFF200E8493C /* Exceptions for "SafeMind" folder in "SafeMind" target */,
+				5B3D8864300F771200EDB954 /* Exceptions for "SafeMind" folder in "SafeMind" target */,
 			);
 			path = SafeMind;
 			sourceTree = "<group>";
@@ -45,12 +47,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B4ABEFB2F7BEDA0009A64A3 /* FirebaseAnalytics in Frameworks */,
-				5B06DBE12F7D39500019C4D0 /* FirebaseAuth in Frameworks */,
+				5B3D885C300F65BA00EDB954 /* Storage in Frameworks */,
+				5B3D8856300F65BA00EDB954 /* Functions in Frameworks */,
+				5B3D885A300F65BA00EDB954 /* Realtime in Frameworks */,
+				5B3D8858300F65BA00EDB954 /* PostgREST in Frameworks */,
 				5B9F15BF2F8EC56600BE13E8 /* GoogleSignIn in Frameworks */,
-				5BD2B71B2F8EE70D002B1B87 /* FirebaseFirestore in Frameworks */,
+				5B3D8854300F65BA00EDB954 /* Auth in Frameworks */,
+				5B3D885E300F65BA00EDB954 /* Supabase in Frameworks */,
 				5B9F15C12F8EC56600BE13E8 /* GoogleSignInSwift in Frameworks */,
-				5BD2B71D2F8EE71D002B1B87 /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,12 +105,14 @@
 			);
 			name = SafeMind;
 			packageProductDependencies = (
-				5B4ABEFA2F7BEDA0009A64A3 /* FirebaseAnalytics */,
-				5B06DBE02F7D39500019C4D0 /* FirebaseAuth */,
 				5B9F15BE2F8EC56600BE13E8 /* GoogleSignIn */,
 				5B9F15C02F8EC56600BE13E8 /* GoogleSignInSwift */,
-				5BD2B71A2F8EE70D002B1B87 /* FirebaseFirestore */,
-				5BD2B71C2F8EE71D002B1B87 /* FirebaseStorage */,
+				5B3D8853300F65BA00EDB954 /* Auth */,
+				5B3D8855300F65BA00EDB954 /* Functions */,
+				5B3D8857300F65BA00EDB954 /* PostgREST */,
+				5B3D8859300F65BA00EDB954 /* Realtime */,
+				5B3D885B300F65BA00EDB954 /* Storage */,
+				5B3D885D300F65BA00EDB954 /* Supabase */,
 			);
 			productName = SafeMind;
 			productReference = 5B57F7A92F58240B00D832A6 /* SafeMind.app */;
@@ -137,8 +143,8 @@
 			mainGroup = 5B57F7A02F58240B00D832A6;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				5B4ABEF92F7BEDA0009A64A3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				5B9F15BD2F8EC56600BE13E8 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				5BE4EBA4300F5119005EB521 /* XCRemoteSwiftPackageReference "supabase-swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 5B57F7AA2F58240B00D832A6 /* Products */;
@@ -392,14 +398,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		5B4ABEF92F7BEDA0009A64A3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 12.11.0;
-			};
-		};
 		5B9F15BD2F8EC56600BE13E8 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
@@ -408,18 +406,46 @@
 				minimumVersion = 9.1.0;
 			};
 		};
+		5BE4EBA4300F5119005EB521 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		5B06DBE02F7D39500019C4D0 /* FirebaseAuth */ = {
+		5B3D8853300F65BA00EDB954 /* Auth */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 5B4ABEF92F7BEDA0009A64A3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAuth;
+			package = 5BE4EBA4300F5119005EB521 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Auth;
 		};
-		5B4ABEFA2F7BEDA0009A64A3 /* FirebaseAnalytics */ = {
+		5B3D8855300F65BA00EDB954 /* Functions */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 5B4ABEF92F7BEDA0009A64A3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalytics;
+			package = 5BE4EBA4300F5119005EB521 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Functions;
+		};
+		5B3D8857300F65BA00EDB954 /* PostgREST */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5BE4EBA4300F5119005EB521 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = PostgREST;
+		};
+		5B3D8859300F65BA00EDB954 /* Realtime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5BE4EBA4300F5119005EB521 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Realtime;
+		};
+		5B3D885B300F65BA00EDB954 /* Storage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5BE4EBA4300F5119005EB521 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Storage;
+		};
+		5B3D885D300F65BA00EDB954 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5BE4EBA4300F5119005EB521 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
 		};
 		5B9F15BE2F8EC56600BE13E8 /* GoogleSignIn */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -430,16 +456,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5B9F15BD2F8EC56600BE13E8 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
-		};
-		5BD2B71A2F8EE70D002B1B87 /* FirebaseFirestore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5B4ABEF92F7BEDA0009A64A3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseFirestore;
-		};
-		5BD2B71C2F8EE71D002B1B87 /* FirebaseStorage */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5B4ABEF92F7BEDA0009A64A3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseStorage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

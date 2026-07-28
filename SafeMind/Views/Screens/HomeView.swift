@@ -18,17 +18,22 @@ struct HomeView: View {
                     VStack(spacing: 20) {
 
                         // Greeting
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text("Welcome Back 👋")
-                                .font(.title2.bold())
-                            Text("How are you feeling today?")
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
+                        NavigationLink {
+                            MoodChatView()
+                        } label: {
+                            VStack(alignment: .leading, spacing: 6) {
+                                Text("Welcome Back 👋")
+                                    .font(.title2.bold())
+                                Text("How are you feeling today?")
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding()
+                            .background(.ultraThinMaterial)
+                            .cornerRadius(20)
                         }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding()
-                        .background(.ultraThinMaterial)
-                        .cornerRadius(20)
+                        .buttonStyle(.plain)
 
                         // Quick Start
                         VStack(alignment: .leading, spacing: 10) {

@@ -28,7 +28,7 @@ class ProfileViewModel: ObservableObject {
         }
     }
 
-    /// Upload new photo to Firebase Storage then save URL to Firestore.
+    /// Upload profile media only after configuring a Supabase Storage bucket.
     func updateProfile() {
         guard let user else { return }
 
@@ -41,7 +41,7 @@ class ProfileViewModel: ObservableObject {
 
                 // ✅ Upload photo if one was picked
                 if let image = selectedImage {
-                    let url = try await StorageManager.shared.uploadProfileImage(image: image, uid: user.uid!)
+                    let url = try await StorageManager.shared.uploadProfileImage(image: image, uid: user.uid)
                     updatedUser.photoURL = url
                     selectedImage = nil   // clear after upload
                 }

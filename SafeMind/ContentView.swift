@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import FirebaseAuth
 
 struct ContentView: View {
 
@@ -34,11 +33,6 @@ struct ContentView: View {
                 showSplash = false
             }
         }
-    }
-
-    
-    func userIsVerified() -> Bool {
-        return Auth.auth().currentUser?.isEmailVerified ?? false
     }
 }
 

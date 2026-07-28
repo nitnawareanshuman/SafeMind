@@ -1,38 +1,20 @@
-//
-//  ExploreViewModel.swift
-//  SafeMind
-//
-//  Created by Anshuman Nitnaware on 15/04/26.
-//
-
-
-import FirebaseFirestore
+import Foundation
+import Supabase
 import Combine
 
-class ExploreViewModel: ObservableObject {
-    
+@MainActor
+final class ExploreViewModel: ObservableObject {
     @Published var items: [ExploreItem] = []
-    
-    private let db = Firestore.firestore()
-    
+    @Published var errorMessage: String?
+
     func fetchContent(category: String) {
-        db.collection("explore_content")
-            .document(category)
-            .collection("items")
-            .getDocuments { snapshot, error in
-                
-                if let error = error {
-                    print("❌ Firestore error:", error.localizedDescription)
-                    return
-                }
-                
-                guard let documents = snapshot?.documents else { return }
-                
-                DispatchQueue.main.async {
-                    self.items = documents.compactMap { doc in
-                        try? doc.data(as: ExploreItem.self)
-                    }
-                }
+        Task {
+            do {
+                let client = supabase
+                items = try await client.from("explore_items").select().eq("category", value: category).execute().value
+            } catch {
+                errorMessage = error.localizedDescription
             }
+        }
     }
 }
