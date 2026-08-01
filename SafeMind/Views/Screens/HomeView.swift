@@ -19,7 +19,7 @@ struct HomeView: View {
 
                         // Greeting
                         NavigationLink {
-                            MoodChatView()
+                            MoodCheckInChatView()
                         } label: {
                             VStack(alignment: .leading, spacing: 6) {
                                 Text("Welcome Back 👋")

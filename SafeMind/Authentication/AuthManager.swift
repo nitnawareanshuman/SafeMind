@@ -18,7 +18,7 @@ enum AuthManagerError: LocalizedError, Equatable {
     var errorDescription: String? {
         switch self {
         case .invalidEmail: return "Enter a valid email address."
-        case .invalidPassword: return "Your password must contain at least 8 characters."
+        case .invalidPassword: return "Password must be 8+ characters and include 1 uppercase letter, 1 number, and 1 special character."
         case .missingSession: return "Your session has expired. Please sign in again."
         case .emailNotVerified: return "Please verify your email before signing in."
         case .missingEmail: return "This account does not have an email address."
@@ -29,15 +29,29 @@ enum AuthManagerError: LocalizedError, Equatable {
     }
 }
 
+/// High-level auth lifecycle events, decoupled from the Supabase SDK's `AuthChangeEvent`.
+/// Drives the app's top-level navigation reactively (e.g. tapping an email-verification
+/// or password-reset link while the app is backgrounded).
+enum AuthLifecycleEvent: Sendable {
+    case signedIn(AuthUser)
+    case passwordRecovery(AuthUser)
+    case signedOut
+}
+
 protocol AuthManaging: Sendable {
     func signUp(email: String, password: String, name: String) async throws -> AuthUser
     func signIn(email: String, password: String) async throws -> UserProfile
     func signOut() async throws
     func sendPasswordReset(to email: String) async throws
     func resetPassword(email: String, oldPassword: String, newPassword: String) async throws
+    func updatePasswordAfterRecovery(newPassword: String) async throws
     func resendVerificationEmail(to email: String) async throws
     func currentUser() async throws -> AuthUser?
     func restoreSession() async throws -> AuthUser?
+    func fetchOrCreateProfile(for user: AuthUser) async throws -> UserProfile
+    /// Emits every auth lifecycle change (initial session restore, sign-in, sign-out,
+    /// password-recovery link opened) so the UI can react without manual polling.
+    func authEvents() -> AsyncStream<AuthLifecycleEvent>
 }
 
 /// Supabase email/password authentication coordinator.
@@ -56,7 +70,12 @@ final class AuthManager: AuthManaging, @unchecked Sendable {
         let email = try validatedEmail(email)
         try validate(password: password)
         do {
-            let response = try await client.auth.signUp(email: email, password: password, data: ["name": .string(name.trimmingCharacters(in: .whitespacesAndNewlines))])
+            let response = try await client.auth.signUp(
+                email: email,
+                password: password,
+                data: ["name": .string(name.trimmingCharacters(in: .whitespacesAndNewlines))],
+                redirectTo: URL(string: "safemind://login-callback")
+            )
             let user = authUser(from: response)
             // Profile row is created server-side by the `on_auth_user_created` DB trigger,
             // so we don't insert it here — avoids the RLS race before email verification.
@@ -71,7 +90,7 @@ final class AuthManager: AuthManaging, @unchecked Sendable {
     /// Authenticates a verified user and returns their application profile.
     func signIn(email: String, password: String) async throws -> UserProfile {
         let email = try validatedEmail(email)
-        try validate(password: password)
+        guard !password.isEmpty else { throw AuthManagerError.invalidPassword }
         do {
             _ = try await client.auth.signIn(email: email, password: password)
             let user = try await client.auth.user()
@@ -124,10 +143,62 @@ final class AuthManager: AuthManaging, @unchecked Sendable {
         }
     }
 
+    /// Sets a new password on an already-authenticated recovery session (from a password-reset link).
+    /// No old password is needed — the recovery link itself is the proof of identity.
+    func updatePasswordAfterRecovery(newPassword: String) async throws {
+        try validate(password: newPassword)
+        do {
+            try await client.auth.update(user: UserAttributes(password: newPassword))
+        } catch let error as AuthManagerError {
+            throw error
+        } catch {
+            throw map(error)
+        }
+    }
+
     func resendVerificationEmail(to email: String) async throws {
         do { try await client.auth.resend(email: try validatedEmail(email), type: .signup) }
         catch let error as AuthManagerError { throw error }
         catch { throw map(error) }
+    }
+
+    /// Looks up the app-owned `profiles` row for a user. Normally this row already exists
+    /// (created by the `on_auth_user_created` DB trigger during sign up); if it's missing —
+    /// e.g. the trigger hadn't finished yet — this creates it so the user isn't stuck.
+    func fetchOrCreateProfile(for user: AuthUser) async throws -> UserProfile {
+        do {
+            return try await userManager.fetchProfile(userID: user.id)
+        } catch {
+            let fallbackName = user.email.components(separatedBy: "@").first ?? "Member"
+            return try await userManager.createProfile(userID: user.id, name: fallbackName, email: user.email)
+        }
+    }
+
+    func authEvents() -> AsyncStream<AuthLifecycleEvent> {
+        AsyncStream { continuation in
+            let task = Task {
+                for await (event, session) in client.auth.authStateChanges {
+                    switch event {
+                    case .passwordRecovery:
+                        if let sessionUser = session?.user, let authUser = try? self.makeAuthUser(sessionUser) {
+                            continuation.yield(.passwordRecovery(authUser))
+                        }
+                    case .initialSession, .signedIn, .tokenRefreshed, .userUpdated:
+                        if let sessionUser = session?.user, let authUser = try? self.makeAuthUser(sessionUser) {
+                            continuation.yield(.signedIn(authUser))
+                        } else {
+                            continuation.yield(.signedOut)
+                        }
+                    case .signedOut, .userDeleted:
+                        continuation.yield(.signedOut)
+                    default:
+                        break
+                    }
+                }
+                continuation.finish()
+            }
+            continuation.onTermination = { _ in task.cancel() }
+        }
     }
 
     func currentUser() async throws -> AuthUser? {
@@ -171,7 +242,13 @@ final class AuthManager: AuthManaging, @unchecked Sendable {
     }
 
     private func validate(password: String) throws {
-        guard password.count >= 8 else { throw AuthManagerError.invalidPassword }
+        guard password.count >= 8,
+              password.contains(where: { $0.isUppercase }),
+              password.contains(where: { $0.isNumber }),
+              password.contains(where: { "!@#$%^&*()_+-=[]{}|;:'\",.<>?/`~\\".contains($0) })
+        else {
+            throw AuthManagerError.invalidPassword
+        }
     }
 
     private func map(_ error: Error) -> AuthManagerError {

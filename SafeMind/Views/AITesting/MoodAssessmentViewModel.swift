@@ -12,7 +12,7 @@ import Combine
 @MainActor
 final class MoodAssessmentViewModel: ObservableObject {
 
-    @Published var currentQuestion: MoodQuestion?
+    @Published var currentQuestion: LLMMoodQuestion?
     @Published var history: [MoodQA] = []
     @Published var isLoading = false
     @Published var finalResult: MoodAnalysis?

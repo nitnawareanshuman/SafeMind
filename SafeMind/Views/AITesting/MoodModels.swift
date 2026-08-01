@@ -9,7 +9,7 @@ import FoundationModels
 import Foundation
 
 @Generable
-struct MoodQuestion {
+struct LLMMoodQuestion {
     @Guide(description: "A short, warm question to gauge the user's current emotional/physical state, max 12 words, conversational tone")
     var question: String
 

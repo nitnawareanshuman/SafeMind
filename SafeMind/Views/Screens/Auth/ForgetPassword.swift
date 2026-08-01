@@ -10,8 +10,8 @@ import SwiftUI
 
 struct ForgetPasswordView: View {
     
-    @Environment(\.dismiss) var dismiss
     @EnvironmentObject var authVM: AuthViewModel
+    @Binding var path: NavigationPath
     
     @State private var email: String = ""
     @State private var isEmailSent = false
@@ -23,6 +23,15 @@ struct ForgetPasswordView: View {
             LoginBackground()
             
             VStack(spacing: 0) {
+                
+                HStack {
+                    BackButton {
+                        if !path.isEmpty { path.removeLast() }
+                    }
+                    Spacer()
+                }
+                .padding(.horizontal)
+                .padding(.top, 8)
                 
                 ScrollView {
                     VStack(spacing: 25) {
@@ -106,7 +115,7 @@ struct ForgetPasswordView: View {
                                 .foregroundColor(.white.opacity(0.8))
                                 .multilineTextAlignment(.center)
                             
-                            Text("Follow the link in the email to reset your password.")
+                            Text("Tap the link on this device — SafeMind will open so you can set a new password.")
                                 .font(.caption)
                                 .foregroundColor(.white.opacity(0.7))
                                 .multilineTextAlignment(.center)
@@ -114,7 +123,7 @@ struct ForgetPasswordView: View {
                         }
                     }
                     .padding(.horizontal)
-                    .padding(.top, 60)
+                    .padding(.top, 20)
                     .padding(.bottom, 20)
                 }
                 .scrollDismissesKeyboard(.interactively)
@@ -122,8 +131,11 @@ struct ForgetPasswordView: View {
             }
             .ignoresSafeArea(.keyboard, edges: .bottom)
         }
+        .navigationBarBackButtonHidden(true)
+        .toolbar(.hidden, for: .navigationBar)
     }
 }
 #Preview {
-    ForgetPasswordView()
+    ForgetPasswordView(path: .constant(NavigationPath()))
+        .environmentObject(AuthViewModel())
 }

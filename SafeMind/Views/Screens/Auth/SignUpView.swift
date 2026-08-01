@@ -8,18 +8,26 @@ import SwiftUI
 struct SignUpView: View {
 
     @EnvironmentObject var authVM: AuthViewModel
+    @Binding var path: NavigationPath
 
     @State private var errorMsg: String? = nil
     @State private var firstName: String = ""
     @State private var lastName: String = ""
     @State private var email: String = ""
     @State private var password: String = ""
-    @State private var goToLogin = false
-    @State private var goToEmailVerification = false
     @State private var isLoading = false
 
     var fullName: String {
         "\(firstName) \(lastName)".trimmingCharacters(in: .whitespaces)
+    }
+
+    private let specialCharacters = CharacterSet(charactersIn: "!@#$%^&*()_+-=[]{}|;:'\",.<>?/`~\\")
+
+    private var isPasswordValid: Bool {
+        password.count >= 8
+            && password.contains(where: { $0.isUppercase })
+            && password.contains(where: { $0.isNumber })
+            && password.unicodeScalars.contains(where: { specialCharacters.contains($0) })
     }
 
     var body: some View {
@@ -67,7 +75,10 @@ struct SignUpView: View {
 
                             Text("8+ chars · 1 number · 1 uppercase · 1 special character")
                                 .font(.caption)
-                                .foregroundColor(.white.opacity(0.65))
+                                .foregroundColor(
+                                    password.isEmpty ? .white.opacity(0.65)
+                                    : (isPasswordValid ? .green : .red.opacity(0.85))
+                                )
                                 .multilineTextAlignment(.center)
                         }
 
@@ -93,6 +104,11 @@ struct SignUpView: View {
                                 return
                             }
 
+                            guard isPasswordValid else {
+                                errorMsg = "Password needs 8+ chars, 1 uppercase, 1 number & 1 special character"
+                                return
+                            }
+
                             errorMsg = nil
                             isLoading = true
 
@@ -105,11 +121,11 @@ struct SignUpView: View {
 
                                 isLoading = false
 
-                                if success {
-                                    goToEmailVerification = true
-                                } else {
+                                if !success {
                                     errorMsg = authVM.errorMessage ?? "Sign up failed"
                                 }
+                                // On success, ContentView reacts to authVM.user being set
+                                // and transitions straight to the email-verification screen.
                             }
                         }
 
@@ -148,7 +164,7 @@ struct SignUpView: View {
                     Spacer()
 
                     Button {
-                        goToLogin = true
+                        if !path.isEmpty { path.removeLast() }
                     } label: {
                         Text("Login")
                             .foregroundColor(.white)
@@ -172,12 +188,7 @@ struct SignUpView: View {
             .ignoresSafeArea(.keyboard, edges: .bottom)
         }
         .navigationBarBackButtonHidden(true)
-        .navigationDestination(isPresented: $goToLogin) {
-            LoginView()
-        }
-        .navigationDestination(isPresented: $goToEmailVerification) {
-            EmailVerificationView()
-        }
+        .toolbar(.hidden, for: .navigationBar)
     }
 
     // MARK: - Reusable field builders
@@ -226,6 +237,6 @@ struct SignUpView: View {
 }
 
 #Preview {
-    SignUpView()
+    SignUpView(path: .constant(NavigationPath()))
         .environmentObject(AuthViewModel())
 }

@@ -10,17 +10,14 @@ import SwiftUI
 struct LoginView: View {
     
     @EnvironmentObject var authVM: AuthViewModel
+    @Binding var path: NavigationPath
     
     @State private var errorMsg: String? = nil
-    @State private var goToSignUp = false
     
     @State private var email: String = ""
     @State private var password: String = ""
     
-    @State private var goToForgotPassword = false
-    
     var body: some View {
-        NavigationStack {
             ZStack {
                 
                 LoginBackground()
@@ -106,7 +103,7 @@ struct LoginView: View {
                                         .foregroundColor(.white.opacity(0.7))
                                     
                                     Button("Click Here") {
-                                        goToForgotPassword = true
+                                        path.append(AuthRoute.forgotPassword)
                                     }
                                     .foregroundColor(.white)
                                 }
@@ -129,7 +126,7 @@ struct LoginView: View {
                         Spacer()
                         
                         Button {
-                            goToSignUp = true
+                            path.append(AuthRoute.signUp)
                         } label: {
                             Text("Sign Up")
                                 .foregroundColor(.white)
@@ -153,13 +150,7 @@ struct LoginView: View {
                 .ignoresSafeArea(.keyboard, edges: .bottom)
             }
             .navigationBarBackButtonHidden(true)
-            .navigationDestination(isPresented: $goToSignUp) {
-                SignUpView()
-            }
-            .navigationDestination(isPresented: $goToForgotPassword) {
-                ForgetPasswordView()
-            }
-        }
+            .toolbar(.hidden, for: .navigationBar)
     }
 }
 
@@ -190,5 +181,6 @@ struct AuthButton: View {
 }
 
 #Preview {
-    LoginView()
+    LoginView(path: .constant(NavigationPath()))
+        .environmentObject(AuthViewModel())
 }

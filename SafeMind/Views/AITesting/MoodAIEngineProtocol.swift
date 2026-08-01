@@ -10,7 +10,7 @@ import FoundationModels
 
 protocol MoodAIEngineProtocol {
     func checkAvailability() -> ModelAvailability
-    func nextQuestion(history: [MoodQA]) async throws -> MoodQuestion
+    func nextQuestion(history: [MoodQA]) async throws -> LLMMoodQuestion
     func analyze(history: [MoodQA]) async throws -> MoodAnalysis
 }
 
@@ -61,13 +61,13 @@ final class MoodAIEngine: MoodAIEngineProtocol {
         }
     }
 
-    func nextQuestion(history: [MoodQA]) async throws -> MoodQuestion {
+    func nextQuestion(history: [MoodQA]) async throws -> LLMMoodQuestion {
         let context = history.isEmpty
             ? "Ask the first check-in question."
             : "So far: " + history.map { "Q: \($0.question) A: \($0.answer)" }.joined(separator: " | ")
               + " Ask the next, different check-in question."
 
-        let response = try await session.respond(to: context, generating: MoodQuestion.self)
+        let response = try await session.respond(to: context, generating: LLMMoodQuestion.self)
         return response.content
     }
 
@@ -83,11 +83,11 @@ final class MoodAIEngine: MoodAIEngineProtocol {
 final class MockMoodAIEngine: MoodAIEngineProtocol {
     func checkAvailability() -> ModelAvailability { .ready }
 
-    func nextQuestion(history: [MoodQA]) async throws -> MoodQuestion {
+    func nextQuestion(history: [MoodQA]) async throws -> LLMMoodQuestion {
         try await Task.sleep(nanoseconds: 400_000_000)
-        let bank: [MoodQuestion] = [
-            MoodQuestion(question: "How's your energy right now?", options: ["Wired", "Drained", "Steady", "Restless"]),
-            MoodQuestion(question: "What's on your mind most?", options: ["Deadlines", "Nothing much", "Someone", "Everything"])
+        let bank: [LLMMoodQuestion] = [
+            LLMMoodQuestion(question: "How's your energy right now?", options: ["Wired", "Drained", "Steady", "Restless"]),
+            LLMMoodQuestion(question: "What's on your mind most?", options: ["Deadlines", "Nothing much", "Someone", "Everything"])
         ]
         return bank[min(history.count, bank.count - 1)]
     }

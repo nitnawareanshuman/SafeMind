@@ -9,7 +9,6 @@ import SwiftUI
 
 struct EmailVerificationView: View {
 
-    @Environment(\.dismiss) var dismiss
     @EnvironmentObject var authVM: AuthViewModel
 
     @State private var message: String? = nil
@@ -90,7 +89,7 @@ struct EmailVerificationView: View {
                     Spacer()
 
                     Button(action: {
-                        dismiss()
+                        authVM.signOut()
                     }) {
                         Text("Login")
                             .foregroundColor(.white)
