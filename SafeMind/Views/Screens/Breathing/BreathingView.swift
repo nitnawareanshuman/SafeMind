@@ -135,9 +135,14 @@ struct BreathingView: View {
     func endSession() {
         guard !sessionEnded, let start = startTime else { return }
         sessionEnded = true
+        let duration = Int(Date().timeIntervalSince(start))
+
+        // Local source of truth for Streak/Activity — recorded regardless of
+        // whether the Supabase round-trip below succeeds.
+        ActivityStore.shared.record(type: "breathing", duration: duration)
+
         Task {
             guard let uid = authVM.user?.uid else { return }
-            let duration = Int(Date().timeIntervalSince(start))
             let session = Session(
                 id: UUID().uuidString,
                 type: "breathing",

@@ -212,9 +212,13 @@ struct AcupressureTimerView: View {
     }
     
     private func endSession() {
+        let duration = Int(Date().timeIntervalSince(startTime ?? Date()))
+
+        // Local source of truth for Streak/Activity.
+        ActivityStore.shared.record(type: "acupressure", duration: duration)
+
         Task {
             guard let uid = authVM.user?.uid else { return }
-            let duration = Int(Date().timeIntervalSince(startTime ?? Date()))
             let session = Session(
                 id: UUID().uuidString,
                 type: "acupressure",

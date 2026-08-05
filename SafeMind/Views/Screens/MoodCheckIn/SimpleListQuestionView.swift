@@ -22,10 +22,11 @@ struct SimpleListQuestionView: View {
     var body: some View {
         VStack(spacing: 0) {
             Text(question.text)
-                .font(.title2.bold())
+                .font(.system(size: 38, weight: .bold))
                 .multilineTextAlignment(.center)
-                .padding(.horizontal, 32)
-                .padding(.top, 24)
+                .lineSpacing(-3)
+                .foregroundColor(.primary)
+                .padding(.top, 68)
 
             Spacer(minLength: 28)
 

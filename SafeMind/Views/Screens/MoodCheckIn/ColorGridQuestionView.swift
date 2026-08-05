@@ -29,11 +29,11 @@ struct ColorGridQuestionView: View {
                     .frame(height: 30)
 
                 Text(question.text)
-                    .font(.system(size: 32, weight: .bold))
+                    .font(.system(size: 40, weight: .bold))
                     .multilineTextAlignment(.center)
-                    .foregroundStyle(.primary)
-                    .padding(.top, 25)
-                    .padding(.horizontal, 28)
+                    .lineSpacing(-3)
+                    .foregroundColor(.primary)
+                    .padding(.top, 68)
 
                 Spacer(minLength: 30)
 

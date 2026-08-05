@@ -8,25 +8,28 @@
 import SwiftUI
 
 struct Header: View {
-    @State private var title: String = "SafeMind"
-    
+    let photoURL: String?
+    let uid: String
+
     var body: some View {
-        HStack(spacing: 0) {
+        HStack {
             Image("SafeMindLogo")
                 .resizable()
-                .frame(width: 70, height: 70)
-            
-            Text(title)
-                .font(.title)
-                .fontWeight(.bold)
-            
+                .scaledToFit()
+                .frame(width: 50, height: 50)
+
+            Text("SafeMind")
+                .font(.title.bold())
+
             Spacer()
+
+            NavigationLink {
+                ProfileView(uid: uid)
+            } label: {
+                AvatarImage(photoURL: photoURL, size: 56)
+            }
+            .buttonStyle(.plain)
         }
-        .padding(.horizontal, 15)
-        .padding(.vertical, 10)
     }
 }
 
-#Preview {
-    Header()
-}

@@ -9,126 +9,144 @@ struct HomeView: View {
 
     @EnvironmentObject var authVM: AuthViewModel
 
+    private var firstName: String {
+        let full = authVM.profile?.name ?? ""
+        let first = full.split(separator: " ").first.map(String.init) ?? full
+        return first.isEmpty ? "there" : first
+    }
+
+    private let tools: [(title: String, subtitle: String, icon: String, color: Color)] = [
+        ("Box Breathing", "Slow down, reset", "wind", .blue),
+        ("Journal", "Write it out", "book.fill", .purple),
+        ("Acupressure", "Guided pressure points", "hand.point.up.left.fill", .orange),
+        ("Music", "Sounds to focus or unwind", "headphones", .green),
+        ("Read Article", "Bite-sized wellness reads", "text.book.closed.fill", .pink)
+    ]
+
     var body: some View {
         NavigationStack {
             ZStack {
                 BlurBackground()
 
                 ScrollView {
-                    VStack(spacing: 20) {
+                    VStack(alignment: .leading, spacing: 20) {
+                        
+                        //Header
+                        Header(
+                            photoURL: authVM.profile?.photoURL,
+                            uid: authVM.user?.uid ?? ""
+                        )
 
                         // Greeting
+                        HStack {
+                            Text("Hello, \(firstName) 👋")
+                                .font(.title.bold())
+                            Spacer()
+                        }
+                        .padding(.top, 4)
+
+                        // Mood Check-In — full-width rectangle
                         NavigationLink {
                             MoodCheckInChatView()
                         } label: {
-                            VStack(alignment: .leading, spacing: 6) {
-                                Text("Welcome Back 👋")
-                                    .font(.title2.bold())
-                                Text("How are you feeling today?")
-                                    .font(.subheadline)
-                                    .foregroundColor(.secondary)
-                            }
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding()
-                            .background(.ultraThinMaterial)
-                            .cornerRadius(20)
+                            moodCheckInBlock
                         }
                         .buttonStyle(.plain)
 
-                        // Quick Start
-                        VStack(alignment: .leading, spacing: 10) {
-                            Text("Quick Start")
-                                .font(.headline)
+                        // Wellness Tools — full-width rectangle rows, no gaps
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("Wellness Tools")
+                                .font(.title3.bold())
                                 .padding(.leading, 4)
 
-                            NavigationLink { BreathingView() } label: {
-                                quickCard(title: "Breathing Session",    icon: "wind",             color: .blue)
+                            VStack(spacing: 14) {
+                                NavigationLink { BreathingView() } label: {
+                                    toolRow(tools[0])
+                                }
+                                NavigationLink { JournalView() } label: {
+                                    toolRow(tools[1])
+                                }
+                                NavigationLink { AccupressureView() } label: {
+                                    toolRow(tools[2])
+                                }
+                                NavigationLink { MusicListView() } label: {
+                                    toolRow(tools[3])
+                                }
+                                NavigationLink { ArticlesListView() } label: {
+                                    toolRow(tools[4])
+                                }
                             }
-                            NavigationLink { JournalView() } label: {
-                                quickCard(title: "Journal",              icon: "book.fill",           color: .purple)
-                            }
-                            NavigationLink { AccupressureView() } label: {
-                                quickCard(title: "Acupressure Points", icon: "hand.point.up", color: .orange)
-                            }
-                            // General entry point — shows every song, not a
-                            // single genre. Genre-specific playlists are still
-                            // reached via the mood check-in recommendation.
-                            NavigationLink {
-                                MusicListView()
-                            } label: {
-                                quickCard(title: "Music",           icon: "headphones",       color: .green)
-                            }
-                            NavigationLink { ArticlesListView() } label: {
-                                quickCard(title: "Read Article", icon: "text.book.closed.fill", color: .pink)
-                            }
-                        }
-
-                        // Today
-                        VStack(alignment: .leading, spacing: 10) {
-                            Text("Today")
-                                .font(.headline)
-                                .padding(.leading, 4)
-
-                            infoCard(icon: "lungs.fill",     text: "Suggested: 3-minute Box Breathing",              color: .blue)
-                            infoCard(icon: "book.fill",      text: "Tip: Jot down today's thoughts in your journal", color: .yellow)
+                            .buttonStyle(.plain)
                         }
                     }
                     .padding()
                 }
             }
             .stressCheckAlert()
-            .navigationTitle("SafeMind")
-            // ✅ Added Toolbar for Settings
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink {
-                        SettingsView()
-                    } label: {
-                        Image(systemName: "gearshape.fill")
-                            .font(.body.bold())
-                            .foregroundColor(.primary)
-                            .padding(8)
-                            .background(.ultraThinMaterial)
-                            .clipShape(Circle())
-                    }
-                }
-            }
         }
     }
 
-    // MARK: - Components
+    // MARK: - Mood Check-In (full-width rectangle)
 
-    private func quickCard(title: String, icon: String, color: Color) -> some View {
-        HStack {
-            Image(systemName: icon)
-                .font(.title2)
-                .foregroundColor(color)
-                .frame(width: 40)
+    private var moodCheckInBlock: some View {
+        HStack(spacing: 16) {
+            Image(systemName: "face.smiling.inverse")
+                .font(.system(size: 30))
+                .foregroundColor(.yellow)
+                .frame(width: 56, height: 56)
+                .background(Color.black.opacity(0.4))
+                .clipShape(Circle())
 
-            Text(title).font(.body)
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Mood Check-In")
+                    .font(.headline)
+                    .foregroundColor(.black)
+                Text("How are you feeling right now?")
+                    .font(.subheadline)
+                    .foregroundColor(.black.opacity(0.7))
+            }
 
             Spacer()
 
             Image(systemName: "chevron.right")
-                .foregroundColor(.secondary)
-                .font(.caption)
+                .foregroundColor(.black.opacity(0.6))
         }
-        .padding()
-        .background(.ultraThinMaterial)
-        .cornerRadius(15)
+        .padding(18)
+        .frame(maxWidth: .infinity)
+        .background(Color.gray.opacity(0.4))
+        .cornerRadius(24)
     }
 
-    private func infoCard(icon: String, text: String, color: Color) -> some View {
-        HStack(spacing: 14) {
-            Image(systemName: icon)
-                .foregroundColor(color)
-                .frame(width: 28)
-            Text(text).font(.subheadline)
+    // MARK: - Wellness Tool row (full-width rectangle)
+
+    private func toolRow(_ tool: (title: String, subtitle: String, icon: String, color: Color)) -> some View {
+        HStack(spacing: 16) {
+            Image(systemName: tool.icon)
+                .font(.system(size: 20))
+                .foregroundColor(tool.color)
+                .frame(width: 48, height: 48)
+                .background(tool.color.opacity(0.15))
+                .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+
+            VStack(alignment: .leading, spacing: 3) {
+                Text(tool.title)
+                    .font(.headline.weight(.semibold))
+                    .foregroundColor(.primary)
+                Text(tool.subtitle)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
+
             Spacer()
+
+            Image(systemName: "chevron.right")
+                .font(.caption.weight(.semibold))
+                .foregroundColor(.secondary)
         }
-        .padding()
+        .padding(16)
+        .frame(maxWidth: .infinity)
         .background(.ultraThinMaterial)
-        .cornerRadius(15)
+        .cornerRadius(20)
     }
 }
 
