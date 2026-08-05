@@ -24,12 +24,12 @@ struct ExploreView: View {
                         BreathingView()
                     }
                     
-                    ExploreCard(title: "CBT", icon: "brain.head.profile") {
-                        CBTView()
+                    ExploreCard(title: "Journal", icon: "book.fill") {
+                        JournalView()
                     }
                     
                     ExploreCard(title: "Focus", icon: "target") {
-                        MusicListView(mood: "Focus")
+                        MusicListView()
                     }
                 }
                 .padding()

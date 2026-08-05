@@ -55,9 +55,12 @@ struct AnalyzingView: View {
 }
 
 #Preview {
-    RecommendationView(
-        assessment: MoodAssessment(stress: 7, energy: 4, focus: 3, calmness: 3, tension: 6),
-        recommendation: .breathing,
-        onStartActivity: {}
-    )
+    ZStack {
+        BlurBackground()
+        RecommendationView(
+            assessment: MoodAssessment(stress: 7, energy: 4, focus: 3, calmness: 3, tension: 6),
+            recommendation: .breathing,
+            onStartActivity: {}
+        )
+    }
 }

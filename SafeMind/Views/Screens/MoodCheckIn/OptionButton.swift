@@ -14,9 +14,19 @@ struct OptionButton: View {
 
     var body: some View {
         Button(action: action) {
-            Text(option.displayText)
-                .font(.subheadline.weight(.medium))
+        
+            if let image = option.imageName {
+
+                Image(image)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 84,height: 84)
+
+            }
+            Text(option.label)
+                .font(.title2.weight(.medium))
                 .frame(maxWidth: .infinity)
+                .frame(height: 45)
                 .padding(.vertical, 14)
                 .background(.ultraThinMaterial)
                 .foregroundColor(.primary)
@@ -33,7 +43,7 @@ struct OptionButton: View {
 #Preview {
     OptionButton(
         option: MoodOption(
-            emoji: "🙂",
+            imageName: "sleepy",
             label: "Good",
             impact: MoodImpact(stress: 3, energy: 6, focus: 6, calmness: 7, tension: 2)
         ),

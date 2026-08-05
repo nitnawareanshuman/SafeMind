@@ -1,6 +1,7 @@
 import Foundation
 import UIKit
 import Supabase
+import Combine
 
 /// Compatibility façade for existing non-auth features. New code should inject `UserManaging`.
 final class ProfileManager {
@@ -44,7 +45,7 @@ final class StorageManager {
 }
 
 struct UserActivity: Codable, Sendable {
-    enum Action: String, Codable, Sendable { case music, breathing, acupressure, cbt }
+    enum Action: String, Codable, Sendable { case music, breathing, acupressure, cbt, journaling }
     var id: String = UUID().uuidString
     var uid: String
     var userName: String

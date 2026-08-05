@@ -44,16 +44,22 @@ struct HomeView: View {
                             NavigationLink { BreathingView() } label: {
                                 quickCard(title: "Breathing Session",    icon: "wind",             color: .blue)
                             }
-                            NavigationLink { CBTView() } label: {
-                                quickCard(title: "CBT Thought Record",   icon: "brain.head.profile", color: .purple)
+                            NavigationLink { JournalView() } label: {
+                                quickCard(title: "Journal",              icon: "book.fill",           color: .purple)
                             }
                             NavigationLink { AccupressureView() } label: {
                                 quickCard(title: "Acupressure Points", icon: "hand.point.up", color: .orange)
                             }
+                            // General entry point — shows every song, not a
+                            // single genre. Genre-specific playlists are still
+                            // reached via the mood check-in recommendation.
                             NavigationLink {
-                                MusicListView(mood: "Focus")
+                                MusicListView()
                             } label: {
-                                quickCard(title: "Focus Mode",           icon: "headphones",       color: .green)
+                                quickCard(title: "Music",           icon: "headphones",       color: .green)
+                            }
+                            NavigationLink { ArticlesListView() } label: {
+                                quickCard(title: "Read Article", icon: "text.book.closed.fill", color: .pink)
                             }
                         }
 
@@ -64,12 +70,13 @@ struct HomeView: View {
                                 .padding(.leading, 4)
 
                             infoCard(icon: "lungs.fill",     text: "Suggested: 3-minute Box Breathing",              color: .blue)
-                            infoCard(icon: "lightbulb.fill", text: "Tip: Challenge unhelpful thoughts with evidence", color: .yellow)
+                            infoCard(icon: "book.fill",      text: "Tip: Jot down today's thoughts in your journal", color: .yellow)
                         }
                     }
                     .padding()
                 }
             }
+            .stressCheckAlert()
             .navigationTitle("SafeMind")
             // ✅ Added Toolbar for Settings
             .toolbar {

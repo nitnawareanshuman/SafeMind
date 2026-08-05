@@ -100,6 +100,13 @@ final class AuthViewModel: ObservableObject {
         }
     }
 
+    /// Updates the in-memory profile (e.g. after a local-only change like a
+    /// profile photo saved via `LocalImageStore`) without a full round-trip
+    /// through `ensureProfile()`. Keeps Home/Profile avatars in sync instantly.
+    func updateLocalProfile(_ updated: UserProfile) {
+        profile = updated
+    }
+
     func signOut() { Task {
         guard let authManager else { return }
         do { try await authManager.signOut(); user = nil; profile = nil; isEmailVerified = false; isPasswordRecovery = false }

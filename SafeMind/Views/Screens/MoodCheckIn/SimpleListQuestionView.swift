@@ -31,7 +31,9 @@ struct SimpleListQuestionView: View {
 
             VStack(spacing: 12) {
                 ForEach(question.options) { option in
-                    selectableOption(option)
+                    OptionButton(option: option) {
+                        onSelect(option)
+                    }
                 }
             }
             .padding(.horizontal, 24)
@@ -42,26 +44,6 @@ struct SimpleListQuestionView: View {
                 .padding(.horizontal, 20)
                 .padding(.bottom, 8)
         }
-    }
-
-    private func selectableOption(_ option: MoodOption) -> some View {
-        let isSelected = selected?.id == option.id
-        return Button {
-            onSelect(option)
-        } label: {
-            Text(option.displayText)
-                .font(.subheadline.weight(.medium))
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 14)
-                .background(isSelected ? AnyShapeStyle(LinearGradient(colors: [.blue, .purple], startPoint: .leading, endPoint: .trailing)) : AnyShapeStyle(.ultraThinMaterial))
-                .foregroundColor(isSelected ? .white : .primary)
-                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 16, style: .continuous)
-                        .stroke(Color.primary.opacity(isSelected ? 0 : 0.08), lineWidth: 1)
-                )
-        }
-        .buttonStyle(.plain)
     }
 }
 

@@ -41,8 +41,8 @@ public final class ActivityLogger {
     }
 
     @discardableResult
-    public func logCBT(metadata: [String: String]? = nil) async -> Bool {
-        await log(.cbt, metadata: metadata)
+    public func logJournaling(metadata: [String: String]? = nil) async -> Bool {
+        await log(.journaling, metadata: metadata)
     }
 
     // MARK: - Core logging

@@ -10,28 +10,60 @@ import Foundation
 /// Pure decision logic that maps a computed `MoodAssessment` to the single best
 /// next activity in SafeMind. Rules are evaluated top-to-bottom — the first
 /// match wins, mirroring a clinician's triage order (address acute stress /
-/// tension first, then low energy or focus, then general low mood).
+/// tension first, then energy and focus, then general low mood).
+///
+/// The music-genre picks mirror SafeMind's mood → destination table:
+/// Stressed / Anxious / Overthinking / Angry / Burned Out → Calm,
+/// Tired / Sleepy / Unmotivated → Energy,
+/// Working / Studying / Exam prep / Happy & Productive → Focus,
+/// Bedtime → Sleep.
 struct RecommendationEngine {
 
     func recommend(for assessment: MoodAssessment) -> MoodRecommendation {
-        if assessment.stress >= 7 {
+        // 😰 Stressed / 😡 Angry-Frustrated with real physical tension —
+        // an active exercise helps more than passive listening.
+        if assessment.stress >= 7 && assessment.tension >= 6 {
             return .breathing
         }
         if assessment.tension >= 7 {
             return .accupressure
         }
-        if assessment.energy <= 2 {
-            return .music(genre: "Sleep")
-        }
-        if assessment.energy <= 3 {
+
+        // 😰 Stressed / 😟 Anxious / 🤯 Overthinking / 😡 Angry-Frustrated /
+        // 😫 Burned Out — slow, calming sounds lower physiological arousal.
+        if assessment.stress >= 6 || assessment.tension >= 6 {
             return .music(genre: "Calm")
         }
-        if assessment.focus <= 3 {
+
+        // 🌙 Bedtime — very low energy with no real stress reads as winding
+        // down for sleep, not needing a pick-me-up.
+        if assessment.energy <= 2 && assessment.stress <= 5 {
+            return .music(genre: "Sleep")
+        }
+
+        // 😴 Tired / 🥱 Sleepy / 🚀 Unmotivated — needs alertness and drive,
+        // not more calm.
+        if assessment.energy <= 4 {
+            return .music(genre: "Energy")
+        }
+
+        // 🧠 Working / Studying / 📚 Exam prep / 😊 Happy & Productive —
+        // needs sustained concentration.
+        if assessment.focus <= 4 {
             return .music(genre: "Focus")
         }
-        if assessment.stress >= 6 && assessment.focus <= 4 {
-            return .cbt
+
+        // 😔 Sad, tangled thoughts — untangling by writing helps more than
+        // listening.
+        if assessment.stress >= 5 && assessment.focus <= 5 {
+            return .journaling
         }
+
+        // 😌 Relaxed — already in a peaceful state, keep it that way.
+        if assessment.calmness >= 7 {
+            return .music(genre: "Calm")
+        }
+
         return .home
     }
 }

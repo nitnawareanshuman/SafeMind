@@ -40,6 +40,10 @@ final class MoodCheckInViewModel: ObservableObject {
     private let assessmentService: MoodAssessmentService
     private let recommendationEngine: RecommendationEngine
     private let store: MoodCheckInStore
+    /// Part of the Safe Circle feature — records today's stress score so a
+    /// multi-day stress trend can be detected later (see `HomeView`'s
+    /// `.stressCheckAlert()`).
+    private let historyStore: MoodHistoryStore
 
     private var answers: [(question: MoodQuestion, option: MoodOption)] = []
 
@@ -47,13 +51,15 @@ final class MoodCheckInViewModel: ObservableObject {
         questions: [MoodQuestion] = MoodQuestion.dailyCheckInQuestions,
         assessmentService: MoodAssessmentService = MoodAssessmentService(),
         recommendationEngine: RecommendationEngine = RecommendationEngine(),
-        store: MoodCheckInStore = MoodCheckInStore()
+        store: MoodCheckInStore = MoodCheckInStore(),
+        historyStore: MoodHistoryStore = MoodHistoryStore()
     ) {
         self.questions = questions
         self.totalQuestions = questions.count
         self.assessmentService = assessmentService
         self.recommendationEngine = recommendationEngine
         self.store = store
+        self.historyStore = historyStore
     }
 
     // MARK: - Flow
@@ -130,6 +136,8 @@ final class MoodCheckInViewModel: ObservableObject {
         isAnalyzing = false
 
         store.saveTodaysResult(assessment: result, recommendation: rec)
+        historyStore.recordToday(stress: result.stress)
+        ActivityStore.shared.record(type: "moodCheckIn")
     }
 
     // MARK: - Daily gate

@@ -68,7 +68,7 @@ struct SessionHistoryView: View {
     private func icon(for type: String) -> String {
         switch type {
         case "breathing": return "wind"
-        case "cbt": return "brain.head.profile"
+        case "journaling": return "book.fill"
         case "focus": return "headphones"
         case "acupressure": return "hand.point.up.left"
         default: return "clock"
@@ -78,7 +78,7 @@ struct SessionHistoryView: View {
     private func color(for type: String) -> Color {
         switch type {
         case "breathing": return .blue
-        case "cbt": return .purple
+        case "journaling": return .purple
         case "focus": return .green
         case "acupressure": return .orange
         default: return .gray

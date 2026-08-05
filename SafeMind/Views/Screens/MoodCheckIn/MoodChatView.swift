@@ -118,18 +118,15 @@ struct MoodCheckInChatView: View {
             BreathingView()
         case .accupressure:
             AccupressureView()
-        case .cbt:
-            CBTView()
-        case .music(let genreName):
-            GenreTrackListView(genre: genre(named: genreName))
+        case .journaling:
+            JournalView()
+        case .music(let genre):
+            MusicListView(mood: genre)
         case .home:
             HomeView()
         }
     }
 
-    private func genre(named name: String) -> MusicGenre {
-        allGenres.first(where: { $0.name == name }) ?? allGenres[0]
-    }
 }
 
 #Preview {

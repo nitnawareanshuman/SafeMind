@@ -26,6 +26,11 @@ struct ContentView: View {
     /// check-in hasn't happened yet, so the gate should show before Home.
     @State private var showMoodCheckIn = !MoodCheckInViewModel.hasCompletedToday()
 
+    /// Part of the Safe Circle feature. True until the user has seen (and
+    /// skipped or completed) the "add a close friend" screen once, shown
+    /// right after sign-up / before the first Home screen.
+    @State private var showSafeCircleOnboarding = !SafeCircleViewModel.hasSeenOnboarding()
+
     /// Keep the splash up for a small minimum duration *and* until the first auth
     /// event resolves, so we never flash the Login screen before a saved session restores.
     private var showSplash: Bool {
@@ -52,6 +57,15 @@ struct ContentView: View {
             } else if authVM.profile == nil {
                 ProfileLoadingView()
                     .transition(.opacity)
+            } else if showSafeCircleOnboarding {
+                // Safe Circle onboarding — shown once, right after sign-up, before the
+                // user ever sees Home. User can add up to 3 close friends or skip.
+                NavigationStack {
+                    AddSafeCircleContactView(isOnboarding: true) {
+                        showSafeCircleOnboarding = false
+                    }
+                }
+                .transition(.opacity)
             } else if showMoodCheckIn {
                 // Daily AI Mood Check-In gate — shown once per day, right after auth,
                 // before the user lands on Home.
@@ -71,6 +85,7 @@ struct ContentView: View {
         .animation(.easeInOut(duration: 0.35), value: authVM.profile)
         .animation(.easeInOut(duration: 0.35), value: authVM.profileCheckFailed)
         .animation(.easeInOut(duration: 0.35), value: showMoodCheckIn)
+        .animation(.easeInOut(duration: 0.35), value: showSafeCircleOnboarding)
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
                 minimumSplashElapsed = true

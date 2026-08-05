@@ -24,6 +24,7 @@ struct MoodImpact {
 struct MoodOption: Identifiable, Hashable {
     let id = UUID()
     let emoji: String?
+    let imageName: String?
     let label: String
     let impact: MoodImpact
     /// Accent color used by the redesigned check-in cards (emoji face circle,
@@ -31,8 +32,9 @@ struct MoodOption: Identifiable, Hashable {
     /// to `.accentColor`-ish blue/purple when a question doesn't specify one.
     let color: Color?
 
-    init(emoji: String? = nil, label: String, color: Color? = nil, impact: MoodImpact) {
+    init(emoji: String? = nil, imageName: String? = nil, label: String, color: Color? = nil, impact: MoodImpact) {
         self.emoji = emoji
+        self.imageName = imageName
         self.label = label
         self.color = color
         self.impact = impact
@@ -40,7 +42,7 @@ struct MoodOption: Identifiable, Hashable {
 
     /// What the user sees on the option button — emoji + label if present, otherwise just the label.
     var displayText: String {
-        if let emoji { return "\(emoji) \(label)" }
+        if let imageName { return "\(imageName) \(label)" }
         return label
     }
 

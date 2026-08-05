@@ -28,27 +28,37 @@ class ProfileViewModel: ObservableObject {
         }
     }
 
-    /// Upload profile media only after configuring a Supabase Storage bucket.
-    func updateProfile() {
-        guard let user else { return }
+    /// Saves the picked profile photo. Supabase Storage isn't configured yet
+    /// (`StorageManager.uploadProfileImage` throws), so this saves to the
+    /// on-device `LocalImageStore` instead — same pattern as `ActivityStore` /
+    /// `MoodHistoryStore` elsewhere in the app. `onUpdated` lets the caller
+    /// (ProfileView) push the new photo URL into `AuthViewModel` so Home's
+    /// avatar updates immediately too.
+    func updateProfile(onUpdated: ((UserProfile) -> Void)? = nil) {
+        guard let user, let image = selectedImage else { return }
 
+        isUploading = true
+        defer { isUploading = false }
+
+        guard let localURL = LocalImageStore.save(image, uid: user.uid) else {
+            print("❌ Profile update failed: couldn't save image locally")
+            return
+        }
+
+        var updatedUser = user
+        updatedUser.photoURL = localURL
+        self.user = updatedUser
+        selectedImage = nil
+        onUpdated?(updatedUser)
+
+        // Best-effort sync of the rest of the profile fields to Supabase.
+        // The `file://` photoURL itself is device-local and intentionally
+        // not synced — a remote photo would need real Storage upload.
         Task {
-            isUploading = true
-            defer { isUploading = false }
-
             do {
-                var updatedUser = user
-
-                // ✅ Upload photo if one was picked
-                if let image = selectedImage {
-                    let url = try await StorageManager.shared.uploadProfileImage(image: image, uid: user.uid)
-                    updatedUser.photoURL = url
-                    selectedImage = nil   // clear after upload
-                }
-
-
+                _ = try await ProfileManager.shared.updateUser(updatedUser)
             } catch {
-                print("❌ Profile update failed:", error.localizedDescription)
+                print("⚠️ Profile sync skipped:", error.localizedDescription)
             }
         }
     }

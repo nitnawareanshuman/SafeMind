@@ -14,7 +14,7 @@ import Foundation
 enum MoodRecommendation: Equatable {
     case breathing
     case music(genre: String)
-    case cbt
+    case journaling
     case accupressure
     case home
 
@@ -22,7 +22,7 @@ enum MoodRecommendation: Equatable {
         switch self {
         case .breathing:    return "Box Breathing"
         case .music:        return "Music"
-        case .cbt:          return "CBT Thought Record"
+        case .journaling:   return "Journal"
         case .accupressure: return "Acupressure"
         case .home:         return "Home"
         }
@@ -37,10 +37,12 @@ enum MoodRecommendation: Equatable {
             return "A focus playlist could help clear your head."
         case .music(let genre) where genre == "Sleep":
             return "You sound worn out — some rest music could help you recharge."
+        case .music(let genre) where genre == "Energy":
+            return "An upbeat playlist could help lift your energy and motivation."
         case .music:
             return "Some calming music might help you recharge."
-        case .cbt:
-            return "Working through a quick thought record could help untangle things."
+        case .journaling:
+            return "Writing down what's on your mind could help untangle things."
         case .accupressure:
             return "A few minutes of acupressure could ease that tension."
         case .home:
@@ -52,7 +54,7 @@ enum MoodRecommendation: Equatable {
         switch self {
         case .breathing:    return "wind"
         case .music:        return "headphones"
-        case .cbt:          return "brain.head.profile"
+        case .journaling:   return "book.fill"
         case .accupressure: return "hand.point.up"
         case .home:         return "house.fill"
         }
@@ -68,14 +70,14 @@ extension MoodRecommendation: Codable {
     private enum CodingKeys: String, CodingKey { case kind, genre }
 
     private enum Kind: String, Codable {
-        case breathing, music, cbt, accupressure, home
+        case breathing, music, journaling, accupressure, home
     }
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         switch try container.decode(Kind.self, forKey: .kind) {
         case .breathing:    self = .breathing
-        case .cbt:          self = .cbt
+        case .journaling:   self = .journaling
         case .accupressure: self = .accupressure
         case .home:         self = .home
         case .music:
@@ -88,7 +90,7 @@ extension MoodRecommendation: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
         case .breathing:    try container.encode(Kind.breathing, forKey: .kind)
-        case .cbt:          try container.encode(Kind.cbt, forKey: .kind)
+        case .journaling:   try container.encode(Kind.journaling, forKey: .kind)
         case .accupressure: try container.encode(Kind.accupressure, forKey: .kind)
         case .home:         try container.encode(Kind.home, forKey: .kind)
         case .music(let genre):

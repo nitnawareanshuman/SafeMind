@@ -27,16 +27,12 @@ struct EmojiFaceQuestionView: View {
         VStack(spacing: 0) {
             // Big face card
             ZStack {
-                RoundedRectangle(cornerRadius: 32, style: .continuous)
-                    .fill((active.color ?? .pink).opacity(0.18))
 
-                Circle()
-                    .fill((active.color ?? .pink).opacity(0.9))
-                    .frame(width: 220, height: 220)
-                    .overlay(
-                        Text(active.emoji ?? "🙂")
-                            .font(.system(size: 110))
-                    )
+                Image(active.imageName ?? "happy_face")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 350, height: 350)
+                    .clipShape(RoundedRectangle(cornerRadius: 32))
                     .animation(.easeInOut(duration: 0.25), value: active.id)
             }
             .frame(height: 340)
@@ -54,12 +50,12 @@ struct EmojiFaceQuestionView: View {
             }
             .padding(.top, 22)
 
-            Text(question.text)
-                .font(.title2.bold())
-                .foregroundColor(.primary)
+            Text("How do you\nfeel today?")
+                .font(.system(size: 38, weight: .bold))
                 .multilineTextAlignment(.center)
-                .padding(.top, 22)
-                .padding(.horizontal, 32)
+                .lineSpacing(-3)
+                .foregroundColor(.primary)
+                .padding(.top, 68)
 
             Spacer(minLength: 12)
 

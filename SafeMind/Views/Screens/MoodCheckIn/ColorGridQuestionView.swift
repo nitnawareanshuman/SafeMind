@@ -2,92 +2,135 @@
 //  ColorGridQuestionView.swift
 //  SafeMind
 //
-//  Part of the AI Mood Check-In feature.
-//
-//  The "What's worrying you?" card: a dark, simple layout with a 2x2 grid of
-//  buttons, each colored to match its option (e.g. anxiety = teal, stress =
-//  orange) so the choice reads at a glance.
-//
 
 import SwiftUI
 
 struct ColorGridQuestionView: View {
+
     let question: MoodQuestion
     let selected: MoodOption?
+
     var onSelect: (MoodOption) -> Void
     var onSkip: () -> Void
     var onNext: () -> Void
 
-    private let columns = [GridItem(.flexible(), spacing: 14), GridItem(.flexible(), spacing: 14)]
+    private let columns = [
+        GridItem(.flexible(), spacing: 18),
+        GridItem(.flexible(), spacing: 18)
+    ]
 
     var body: some View {
-        VStack(spacing: 0) {
-            Spacer(minLength: 24)
 
-            Text(question.text)
-                .font(.title2.bold())
-                .foregroundColor(.white)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 32)
+        ZStack {
 
-            Spacer(minLength: 36)
+            VStack(spacing: 0) {
 
-            LazyVGrid(columns: columns, spacing: 14) {
-                ForEach(question.options) { option in
-                    tile(for: option)
+                Spacer()
+                    .frame(height: 30)
+
+                Text(question.text)
+                    .font(.system(size: 32, weight: .bold))
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(.primary)
+                    .padding(.top, 25)
+                    .padding(.horizontal, 28)
+
+                Spacer(minLength: 30)
+
+                LazyVGrid(columns: columns, spacing: 18) {
+                    ForEach(question.options) { option in
+                        tile(for: option)
+                    }
                 }
-            }
-            .padding(.horizontal, 24)
-
-            Spacer(minLength: 24)
-
-            CheckInFooterButtons(onSkip: onSkip, onNext: onNext, nextEnabled: true, onDarkBackground: true)
                 .padding(.horizontal, 20)
-                .padding(.bottom, 8)
+
+                Spacer()
+
+                CheckInFooterButtons(
+                    onSkip: onSkip,
+                    onNext: onNext,
+                    nextEnabled: true
+                )
+                .padding(.horizontal,20)
+                .padding(.bottom,8)
+
+            }
         }
-        .padding(.vertical, 16)
-        .background(
-            RoundedRectangle(cornerRadius: 32, style: .continuous)
-                .fill(Color.black.opacity(0.82))
-        )
-        .padding(.horizontal, 12)
     }
 
     private func tile(for option: MoodOption) -> some View {
-        let isSelected = selected?.id == option.id
-        let baseColor = option.color ?? .blue
+
+        let selected = selected?.id == option.id
+        let color = option.color ?? .blue
+
         return Button {
+
             onSelect(option)
+
         } label: {
-            VStack(spacing: 8) {
-                Text(option.emoji ?? "🙂")
-                    .font(.system(size: 26))
+
+            VStack(spacing: 18) {
+
+                Spacer()
+
+                if let image = option.imageName {
+
+                    Image(image)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 84,height: 84)
+
+                }
+
                 Text(option.label)
-                    .font(.subheadline.weight(.semibold))
+                    .font(.headline.weight(.semibold))
+                    .foregroundStyle(.primary)
+                    .multilineTextAlignment(.center)
+
+                Spacer()
+
             }
             .frame(maxWidth: .infinity)
-            .padding(.vertical, 22)
-            .foregroundColor(.white)
-            .background(isSelected ? baseColor : Color.white.opacity(0.08))
-            .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-            .overlay(
-                RoundedRectangle(cornerRadius: 20, style: .continuous)
-                    .stroke(isSelected ? baseColor : Color.white.opacity(0.12), lineWidth: isSelected ? 2 : 1)
+            .frame(height: 180)
+            .background(
+                RoundedRectangle(cornerRadius: 28)
+                    .fill(
+                        selected
+                        ? color
+                        : Color.white.opacity(0.28)
+                    )
             )
+
+            .overlay(
+                RoundedRectangle(cornerRadius: 28)
+                    .stroke(
+                        Color.white.opacity(selected ? 0 : 0.15),
+                        lineWidth: 1
+                    )
+            )
+            .shadow(
+                color: selected ?
+                color.opacity(0.45) :
+                .clear,
+                radius: 18
+            )
+            .scaleEffect(selected ? 1.05 : 1)
+            .animation(.spring(response: 0.35,dampingFraction: 0.75), value: selected)
+
         }
         .buttonStyle(.plain)
+
     }
 }
 
 #Preview {
-    ZStack {
-        Color.black.ignoresSafeArea()
-        ColorGridQuestionView(
-            question: MoodQuestion.dailyCheckInQuestions[1],
-            selected: MoodQuestion.dailyCheckInQuestions[1].options[2],
-            onSelect: { _ in },
-            onSkip: {},
-            onNext: {}
-        )
-    }
+
+    ColorGridQuestionView(
+        question: MoodQuestion.dailyCheckInQuestions[1],
+        selected: MoodQuestion.dailyCheckInQuestions[1].options[2],
+        onSelect: { _ in },
+        onSkip: {},
+        onNext: {}
+    )
+
 }

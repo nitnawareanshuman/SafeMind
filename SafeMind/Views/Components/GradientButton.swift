@@ -35,15 +35,11 @@ struct GradientButton: View {
                 Text(title)
                     .font(.system(size: 16, weight: .semibold))
             }
-            .foregroundColor(.white)
+            .foregroundColor(.black)
             .frame(maxWidth: width)
             .frame(height: height)
             .background(
-                LinearGradient(
-                    gradient: gradient,
-                    startPoint: .leading,
-                    endPoint: .trailing
-                )
+                .ultraThickMaterial
             )
             .cornerRadius(14)
             .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 3)
