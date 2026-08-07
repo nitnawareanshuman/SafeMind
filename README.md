@@ -65,19 +65,19 @@ The entire mood analysis runs **on-device using Apple's Foundation Models**, ens
 
 | Home | Mood Check-in |
 |------|------------------|
-| ![](screenshots/home.png) | ![](screenshots/mood-checkin.png) |
+| ![](./assets/home.png) | ![](./assets/mood-checkin.png) |
 
 | Acupressure | Breathing |
 |-------------|-----------|
-| ![](screenshots/acupressure.png) | ![](screenshots/breathing.png) |
+| ![](./assets/acupressure.png) | ![](./breathing/breathing.png) |
 
 | Journal | Music |
 |---------|--------|
-| ![](screenshots/journal.png) | ![](screenshots/music.png) |
+| ![](./assets/journal.png) | ![](./assets/music.png) |
 
 | Profile |
 |----------|
-| ![](screenshots/profile.png) |
+| ![](./assets/profile.png) |
 
 ---
 
