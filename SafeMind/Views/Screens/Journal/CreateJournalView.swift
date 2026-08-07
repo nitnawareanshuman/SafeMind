@@ -2,6 +2,14 @@
 //  CreateJournalView.swift
 //  SafeMind
 //
+//  Created by Anshuman Nitnaware on 06/08/26.
+//
+
+
+//
+//  CreateJournalView.swift
+//  SafeMind
+//
 //  Part of the Journaling feature.
 //
 //  Date + mood + title + description ("Express your thoughts") entry form.

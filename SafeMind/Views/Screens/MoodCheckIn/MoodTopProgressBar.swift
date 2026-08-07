@@ -6,14 +6,16 @@
 //
 //  The thin multi-segment line under the status bar in the redesigned
 //  check-in — one segment per question, filled up to (and including) the
-//  question currently on screen.
+//  question currently on screen. Navigation now lives entirely in the
+//  bottom footer (Previous / Next), so this bar is a pure progress
+//  indicator with no back/forward controls.
 //
 
 import SwiftUI
 
 struct MoodTopProgressBar: View {
     let totalSteps: Int
-    let currentStep: Int // 0-based index of the question currently showing
+    let currentStep: Int
 
     var body: some View {
         HStack(spacing: 6) {
@@ -21,19 +23,18 @@ struct MoodTopProgressBar: View {
                 Capsule()
                     .fill(index <= currentStep ? Color.white : Color.white.opacity(0.25))
                     .frame(height: 4)
-                    .animation(.easeInOut(duration: 0.25), value: currentStep)
+                    .frame(maxWidth: .infinity)
             }
         }
         .padding(.horizontal, 20)
         .padding(.top, 10)
+        .animation(.easeInOut(duration: 0.25), value: currentStep)
     }
 }
 
 #Preview {
     ZStack {
         Color.black
-        MoodTopProgressBar(totalSteps: 7, currentStep: 2)
-            .frame(maxHeight: .infinity, alignment: .top)
+        MoodTopProgressBar(totalSteps: 5, currentStep: 2)
     }
-    .ignoresSafeArea()
 }

@@ -7,16 +7,7 @@
 
 import Foundation
 
-/// Pure decision logic that maps a computed `MoodAssessment` to the single best
-/// next activity in SafeMind. Rules are evaluated top-to-bottom — the first
-/// match wins, mirroring a clinician's triage order (address acute stress /
-/// tension first, then energy and focus, then general low mood).
-///
-/// The music-genre picks mirror SafeMind's mood → destination table:
-/// Stressed / Anxious / Overthinking / Angry / Burned Out → Calm,
-/// Tired / Sleepy / Unmotivated → Energy,
-/// Working / Studying / Exam prep / Happy & Productive → Focus,
-/// Bedtime → Sleep.
+
 struct RecommendationEngine {
 
     func recommend(for assessment: MoodAssessment) -> MoodRecommendation {

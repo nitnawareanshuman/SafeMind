@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct EmailVerificationView: View {
+    
+    let email: String
 
     @EnvironmentObject var authVM: AuthViewModel
 
@@ -22,94 +24,98 @@ struct EmailVerificationView: View {
 
             VStack {
 
-                VStack(spacing: 22) {
+                ScrollView (showsIndicators: false) {
+                    
+                    VStack(spacing: 28) {
 
-                    // Title
-                    Text("VERIFY EMAIL")
-                        .font(.largeTitle.bold())
-                        .foregroundColor(.white)
-
-                    // Description with email visible
-                    VStack(spacing: 8) {
-                        Text("We've sent an email to")
-                            .foregroundColor(.white.opacity(0.8))
-                            .font(.subheadline)
-
-                        Text(authVM.user?.email ?? "your@email.com")
-                            .font(.headline)
+                        // Title
+                        Text("VERIFY EMAIL")
+                            .font(.largeTitle.bold())
                             .foregroundColor(.white)
 
-                        Text("Continue account creation using the link via email.")
-                            .foregroundColor(.white.opacity(0.75))
-                            .font(.subheadline)
-                            .multilineTextAlignment(.center)
-                    }
-                    .padding(.horizontal)
+                        // Description with email visible
+                        VStack(spacing: 8) {
+                            Text("We've sent an email to")
+                                .foregroundColor(.white.opacity(0.8))
+                                .font(.subheadline)
 
-                    // Resend Email Button
-                    Button {
-                        Task {
-                            do {
-                                try await authVM.resendVerification(email: authVM.user?.email ?? "")
-                                message = "Verification email sent"
-                            } catch {
-                                message = error.localizedDescription
-                            }
+                            Text(email)
+                                .font(.headline)
+                                .foregroundColor(.white)
+
+                            Text("Continue account creation using the link via email.")
+                                .foregroundColor(.white.opacity(0.75))
+                                .font(.subheadline)
+                                .multilineTextAlignment(.center)
                         }
-                    } label: {
-                        Text("Resend Email")
+                        .padding(.horizontal)
+
+                        // Resend Email Button
+                        Button {
+                            Task {
+                                do {
+                                    try await authVM.resendVerification(email: email)
+                                    message = "Verification email sent"
+                                } catch {
+                                    message = error.localizedDescription
+                                }
+                            }
+                        } label: {
+                            Text("Resend Email")
+                                .foregroundColor(.white)
+                                .font(.headline)
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 55)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 14)
+                                        .fill(Color.blue)
+                                )
+                        }
+
+                        // Status Message — reserved height so it doesn't shift layout
+                        Text(message ?? " ")
                             .foregroundColor(.white)
-                            .font(.headline)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 55)
-                            .background(
-                                RoundedRectangle(cornerRadius: 14)
-                                    .fill(Color.blue)
-                            )
+                            .font(.caption)
+                            .multilineTextAlignment(.center)
+                            .opacity(message == nil ? 0 : 1)
                     }
-
-                    // Status Message — reserved height so it doesn't shift layout
-                    Text(message ?? " ")
-                        .foregroundColor(.white)
-                        .font(.caption)
-                        .multilineTextAlignment(.center)
-                        .opacity(message == nil ? 0 : 1)
-                }
-                .padding(.horizontal, 24)
-                .padding(.top, 100)
-
-                Spacer()
-
-                // Bottom Login Button (keep existing component)
-                HStack {
-                    Text("Have an account?")
-                        .foregroundColor(.white.opacity(0.8))
-                        .font(.system(size: 15, weight: .medium))
+                    .padding(.horizontal, 24)
+                    .padding(.top, 100)
 
                     Spacer()
 
-                    Button(action: {
-                        authVM.signOut()
-                    }) {
-                        Text("Login")
-                            .foregroundColor(.white)
-                            .font(.system(size: 15, weight: .semibold))
-                            .frame(width: 110, height: 40)
-                            .background(
-                                Capsule()
-                                    .fill(Color.blue.opacity(0.9))
-                            )
+                    // Bottom Login Button (keep existing component)
+                    HStack {
+                        Text("Have an account?")
+                            .foregroundColor(.white.opacity(0.8))
+                            .font(.system(size: 15, weight: .medium))
+
+                        Spacer()
+
+                        Button(action: {
+                            authVM.signOut()
+                        }) {
+                            Text("Login")
+                                .foregroundColor(.white)
+                                .font(.system(size: 15, weight: .semibold))
+                                .frame(width: 110, height: 40)
+                                .background(
+                                    Capsule()
+                                        .fill(Color.blue.opacity(0.9))
+                                )
+                        }
                     }
+                    .padding(.horizontal, 20)
+                    .frame(height: 55)
+                    .background(
+                        Capsule()
+                            .stroke(Color.white.opacity(0.25), lineWidth: 1)
+                    )
+                    .padding(.horizontal)
+                    .padding(.bottom, 20)
                 }
-                .padding(.horizontal, 20)
-                .frame(height: 55)
-                .background(
-                    Capsule()
-                        .stroke(Color.white.opacity(0.25), lineWidth: 1)
-                )
-                .padding(.horizontal)
-                .padding(.bottom, 20)
-            }
+                .ignoresSafeArea(.keyboard, edges: .bottom)
+                }
         }
 
         // Auto-check when screen appears
@@ -130,7 +136,3 @@ struct EmailVerificationView: View {
     }
 }
 
-#Preview {
-    EmailVerificationView()
-        .environmentObject(AuthViewModel())
-}

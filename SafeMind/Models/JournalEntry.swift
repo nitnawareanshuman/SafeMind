@@ -59,7 +59,7 @@ enum JournalMood: String, Codable, CaseIterable, Identifiable {
 }
 
 /// A single user-written journal entry.
-struct JournalEntry: Identifiable, Codable, Equatable {
+struct JournalEntry: Identifiable, Codable, Equatable, Hashable {
     let id: UUID
     var date: Date
     var mood: JournalMood

@@ -13,6 +13,7 @@ struct LoginView: View {
     @Binding var path: NavigationPath
     
     @State private var errorMsg: String? = nil
+    @State private var isSocialLoading = false
     
     @State private var email: String = ""
     @State private var password: String = ""
@@ -32,6 +33,14 @@ struct LoginView: View {
                             Text("LOGIN")
                                 .font(.largeTitle.bold())
                                 .foregroundColor(.white)
+
+                            // Info Message (e.g. "Email verified — please log in") — reserved
+                            // height so it doesn't shift layout. Never shown as a dialog.
+                            Text(authVM.infoMessage ?? " ")
+                                .foregroundColor(.green)
+                                .font(.caption)
+                                .multilineTextAlignment(.center)
+                                .opacity(authVM.infoMessage == nil ? 0 : 1)
                             
                             // Input Fields
                             VStack(spacing: 15) {
@@ -109,6 +118,20 @@ struct LoginView: View {
                                 }
                                 
                             }
+
+                            OrDivider()
+
+                            // Social Sign-In
+                            VStack(spacing: 12) {
+                                AuthButton(text: "Continue with Apple", systemIcon: "apple.logo") {
+                                    signInWithApple()
+                                }
+                                AuthButton(text: "Continue with Google", assetIcon: "Google") {
+                                    signInWithGoogle()
+                                }
+                            }
+                            .disabled(isSocialLoading)
+                            .opacity(isSocialLoading ? 0.6 : 1)
                         }
                         .padding(.horizontal)
                         .padding(.top, 80)
@@ -152,22 +175,60 @@ struct LoginView: View {
             .navigationBarBackButtonHidden(true)
             .toolbar(.hidden, for: .navigationBar)
     }
+
+    // MARK: - Social Sign-In
+
+    private func signInWithApple() {
+        guard !isSocialLoading else { return }
+        errorMsg = nil
+        isSocialLoading = true
+        Task {
+            do {
+                let result = try await AppleSignInCoordinator().start()
+                let success = await authVM.signInWithApple(idToken: result.idToken, rawNonce: result.rawNonce)
+                if !success { errorMsg = authVM.errorMessage ?? "Apple sign-in failed" }
+            } catch {
+                errorMsg = error.localizedDescription
+            }
+            isSocialLoading = false
+        }
+    }
+
+    private func signInWithGoogle() {
+        guard !isSocialLoading else { return }
+        errorMsg = nil
+        isSocialLoading = true
+        Task {
+            let success = await authVM.signInWithGoogle()
+            if !success { errorMsg = authVM.errorMessage ?? "Google sign-in failed" }
+            isSocialLoading = false
+        }
+    }
 }
 
+/// Reusable "Continue with ..." button — pass either a SF Symbol (`systemIcon`) or an asset
+/// image name (`assetIcon`).
 struct AuthButton: View {
     var text: String
-    var icon: String
+    var systemIcon: String? = nil
+    var assetIcon: String? = nil
     var onClick: () -> Void
 
     var body: some View {
         Button(action: onClick) {
             HStack(spacing: 12) {
-                
-                Image(icon)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 20, height: 20)
-                
+                if let systemIcon {
+                    Image(systemName: systemIcon)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 20, height: 20)
+                } else if let assetIcon {
+                    Image(assetIcon)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 20, height: 20)
+                }
+
                 Text(text)
                     .font(.system(size: 16, weight: .semibold))
             }
@@ -176,6 +237,19 @@ struct AuthButton: View {
             .frame(height: 50)
             .background(Color.white)
             .cornerRadius(14)
+        }
+    }
+}
+
+/// "── OR ──" separator used between the email form and social sign-in buttons.
+struct OrDivider: View {
+    var body: some View {
+        HStack(spacing: 10) {
+            Rectangle().fill(Color.white.opacity(0.25)).frame(height: 1)
+            Text("OR")
+                .font(.caption.weight(.semibold))
+                .foregroundColor(.white.opacity(0.6))
+            Rectangle().fill(Color.white.opacity(0.25)).frame(height: 1)
         }
     }
 }

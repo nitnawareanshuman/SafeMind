@@ -25,7 +25,7 @@ struct SafeCircleContactsView: View {
             VStack(alignment: .leading, spacing: 20) {
                 VStack(alignment: .leading, spacing: 6) {
                     Text("Your Safe Circle")
-                        .font(.largeTitle.bold())
+                        .font(.title2.bold())
                     Text(subtitle)
                         .font(.subheadline)
                         .foregroundColor(.secondary)
@@ -62,17 +62,19 @@ struct SafeCircleContactsView: View {
                 .multilineTextAlignment(.center)
                 .foregroundColor(.secondary)
                 .padding(.horizontal, 32)
+                .padding(.bottom, 20)
+            
 
             NavigationLink {
                 AddSafeCircleContactView()
             } label: {
                 Label("Add a close friend", systemImage: "plus")
                     .font(.system(size: 15, weight: .semibold))
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 10)
+                    .foregroundColor(.black)
+                    .padding(.horizontal, 100)
+                    .padding(.vertical, 20)
                     .background(
-                        LinearGradient(colors: [.blue, .purple], startPoint: .leading, endPoint: .trailing)
+                        .ultraThickMaterial
                     )
                     .cornerRadius(12)
             }

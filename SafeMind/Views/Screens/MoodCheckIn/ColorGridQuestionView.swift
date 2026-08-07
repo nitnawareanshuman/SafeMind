@@ -11,7 +11,8 @@ struct ColorGridQuestionView: View {
     let selected: MoodOption?
 
     var onSelect: (MoodOption) -> Void
-    var onSkip: () -> Void
+    var onPrevious: () -> Void
+    var showPrevious: Bool = false
     var onNext: () -> Void
 
     private let columns = [
@@ -47,9 +48,10 @@ struct ColorGridQuestionView: View {
                 Spacer()
 
                 CheckInFooterButtons(
-                    onSkip: onSkip,
+                    onPrevious: onPrevious,
                     onNext: onNext,
-                    nextEnabled: true
+                    nextEnabled: true,
+                    showPrevious: showPrevious
                 )
                 .padding(.horizontal,20)
                 .padding(.bottom,8)
@@ -129,7 +131,8 @@ struct ColorGridQuestionView: View {
         question: MoodQuestion.dailyCheckInQuestions[1],
         selected: MoodQuestion.dailyCheckInQuestions[1].options[2],
         onSelect: { _ in },
-        onSkip: {},
+        onPrevious: {},
+        showPrevious: true,
         onNext: {}
     )
 

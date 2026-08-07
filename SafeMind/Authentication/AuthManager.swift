@@ -35,12 +35,26 @@ enum AuthManagerError: LocalizedError, Equatable {
 enum AuthLifecycleEvent: Sendable {
     case signedIn(AuthUser)
     case passwordRecovery(AuthUser)
+    /// The user tapped the "confirm your email" link. The recovery/confirmation session has
+    /// already been signed out server-side by the manager — the UI should land on Login, not Home.
+    case emailConfirmed
     case signedOut
+}
+
+/// Distinguishes which kind of email link the app is about to process, decided from the
+/// `type` query/fragment parameter Supabase appends to the redirect URL. Set right before
+/// exchanging the URL for a session, so the resulting auth event can be routed correctly
+/// regardless of whether the underlying SDK flow is PKCE or implicit.
+enum PendingAuthLink: Equatable, Sendable {
+    case signupConfirmation
+    case passwordRecovery
 }
 
 protocol AuthManaging: Sendable {
     func signUp(email: String, password: String, name: String) async throws -> AuthUser
     func signIn(email: String, password: String) async throws -> UserProfile
+    func signInWithApple(idToken: String, rawNonce: String) async throws -> UserProfile
+    func signInWithGoogle() async throws -> UserProfile
     func signOut() async throws
     func sendPasswordReset(to email: String) async throws
     func resetPassword(email: String, oldPassword: String, newPassword: String) async throws
@@ -49,6 +63,9 @@ protocol AuthManaging: Sendable {
     func currentUser() async throws -> AuthUser?
     func restoreSession() async throws -> AuthUser?
     func fetchOrCreateProfile(for user: AuthUser) async throws -> UserProfile
+    /// Call right before handing an incoming `safemind://` URL to Supabase, so the manager
+    /// knows how to interpret the auth event that results from it.
+    func prepareForAuthLink(_ link: PendingAuthLink?)
     /// Emits every auth lifecycle change (initial session restore, sign-in, sign-out,
     /// password-recovery link opened) so the UI can react without manual polling.
     func authEvents() -> AsyncStream<AuthLifecycleEvent>
@@ -60,9 +77,18 @@ final class AuthManager: AuthManaging, @unchecked Sendable {
     private let client: SupabaseClient
     private let userManager: UserManaging
 
+    /// Set by `prepareForAuthLink(_:)` right before the app exchanges an incoming email-link
+    /// URL for a session. Consumed by the very next relevant event on `authEvents()` so that
+    /// event can be reinterpreted correctly (e.g. a plain `.signedIn` becomes `.emailConfirmed`).
+    private var pendingAuthLink: PendingAuthLink?
+
     init(client: SupabaseClient, userManager: UserManaging) {
         self.client = client
         self.userManager = userManager
+    }
+
+    func prepareForAuthLink(_ link: PendingAuthLink?) {
+        pendingAuthLink = link
     }
 
     /// Creates an auth user, triggers Supabase email confirmation, then inserts `profiles`.
@@ -106,6 +132,42 @@ final class AuthManager: AuthManaging, @unchecked Sendable {
         }
     }
 
+    /// Signs in (or up, on first use) via a Sign in with Apple identity token obtained natively
+    /// through `ASAuthorizationController`. Apple-verified accounts arrive already email-confirmed.
+    func signInWithApple(idToken: String, rawNonce: String) async throws -> UserProfile {
+        do {
+            try await client.auth.signInWithIdToken(
+                credentials: OpenIDConnectCredentials(provider: .apple, idToken: idToken, nonce: rawNonce)
+            )
+            guard let sessionUser = client.auth.currentUser else { throw AuthManagerError.missingSession }
+            let authUser = try makeAuthUser(sessionUser)
+            return try await fetchOrCreateProfile(for: authUser)
+        } catch let error as AuthManagerError {
+            throw error
+        } catch {
+            throw map(error)
+        }
+    }
+
+    /// Signs in (or up, on first use) via Google using Supabase's hosted OAuth flow, presented
+    /// in a system `ASWebAuthenticationSession` sheet. Google-verified accounts arrive already
+    /// email-confirmed.
+    func signInWithGoogle() async throws -> UserProfile {
+        do {
+            try await client.auth.signInWithOAuth(
+                provider: .google,
+                redirectTo: URL(string: "safemind://login-callback")
+            )
+            guard let sessionUser = client.auth.currentUser else { throw AuthManagerError.missingSession }
+            let authUser = try makeAuthUser(sessionUser)
+            return try await fetchOrCreateProfile(for: authUser)
+        } catch let error as AuthManagerError {
+            throw error
+        } catch {
+            throw map(error)
+        }
+    }
+
     func signOut() async throws {
         do { try await client.auth.signOut() } catch { throw map(error) }
     }
@@ -114,7 +176,14 @@ final class AuthManager: AuthManaging, @unchecked Sendable {
         do {
             try await client.auth.resetPasswordForEmail(
                 try validatedEmail(email),
-                redirectTo: URL(string: "safemind://login-callback")
+                // Deliberately a DIFFERENT host than the signup-confirmation /
+                // OAuth redirect ("login-callback"). Supabase's PKCE flow (the
+                // default on Swift) does not forward a `type` query parameter on
+                // the final redirect — only `?code=...` — so `type` alone can't
+                // distinguish a password-reset link from a signup-confirmation
+                // link when they share a URL. Giving reset its own host lets
+                // SafeMindApp tell them apart from the URL itself.
+                redirectTo: URL(string: "safemind://reset-password-callback")
             )
         }
         catch let error as AuthManagerError { throw error }
@@ -180,10 +249,48 @@ final class AuthManager: AuthManaging, @unchecked Sendable {
                 for await (event, session) in client.auth.authStateChanges {
                     switch event {
                     case .passwordRecovery:
+                        // Not link-related bookkeeping needed here — the SDK's native
+                        // `.passwordRecovery` event is already unambiguous. Still clear any
+                        // stale pending link so it can't leak into a later, unrelated event.
+                        self.pendingAuthLink = nil
                         if let sessionUser = session?.user, let authUser = try? self.makeAuthUser(sessionUser) {
                             continuation.yield(.passwordRecovery(authUser))
                         }
-                    case .initialSession, .signedIn, .tokenRefreshed, .userUpdated:
+                    case .signedIn:
+                        // Only `.signedIn` can actually result from exchanging an email link,
+                        // so only `.signedIn` is allowed to consume `pendingAuthLink`. Events
+                        // like `.initialSession` (fired independently at startup/cold-launch,
+                        // often racing a link tap) or `.tokenRefreshed` must never consume it —
+                        // otherwise the real link-triggered event can arrive afterwards with
+                        // the flag already cleared and silently fall through to plain sign-in.
+                        let pendingLink = self.pendingAuthLink
+                        self.pendingAuthLink = nil
+
+                        // A signup-confirmation link produces a normal `.signedIn` event under
+                        // both PKCE and implicit flow — reinterpret it as `.emailConfirmed` and
+                        // drop the session, so tapping the link never lands the user in Home.
+                        if pendingLink == .signupConfirmation {
+                            continuation.yield(.emailConfirmed)
+                            Task { try? await self.client.auth.signOut() }
+                            continue
+                        }
+                        // A password-reset link may only surface as `.signedIn` under PKCE
+                        // (no native `.passwordRecovery` event in that flow) — force it through
+                        // the recovery path so ResetPasswordView is shown either way.
+                        if pendingLink == .passwordRecovery,
+                           let sessionUser = session?.user, let authUser = try? self.makeAuthUser(sessionUser) {
+                            continuation.yield(.passwordRecovery(authUser))
+                            continue
+                        }
+                        if let sessionUser = session?.user, let authUser = try? self.makeAuthUser(sessionUser) {
+                            continuation.yield(.signedIn(authUser))
+                        } else {
+                            continuation.yield(.signedOut)
+                        }
+                    case .initialSession, .tokenRefreshed, .userUpdated:
+                        // Deliberately does NOT touch `pendingAuthLink` — these events aren't
+                        // produced by exchanging an email link, so they must never consume a
+                        // flag meant for the `.signedIn`/`.passwordRecovery` event that follows.
                         if let sessionUser = session?.user, let authUser = try? self.makeAuthUser(sessionUser) {
                             continuation.yield(.signedIn(authUser))
                         } else {

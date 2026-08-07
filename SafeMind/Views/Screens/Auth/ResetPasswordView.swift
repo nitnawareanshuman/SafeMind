@@ -81,6 +81,7 @@ struct ResetPasswordView: View {
                                 try await authVM.updatePasswordAfterRecovery(newPassword: newPassword)
                                 // Password set — sign out of the recovery session so the
                                 // user logs back in fresh with their new password.
+                                authVM.infoMessage = "Password updated! Please log in."
                                 authVM.signOut()
                             } catch {
                                 errorMsg = error.localizedDescription

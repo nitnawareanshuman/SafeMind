@@ -164,7 +164,8 @@ struct VerticalSliderQuestionView: View {
     let question: MoodQuestion
     let selected: MoodOption?
     var onSelect: (MoodOption) -> Void
-    var onSkip: () -> Void
+    var onPrevious: () -> Void
+    var showPrevious: Bool = false
     var onNext: () -> Void
 
     // Track geometry — face | track | labels, all sharing one vertical axis
@@ -262,7 +263,7 @@ struct VerticalSliderQuestionView: View {
 
             Spacer(minLength: 16)
 
-            CheckInFooterButtons(onSkip: onSkip, onNext: onNext, nextEnabled: true)
+            CheckInFooterButtons(onPrevious: onPrevious, onNext: onNext, nextEnabled: true, showPrevious: showPrevious)
                 .padding(.horizontal, 20)
                 .padding(.bottom, 8)
         }
@@ -321,7 +322,8 @@ struct VerticalSliderQuestionView: View {
             question: MoodQuestion.dailyCheckInQuestions[2],
             selected: MoodQuestion.dailyCheckInQuestions[2].options[1],
             onSelect: { _ in },
-            onSkip: {},
+            onPrevious: {},
+            showPrevious: true,
             onNext: {}
         )
     }

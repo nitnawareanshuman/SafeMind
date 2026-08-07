@@ -16,6 +16,8 @@ struct SignUpView: View {
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var isLoading = false
+    @State private var isSocialLoading = false
+    @State private var navigateToEmailVerification = false
 
     var fullName: String {
         "\(firstName) \(lastName)".trimmingCharacters(in: .whitespaces)
@@ -121,13 +123,29 @@ struct SignUpView: View {
 
                                 isLoading = false
 
-                                if !success {
+                                if success {
+                                    navigateToEmailVerification = true
+                                } else {
                                     errorMsg = authVM.errorMessage ?? "Sign up failed"
                                 }
                                 // On success, ContentView reacts to authVM.user being set
                                 // and transitions straight to the email-verification screen.
                             }
                         }
+
+                        OrDivider()
+
+                        // Social Sign-Up
+                        VStack(spacing: 12) {
+                            AuthButton(text: "Continue with Apple", systemIcon: "apple.logo") {
+                                signInWithApple()
+                            }
+                            AuthButton(text: "Continue with Google", assetIcon: "Google") {
+                                signInWithGoogle()
+                            }
+                        }
+                        .disabled(isSocialLoading)
+                        .opacity(isSocialLoading ? 0.6 : 1)
 
                         // Terms
                         VStack(spacing: 4) {
@@ -149,8 +167,8 @@ struct SignUpView: View {
                         }
                     }
                     .padding(.horizontal)
-                    .padding(.top, 60)
-                    .padding(.bottom, 20)
+                    .padding(.top, 30)
+                    .padding(.bottom, 10)
                 }
                 .scrollDismissesKeyboard(.interactively)
                 .scrollBounceBehavior(.basedOnSize)
@@ -189,6 +207,39 @@ struct SignUpView: View {
         }
         .navigationBarBackButtonHidden(true)
         .toolbar(.hidden, for: .navigationBar)
+        .navigationDestination(isPresented: $navigateToEmailVerification) {
+            EmailVerificationView(email: email)
+                .environmentObject(authVM)
+        }
+    }
+
+    // MARK: - Social Sign-In
+
+    private func signInWithApple() {
+        guard !isSocialLoading else { return }
+        errorMsg = nil
+        isSocialLoading = true
+        Task {
+            do {
+                let result = try await AppleSignInCoordinator().start()
+                let success = await authVM.signInWithApple(idToken: result.idToken, rawNonce: result.rawNonce)
+                if !success { errorMsg = authVM.errorMessage ?? "Apple sign-in failed" }
+            } catch {
+                errorMsg = error.localizedDescription
+            }
+            isSocialLoading = false
+        }
+    }
+
+    private func signInWithGoogle() {
+        guard !isSocialLoading else { return }
+        errorMsg = nil
+        isSocialLoading = true
+        Task {
+            let success = await authVM.signInWithGoogle()
+            if !success { errorMsg = authVM.errorMessage ?? "Google sign-in failed" }
+            isSocialLoading = false
+        }
     }
 
     // MARK: - Reusable field builders

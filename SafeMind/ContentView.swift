@@ -4,15 +4,7 @@
 //
 //  Created by Anshuman Nitnaware on 04/03/26.
 //
-//  Top-level state machine:
 //
-//  Splash → Authenticated? → No  → Login / Sign Up / Forgot Password (AuthFlowView)
-//                          → Yes → Email Verified? → No  → Verify Email
-//                                                  → Yes → Profile Exists? → No  → (create it, briefly) Loading
-//                                                                          → Yes → Home
-//
-//  A password-reset deep link can arrive at any point, so it's checked first and
-//  overrides everything else while active.
 //
 
 import SwiftUI
@@ -49,7 +41,9 @@ struct ContentView: View {
                 AuthFlowView()
                     .transition(.opacity)
             } else if !authVM.isEmailVerified {
-                EmailVerificationView()
+                EmailVerificationView(
+                    email: authVM.user?.email ?? ""
+                )
                     .transition(.opacity.combined(with: .move(edge: .trailing)))
             } else if authVM.profileCheckFailed {
                 ProfileErrorView()

@@ -166,9 +166,6 @@ struct ProfileView: View {
             profileLink(title: "Streak", icon: "flame.fill", color: .orange) {
                 StreakView()
             }
-            profileLink(title: "Session History", icon: "clock.arrow.circlepath", color: .purple) {
-                SessionHistoryView().environmentObject(authVM)
-            }
             profileLink(title: "Safe Circle", icon: "person.2.fill", color: .pink) {
                 SafeCircleContactsView()
             }

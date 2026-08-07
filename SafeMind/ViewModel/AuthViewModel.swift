@@ -7,6 +7,9 @@ final class AuthViewModel: ObservableObject {
     @Published private(set) var profile: UserProfile?
     @Published var isLoading = false
     @Published var errorMessage: String?
+    /// Non-error, informational text for the auth screens (e.g. "Email verified — please log
+    /// in."). Shown inline, never as a dialog/alert.
+    @Published var infoMessage: String?
     @Published private(set) var isEmailVerified = false
     /// True while the recovery session from a "reset password" email link is active —
     /// the UI should show the "enter new password" screen regardless of other state.
@@ -50,6 +53,27 @@ final class AuthViewModel: ObservableObject {
             self.user = try await manager.currentUser()
             self.isEmailVerified = true
         }
+    }
+
+    func signInWithApple(idToken: String, rawNonce: String) async -> Bool {
+        await perform { manager in
+            self.profile = try await manager.signInWithApple(idToken: idToken, rawNonce: rawNonce)
+            self.user = try await manager.currentUser()
+            self.isEmailVerified = true
+        }
+    }
+
+    func signInWithGoogle() async -> Bool {
+        await perform { manager in
+            self.profile = try await manager.signInWithGoogle()
+            self.user = try await manager.currentUser()
+            self.isEmailVerified = true
+        }
+    }
+
+    /// Called by the app before handing an incoming `safemind://` URL to Supabase.
+    func prepareForAuthLink(_ link: PendingAuthLink?) {
+        authManager?.prepareForAuthLink(link)
     }
 
     func sendPasswordReset(email: String) async throws {
@@ -111,7 +135,20 @@ final class AuthViewModel: ObservableObject {
         guard let authManager else { return }
         do { try await authManager.signOut(); user = nil; profile = nil; isEmailVerified = false; isPasswordRecovery = false }
         catch { errorMessage = error.localizedDescription }
-    }}
+    }
+    func handleEmailConfirmed() {
+        user = nil
+        profile = nil
+        isEmailVerified = false
+        isPasswordRecovery = false
+        profileCheckFailed = false
+        infoMessage = "Email verified! Please log in to continue."
+    }
+    
+    func beginPasswordRecovery() {
+        isPasswordRecovery = true
+    }
+ }
 
     private func handle(_ event: AuthLifecycleEvent) async {
         isInitializing = false
@@ -129,6 +166,13 @@ final class AuthViewModel: ObservableObject {
         case .passwordRecovery(let authUser):
             user = authUser
             isPasswordRecovery = true
+        case .emailConfirmed:
+            user = nil
+            profile = nil
+            isEmailVerified = false
+            isPasswordRecovery = false
+            profileCheckFailed = false
+            infoMessage = "Email verified! Please log in to continue."
         case .signedOut:
             user = nil
             profile = nil
@@ -140,7 +184,7 @@ final class AuthViewModel: ObservableObject {
 
     private func perform(_ action: (AuthManaging) async throws -> Void) async -> Bool {
         guard let authManager else { errorMessage = "Supabase is not configured."; return false }
-        isLoading = true; errorMessage = nil; defer { isLoading = false }
+        isLoading = true; errorMessage = nil; infoMessage = nil; defer { isLoading = false }
         do { try await action(authManager); return true } catch { errorMessage = error.localizedDescription; return false }
     }
 }

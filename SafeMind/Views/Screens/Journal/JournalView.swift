@@ -17,6 +17,7 @@ struct JournalView: View {
     @StateObject private var vm = JournalViewModel()
     @State private var showCreateJournal = false
     @State private var entryPendingDelete: JournalEntry?
+    @State private var selectedEntry: JournalEntry?
 
     var body: some View {
         ZStack {
@@ -53,6 +54,11 @@ struct JournalView: View {
         .navigationDestination(isPresented: $showCreateJournal) {
             CreateJournalView { mood, title, description, date in
                 vm.addEntry(mood: mood, title: title, description: description, date: date)
+            }
+        }
+        .navigationDestination(item: $selectedEntry) { entry in
+            JournalDetailView(entry: entry) { toDelete in
+                vm.delete(toDelete)
             }
         }
         .alert("Delete this entry?", isPresented: Binding(
@@ -154,6 +160,10 @@ struct JournalView: View {
         .padding()
         .background(.ultraThinMaterial)
         .cornerRadius(16)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            selectedEntry = entry
+        }
         .contextMenu {
             Button(role: .destructive) {
                 entryPendingDelete = entry

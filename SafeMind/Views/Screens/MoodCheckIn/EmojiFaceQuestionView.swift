@@ -6,7 +6,7 @@
 //
 //  The "How do you feel today?" card: a big color-changing circle with a
 //  large emoji in the middle, a horizontally scrolling pill row of options
-//  underneath, the question title, and Skip / Next controls.
+//  underneath, the question title, and Previous / Next controls.
 //
 //  Emoji are placeholders — swap `option.emoji` for real emoji illustrations
 //  whenever those are ready; nothing else about this view needs to change.
@@ -18,7 +18,8 @@ struct EmojiFaceQuestionView: View {
     let question: MoodQuestion
     let selected: MoodOption?
     var onSelect: (MoodOption) -> Void
-    var onSkip: () -> Void
+    var onPrevious: () -> Void
+    var showPrevious: Bool = false
     var onNext: () -> Void
 
     private var active: MoodOption { selected ?? question.options[0] }
@@ -59,7 +60,7 @@ struct EmojiFaceQuestionView: View {
 
             Spacer(minLength: 12)
 
-            CheckInFooterButtons(onSkip: onSkip, onNext: onNext, nextEnabled: true)
+            CheckInFooterButtons(onPrevious: onPrevious, onNext: onNext, nextEnabled: true, showPrevious: showPrevious)
                 .padding(.horizontal, 20)
                 .padding(.bottom, 8)
         }
@@ -82,20 +83,44 @@ struct EmojiFaceQuestionView: View {
     }
 }
 
-/// Shared Skip / Next footer used by every redesigned check-in card.
+/// Shared Previous / Next footer used by every redesigned check-in card.
+/// There's no "Skip" anymore — every question just records whatever is
+/// selected (possibly nothing) when "Next" is tapped; users can always
+/// step back with "Previous" to fill in something they left blank.
 struct CheckInFooterButtons: View {
-    var onSkip: () -> Void
+    var onPrevious: () -> Void
     var onNext: () -> Void
     var nextEnabled: Bool
+    /// Hidden entirely on the very first question — there's nothing behind it.
+    var showPrevious: Bool = false
     /// Pass `true` when this footer sits on a dark card (e.g. the worry
-    /// grid) so "Skip" stays legible; the white Next pill works on both.
+    /// grid) so the Previous control stays legible; the white Next pill
+    /// works on both.
     var onDarkBackground: Bool = false
 
     var body: some View {
-        HStack {
-            Button("Skip", action: onSkip)
-                .font(.subheadline.weight(.medium))
-                .foregroundColor(onDarkBackground ? .white.opacity(0.5) : .black.opacity(0.45))
+        HStack(spacing: 14) {
+            if showPrevious {
+                Button(action: onPrevious) {
+                    HStack(spacing: 6) {
+                        Image(systemName: "chevron.left")
+                        Text("Previous")
+                    }
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundColor(onDarkBackground ? .white : .black.opacity(0.7))
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 14)
+                    .background(
+                        Capsule()
+                            .fill(onDarkBackground ? Color.white.opacity(0.14) : Color(.secondarySystemBackground))
+                    )
+                    .overlay(
+                        Capsule()
+                            .stroke(onDarkBackground ? Color.white.opacity(0.18) : Color.black.opacity(0.06), lineWidth: 1)
+                    )
+                }
+                .transition(.scale.combined(with: .opacity))
+            }
 
             Spacer()
 
@@ -114,6 +139,7 @@ struct CheckInFooterButtons: View {
             }
             .disabled(!nextEnabled)
         }
+        .animation(.easeInOut(duration: 0.2), value: showPrevious)
     }
 }
 
@@ -122,7 +148,8 @@ struct CheckInFooterButtons: View {
         question: MoodQuestion.dailyCheckInQuestions[0],
         selected: MoodQuestion.dailyCheckInQuestions[0].options[1],
         onSelect: { _ in },
-        onSkip: {},
+        onPrevious: {},
+        showPrevious: true,
         onNext: {}
     )
 }

@@ -41,18 +41,21 @@ struct MoodCheckInChatView: View {
                     }
                 )
                 .transition(.opacity)
+            } else if vm.needsSelection {
+                SelectionRequiredView(onBackToCheckIn: { vm.reset() })
+                    .transition(.opacity)
             } else if vm.isAnalyzing {
                 AnalyzingView()
                     .transition(.opacity)
             } else if let question = vm.currentQuestion {
                 VStack(spacing: 0) {
-                    MoodTopProgressBar(totalSteps: vm.totalQuestions, currentStep: vm.questionIndex)
+                    MoodTopProgressBar(
+                        totalSteps: vm.totalQuestions,
+                        currentStep: vm.questionIndex
+                    )
                     card(for: question)
                         .id(question.id)
-                        .transition(.asymmetric(
-                            insertion: .move(edge: .trailing).combined(with: .opacity),
-                            removal: .move(edge: .leading).combined(with: .opacity)
-                        ))
+                        .transition(cardTransition)
                 }
             }
         }
@@ -65,8 +68,28 @@ struct MoodCheckInChatView: View {
             }
         }
         .animation(.easeInOut(duration: 0.3), value: vm.assessment)
+        .animation(.easeInOut(duration: 0.3), value: vm.needsSelection)
         .animation(.easeInOut(duration: 0.3), value: vm.isAnalyzing)
         .animation(.easeInOut(duration: 0.3), value: vm.questionIndex)
+    }
+
+    /// "Next" slides the new card in from the right (the natural forward
+    /// direction); "Previous" mirrors that and slides the new card in from
+    /// the left, so going back visibly feels like going back instead of
+    /// reusing the forward animation.
+    private var cardTransition: AnyTransition {
+        switch vm.navigationDirection {
+        case .forward:
+            return .asymmetric(
+                insertion: .move(edge: .trailing).combined(with: .opacity),
+                removal: .move(edge: .leading).combined(with: .opacity)
+            )
+        case .backward:
+            return .asymmetric(
+                insertion: .move(edge: .leading).combined(with: .opacity),
+                removal: .move(edge: .trailing).combined(with: .opacity)
+            )
+        }
     }
 
     // MARK: - Card routing
@@ -79,7 +102,8 @@ struct MoodCheckInChatView: View {
                 question: question,
                 selected: vm.pendingOption,
                 onSelect: { vm.select($0) },
-                onSkip: { vm.skip() },
+                onPrevious: { vm.goBack() },
+                showPrevious: vm.questionIndex > 0,
                 onNext: { vm.advance() }
             )
         case .colorGrid:
@@ -87,7 +111,8 @@ struct MoodCheckInChatView: View {
                 question: question,
                 selected: vm.pendingOption,
                 onSelect: { vm.select($0) },
-                onSkip: { vm.skip() },
+                onPrevious: { vm.goBack() },
+                showPrevious: vm.questionIndex > 0,
                 onNext: { vm.advance() }
             )
         case .verticalSlider:
@@ -95,7 +120,8 @@ struct MoodCheckInChatView: View {
                 question: question,
                 selected: vm.pendingOption,
                 onSelect: { vm.select($0) },
-                onSkip: { vm.skip() },
+                onPrevious: { vm.goBack() },
+                showPrevious: vm.questionIndex > 0,
                 onNext: { vm.advance() }
             )
         case .simpleList:
@@ -103,7 +129,8 @@ struct MoodCheckInChatView: View {
                 question: question,
                 selected: vm.pendingOption,
                 onSelect: { vm.select($0) },
-                onSkip: { vm.skip() },
+                onPrevious: { vm.goBack() },
+                showPrevious: vm.questionIndex > 0,
                 onNext: { vm.advance() }
             )
         }
@@ -127,6 +154,49 @@ struct MoodCheckInChatView: View {
         }
     }
 
+}
+
+/// Shown instead of the recommendation when the user reached the end of the
+/// check-in without picking an option on every question.
+private struct SelectionRequiredView: View {
+    var onBackToCheckIn: () -> Void
+
+    var body: some View {
+        VStack(spacing: 20) {
+            Spacer()
+
+            Image(systemName: "exclamationmark.circle")
+                .font(.system(size: 56, weight: .semibold))
+                .foregroundColor(.white)
+
+            Text("Please select something")
+                .font(.title2.weight(.bold))
+                .foregroundColor(.white)
+                .multilineTextAlignment(.center)
+
+            Text("Looks like one or more questions were left unanswered. Go back and pick an option for each one so we can put together your check-in.")
+                .font(.subheadline)
+                .foregroundColor(.white.opacity(0.75))
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 32)
+
+            Spacer()
+
+            Button(action: onBackToCheckIn) {
+                HStack(spacing: 8) {
+                    Image(systemName: "arrow.left")
+                    Text("Back to Mood Check-In")
+                }
+                .font(.subheadline.weight(.semibold))
+                .foregroundColor(.black)
+                .padding(.horizontal, 26)
+                .padding(.vertical, 14)
+                .background(Color.white)
+                .clipShape(Capsule())
+            }
+            .padding(.bottom, 40)
+        }
+    }
 }
 
 #Preview {
