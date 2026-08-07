@@ -1,7 +1,7 @@
 # SafeMind
 
 <p align="center">
-  <img src="./assets/logo.svg" alt="SafeMind Logo" width="140"/>
+  <img src="./assets/logo.png" alt="SafeMind Logo" width="140"/>
 </p>
 
 <p align="center">
@@ -61,31 +61,27 @@ The entire mood analysis runs **on-device using Apple's Foundation Models**, ens
 
 # 📸 App Screenshots
 
-> Replace these images with your own screenshots after uploading them to the repository.
-
 | Home | Mood Check-in |
-|------|------------------|
-| ![](./assets/home.png) | ![](./assets/mood-checkin.png) |
+|------|---------------|
+| <img src="./assets/home.png" width="250"/> | <img src="./assets/mood-checkin.png" width="250"/> |
 
 | Acupressure | Breathing |
 |-------------|-----------|
-| ![](./assets/acupressure.png) | ![](./breathing/breathing.png) |
+| <img src="./assets/acupressure.png" width="250"/> | <img src="./assets/breathing.png" width="250"/> |
 
 | Journal | Music |
-|---------|--------|
-| ![](./assets/journal.png) | ![](./assets/music.png) |
+|---------|-------|
+| <img src="./assets/journal.png" width="250"/> | <img src="./assets/music.png" width="250"/> |
 
 | Profile |
-|----------|
-| ![](./assets/profile.png) |
+|---------|
+| <img src="./assets/profile.png" width="250"/> |
 
 ---
 
 # 🎥 Demonstration Video
 
-📺 **Watch the complete demonstration here**
-
-**Drive:** https://drive.google.com/file/d/1gm_QDOPMyYmJ1tcLvW4NEDvjjVBYfHp0/view?usp=sharing
+📺 **[Watch Demo Video](https://drive.google.com/file/d/1gm_QDOPMyYmJ1tcLvW4NEDvjjVBYfHp0/view?usp=sharing)**
 
 ---
 
