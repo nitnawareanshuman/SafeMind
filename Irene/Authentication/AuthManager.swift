@@ -41,15 +41,6 @@ enum AuthLifecycleEvent: Sendable {
     case signedOut
 }
 
-/// Distinguishes which kind of email link the app is about to process, decided from the
-/// `type` query/fragment parameter Supabase appends to the redirect URL. Set right before
-/// exchanging the URL for a session, so the resulting auth event can be routed correctly
-/// regardless of whether the underlying SDK flow is PKCE or implicit.
-enum PendingAuthLink: Equatable, Sendable {
-    case signupConfirmation
-    case passwordRecovery
-}
-
 protocol AuthManaging: Sendable {
     func signUp(email: String, password: String, name: String) async throws -> AuthUser
     func signIn(email: String, password: String) async throws -> UserProfile
@@ -63,12 +54,11 @@ protocol AuthManaging: Sendable {
     func currentUser() async throws -> AuthUser?
     func restoreSession() async throws -> AuthUser?
     func fetchOrCreateProfile(for user: AuthUser) async throws -> UserProfile
-    /// Call right before handing an incoming `irene://` URL to Supabase, so the manager
-    /// knows how to interpret the auth event that results from it.
-    func prepareForAuthLink(_ link: PendingAuthLink?)
     /// Emits every auth lifecycle change (initial session restore, sign-in, sign-out,
     /// password-recovery link opened) so the UI can react without manual polling.
     func authEvents() -> AsyncStream<AuthLifecycleEvent>
+    func sessionFromLink(_ url: URL) async throws -> AuthUser
+    func endLinkSession() async throws
 }
 
 /// Supabase email/password authentication coordinator.
@@ -77,18 +67,9 @@ final class AuthManager: AuthManaging, @unchecked Sendable {
     private let client: SupabaseClient
     private let userManager: UserManaging
 
-    /// Set by `prepareForAuthLink(_:)` right before the app exchanges an incoming email-link
-    /// URL for a session. Consumed by the very next relevant event on `authEvents()` so that
-    /// event can be reinterpreted correctly (e.g. a plain `.signedIn` becomes `.emailConfirmed`).
-    private var pendingAuthLink: PendingAuthLink?
-
     init(client: SupabaseClient, userManager: UserManaging) {
         self.client = client
         self.userManager = userManager
-    }
-
-    func prepareForAuthLink(_ link: PendingAuthLink?) {
-        pendingAuthLink = link
     }
 
     /// Creates an auth user, triggers Supabase email confirmation, then inserts `profiles`.
@@ -226,7 +207,7 @@ final class AuthManager: AuthManaging, @unchecked Sendable {
     }
 
     func resendVerificationEmail(to email: String) async throws {
-        do { try await client.auth.resend(email: try validatedEmail(email), type: .signup) }
+        do { try await client.auth.resend(email: try validatedEmail(email), type: .signup, emailRedirectTo: URL(string: "irene://login-callback")) }
         catch let error as AuthManagerError { throw error }
         catch { throw map(error) }
     }
@@ -243,63 +224,33 @@ final class AuthManager: AuthManaging, @unchecked Sendable {
         }
     }
 
+    func sessionFromLink(_ url: URL) async throws -> AuthUser {
+        let session = try await client.auth.session(from: url)
+        return try makeAuthUser(session.user)
+    }
+
+    func endLinkSession() async throws {
+        try await client.auth.signOut(scope: .local)
+    }
+
     func authEvents() -> AsyncStream<AuthLifecycleEvent> {
         AsyncStream { continuation in
             let task = Task {
                 for await (event, session) in client.auth.authStateChanges {
                     switch event {
                     case .passwordRecovery:
-                        // Not link-related bookkeeping needed here — the SDK's native
-                        // `.passwordRecovery` event is already unambiguous. Still clear any
-                        // stale pending link so it can't leak into a later, unrelated event.
-                        self.pendingAuthLink = nil
-                        if let sessionUser = session?.user, let authUser = try? self.makeAuthUser(sessionUser) {
-                            continuation.yield(.passwordRecovery(authUser))
+                        if let raw = session?.user, let user = try? self.makeAuthUser(raw) {
+                            continuation.yield(.passwordRecovery(user))
                         }
-                    case .signedIn:
-                        // Only `.signedIn` can actually result from exchanging an email link,
-                        // so only `.signedIn` is allowed to consume `pendingAuthLink`. Events
-                        // like `.initialSession` (fired independently at startup/cold-launch,
-                        // often racing a link tap) or `.tokenRefreshed` must never consume it —
-                        // otherwise the real link-triggered event can arrive afterwards with
-                        // the flag already cleared and silently fall through to plain sign-in.
-                        let pendingLink = self.pendingAuthLink
-                        self.pendingAuthLink = nil
-
-                        // A signup-confirmation link produces a normal `.signedIn` event under
-                        // both PKCE and implicit flow — reinterpret it as `.emailConfirmed` and
-                        // drop the session, so tapping the link never lands the user in Home.
-                        if pendingLink == .signupConfirmation {
-                            continuation.yield(.emailConfirmed)
-                            Task { try? await self.client.auth.signOut() }
-                            continue
-                        }
-                        // A password-reset link may only surface as `.signedIn` under PKCE
-                        // (no native `.passwordRecovery` event in that flow) — force it through
-                        // the recovery path so ResetPasswordView is shown either way.
-                        if pendingLink == .passwordRecovery,
-                           let sessionUser = session?.user, let authUser = try? self.makeAuthUser(sessionUser) {
-                            continuation.yield(.passwordRecovery(authUser))
-                            continue
-                        }
-                        if let sessionUser = session?.user, let authUser = try? self.makeAuthUser(sessionUser) {
-                            continuation.yield(.signedIn(authUser))
-                        } else {
-                            continuation.yield(.signedOut)
-                        }
-                    case .initialSession, .tokenRefreshed, .userUpdated:
-                        // Deliberately does NOT touch `pendingAuthLink` — these events aren't
-                        // produced by exchanging an email link, so they must never consume a
-                        // flag meant for the `.signedIn`/`.passwordRecovery` event that follows.
-                        if let sessionUser = session?.user, let authUser = try? self.makeAuthUser(sessionUser) {
-                            continuation.yield(.signedIn(authUser))
+                    case .signedIn, .initialSession, .tokenRefreshed, .userUpdated:
+                        if let raw = session?.user, let user = try? self.makeAuthUser(raw) {
+                            continuation.yield(.signedIn(user))
                         } else {
                             continuation.yield(.signedOut)
                         }
                     case .signedOut, .userDeleted:
                         continuation.yield(.signedOut)
-                    default:
-                        break
+                    default: break
                     }
                 }
                 continuation.finish()
@@ -360,8 +311,10 @@ final class AuthManager: AuthManaging, @unchecked Sendable {
 
     private func map(_ error: Error) -> AuthManagerError {
         let message = error.localizedDescription
+        if message.localizedCaseInsensitiveContains("email not confirmed") { return .emailNotVerified }
         if message.localizedCaseInsensitiveContains("invalid login credentials") { return .invalidCredentials }
         if message.localizedCaseInsensitiveContains("session") && message.localizedCaseInsensitiveContains("missing") { return .missingSession }
         return .requestFailed(message)
     }
 }
+

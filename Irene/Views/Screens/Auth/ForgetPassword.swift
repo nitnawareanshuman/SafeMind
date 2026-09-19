@@ -75,7 +75,8 @@ struct ForgetPasswordView: View {
                             // Submit
                             GradientButton(title: isLoading ? "Sending..." : "Send Reset Link") {
                                 
-                                if email.isEmpty {
+                                guard !isLoading else { return }
+                                if email.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                                     errorMsg = "Please enter email"
                                     return
                                 }
@@ -88,6 +89,7 @@ struct ForgetPasswordView: View {
                                         try await authVM.sendPasswordReset(email: email)
                                         
                                         // ✅ Switch UI state
+                                        email = email.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
                                         isEmailSent = true
                                         
                                     } catch {
@@ -110,7 +112,7 @@ struct ForgetPasswordView: View {
                                 .font(.title2.bold())
                                 .foregroundColor(.white)
                             
-                            Text("We’ve sent a password reset link to:\n\(email)")
+                            Text("If an account exists, a reset link will be sent to:\n\(email)")
                                 .font(.subheadline)
                                 .foregroundColor(.white.opacity(0.8))
                                 .multilineTextAlignment(.center)
@@ -120,6 +122,23 @@ struct ForgetPasswordView: View {
                                 .foregroundColor(.white.opacity(0.7))
                                 .multilineTextAlignment(.center)
                             
+                            TimelineView(.periodic(from: .now, by: 1)) { _ in
+                                let seconds = authVM.resendSeconds(email: email, recovery: true)
+                                Button(isLoading ? "Sending…" : seconds > 0 ? "Resend in \(seconds)s" : "Resend Email") {
+                                    guard !isLoading else { return }
+                                    isLoading = true
+                                    errorMsg = nil
+                                    Task {
+                                        defer { isLoading = false }
+                                        do { try await authVM.sendPasswordReset(email: email) }
+                                        catch { errorMsg = error.localizedDescription }
+                                    }
+                                }
+                                .disabled(isLoading || seconds > 0)
+                            }
+                            Text(errorMsg ?? "").foregroundColor(.red)
+                            Button("Use a different email") { isEmailSent = false; errorMsg = nil }
+                            Button("Back to Login") { path = NavigationPath() }
                         }
                     }
                     .padding(.horizontal)
@@ -139,3 +158,4 @@ struct ForgetPasswordView: View {
     ForgetPasswordView(path: .constant(NavigationPath()))
         .environmentObject(AuthViewModel())
 }
+

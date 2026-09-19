@@ -77,17 +77,31 @@ struct LoginView: View {
                             }
                             
                             // Error Message — reserved height so it doesn't shift layout
-                            Text(errorMsg ?? " ")
+                            Text(errorMsg ?? authVM.errorMessage ?? " ")
                                 .foregroundColor(.red)
                                 .font(.caption)
-                                .opacity(errorMsg == nil ? 0 : 1)
+                                .opacity(errorMsg == nil && authVM.errorMessage == nil ? 0 : 1)
                             
+                            TimelineView(.periodic(from: .now, by: 1)) { _ in
+                                let seconds = authVM.resendSeconds(email: email)
+                                Button(seconds > 0 ? "Resend verification in \(seconds)s" : "Resend verification email") {
+                                    Task {
+                                        do {
+                                            try await authVM.resendVerification(email: email)
+                                            authVM.infoMessage = "If verification is pending, check your email."
+                                        } catch { errorMsg = error.localizedDescription }
+                                    }
+                                }
+                                .disabled(email.isEmpty || seconds > 0)
+                            }
+
                             // Buttons
                             VStack(spacing: 15) {
                                 
                                 // Email Login
                                 GradientButton(title: "Login", icon: "arrow.right") {
                                     
+                                    guard !authVM.isLoading else { return }
                                     if email.isEmpty || password.isEmpty {
                                         errorMsg = "Please fill all fields"
                                     } else {
@@ -258,3 +272,4 @@ struct OrDivider: View {
     LoginView(path: .constant(NavigationPath()))
         .environmentObject(AuthViewModel())
 }
+

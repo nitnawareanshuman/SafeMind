@@ -14,6 +14,7 @@ struct EmailVerificationView: View {
     @EnvironmentObject var authVM: AuthViewModel
 
     @State private var message: String? = nil
+    @State private var isSending = false
 
 
     var body: some View {
@@ -43,7 +44,7 @@ struct EmailVerificationView: View {
                                 .font(.headline)
                                 .foregroundColor(.white)
 
-                            Text("Continue account creation using the link via email.")
+                            Text("Open the link on this device to verify your email, then log in. If you verified elsewhere, return to Login.")
                                 .foregroundColor(.white.opacity(0.75))
                                 .font(.subheadline)
                                 .multilineTextAlignment(.center)
@@ -52,7 +53,10 @@ struct EmailVerificationView: View {
 
                         // Resend Email Button
                         Button {
+                            guard !isSending, authVM.resendSeconds(email: email) == 0 else { return }
+                            isSending = true
                             Task {
+                                defer { isSending = false }
                                 do {
                                     try await authVM.resendVerification(email: email)
                                     message = "Verification email sent"
@@ -61,7 +65,10 @@ struct EmailVerificationView: View {
                                 }
                             }
                         } label: {
-                            Text("Resend Email")
+                            TimelineView(.periodic(from: .now, by: 1)) { _ in
+                                let seconds = authVM.resendSeconds(email: email)
+                                Text(isSending ? "Sending…" : seconds > 0 ? "Resend in \(seconds)s" : "Resend Email")
+                            }
                                 .foregroundColor(.white)
                                 .font(.headline)
                                 .frame(maxWidth: .infinity)
@@ -71,6 +78,8 @@ struct EmailVerificationView: View {
                                         .fill(Color.blue)
                                 )
                         }
+
+                        .disabled(isSending)
 
                         // Status Message — reserved height so it doesn't shift layout
                         Text(message ?? " ")
@@ -86,7 +95,7 @@ struct EmailVerificationView: View {
 
                     // Bottom Login Button (keep existing component)
                     HStack {
-                        Text("Have an account?")
+                        Text("Already verified?")
                             .foregroundColor(.white.opacity(0.8))
                             .font(.system(size: 15, weight: .medium))
 
@@ -118,21 +127,5 @@ struct EmailVerificationView: View {
                 }
         }
 
-        // Auto-check when screen appears
-        .onAppear {
-            Task {
-                await checkVerificationStatus()
-            }
-        }
-
-    }
-
-    // MARK: - Auto Check Verification
-
-    private func checkVerificationStatus() async {
-        await authVM.reloadVerificationStatus()
-
-        if authVM.isEmailVerified { message = "Email verified successfully ✅" }
     }
 }
-

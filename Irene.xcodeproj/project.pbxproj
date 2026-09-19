@@ -22,7 +22,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		5B3D8864300F771200EDB954 /* Exceptions for "Irene" folder in "Irene" target */ = {
+		5B27E4AE305F064B00C37FA4 /* Exceptions for "Irene" folder in "Irene" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -35,7 +35,7 @@
 		5B57F7AB2F58240B00D832A6 /* Irene */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				5B3D8864300F771200EDB954 /* Exceptions for "Irene" folder in "Irene" target */,
+				5B27E4AE305F064B00C37FA4 /* Exceptions for "Irene" folder in "Irene" target */,
 			);
 			path = Irene;
 			sourceTree = "<group>";
@@ -310,7 +310,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "";
+				INFOPLIST_FILE = Irene/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Irene;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -348,7 +348,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "";
+				INFOPLIST_FILE = Irene/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Irene;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

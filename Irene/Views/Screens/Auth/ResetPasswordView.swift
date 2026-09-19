@@ -25,6 +25,7 @@ struct ResetPasswordView: View {
     @State private var confirmPassword: String = ""
     @State private var errorMsg: String? = nil
     @State private var isLoading = false
+    @State private var passwordSaved = false
 
     var body: some View {
         ZStack {
@@ -46,7 +47,7 @@ struct ResetPasswordView: View {
                         secureField(placeholder: "New Password", text: $newPassword)
                         secureField(placeholder: "Confirm Password", text: $confirmPassword)
 
-                        Text("8+ characters")
+                        Text("8+ characters, including an uppercase letter, a number, and a special character.")
                             .font(.caption)
                             .foregroundColor(.white.opacity(0.65))
                     }
@@ -59,7 +60,7 @@ struct ResetPasswordView: View {
                         .opacity(errorMsg == nil ? 0 : 1)
 
                     GradientButton(
-                        title: isLoading ? "Updating…" : "Update Password",
+                        title: isLoading ? "Please wait…" : passwordSaved ? "Back to Login" : "Update Password",
                         icon: "checkmark"
                     ) {
                         guard !isLoading else { return }
@@ -78,17 +79,19 @@ struct ResetPasswordView: View {
 
                         Task {
                             do {
-                                try await authVM.updatePasswordAfterRecovery(newPassword: newPassword)
-                                // Password set — sign out of the recovery session so the
-                                // user logs back in fresh with their new password.
-                                authVM.infoMessage = "Password updated! Please log in."
-                                authVM.signOut()
+                                if !passwordSaved {
+                                    try await authVM.updatePasswordAfterRecovery(newPassword: newPassword)
+                                    passwordSaved = true
+                                }
+                                try await authVM.finishRecovery()
                             } catch {
                                 errorMsg = error.localizedDescription
                             }
                             isLoading = false
                         }
                     }
+                    Button("Cancel and return to Login") { authVM.signOut() }
+                        .disabled(isLoading)
                 }
                 .padding(.horizontal)
                 .padding(.top, 100)
@@ -120,3 +123,4 @@ struct ResetPasswordView: View {
     ResetPasswordView()
         .environmentObject(AuthViewModel())
 }
+
