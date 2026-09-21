@@ -35,7 +35,7 @@ struct GradientButton: View {
                 Text(title)
                     .font(.system(size: 16, weight: .semibold))
             }
-            .foregroundColor(.black)
+            .foregroundColor(.primary)
             .frame(maxWidth: width)
             .frame(height: height)
             .background(

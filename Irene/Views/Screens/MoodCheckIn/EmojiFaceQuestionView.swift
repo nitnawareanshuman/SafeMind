@@ -15,6 +15,7 @@
 import SwiftUI
 
 struct EmojiFaceQuestionView: View {
+    @Environment(\.colorScheme) private var colorScheme
     let question: MoodQuestion
     let selected: MoodOption?
     var onSelect: (MoodOption) -> Void
@@ -75,8 +76,8 @@ struct EmojiFaceQuestionView: View {
                 .font(.subheadline.weight(.semibold))
                 .padding(.horizontal, 20)
                 .padding(.vertical, 12)
-                .background(isSelected ? (option.color ?? .pink) : Color(.secondarySystemBackground))
-                .foregroundColor(isSelected ? .white : .primary)
+                .background(isSelected ? (option.color ?? .pink).opacity(colorScheme == .dark ? 0.25 : 0.4) : Color(.secondarySystemBackground))
+                .foregroundColor(.primary)
                 .clipShape(Capsule())
         }
         .buttonStyle(.plain)
@@ -94,8 +95,7 @@ struct CheckInFooterButtons: View {
     /// Hidden entirely on the very first question — there's nothing behind it.
     var showPrevious: Bool = false
     /// Pass `true` when this footer sits on a dark card (e.g. the worry
-    /// grid) so the Previous control stays legible; the white Next pill
-    /// works on both.
+    /// grid) so the Previous control stays legible. Next uses an adaptive surface.
     var onDarkBackground: Bool = false
 
     var body: some View {
@@ -107,7 +107,7 @@ struct CheckInFooterButtons: View {
                         Text("Previous")
                     }
                     .font(.subheadline.weight(.semibold))
-                    .foregroundColor(onDarkBackground ? .white : .black.opacity(0.7))
+                    .foregroundColor(onDarkBackground ? .white : .primary)
                     .padding(.horizontal, 20)
                     .padding(.vertical, 14)
                     .background(
@@ -116,7 +116,7 @@ struct CheckInFooterButtons: View {
                     )
                     .overlay(
                         Capsule()
-                            .stroke(onDarkBackground ? Color.white.opacity(0.18) : Color.black.opacity(0.06), lineWidth: 1)
+                            .stroke(onDarkBackground ? Color.white.opacity(0.18) : Color.primary.opacity(0.08), lineWidth: 1)
                     )
                 }
                 .transition(.scale.combined(with: .opacity))
@@ -130,10 +130,10 @@ struct CheckInFooterButtons: View {
                     Image(systemName: "chevron.right")
                 }
                 .font(.subheadline.weight(.semibold))
-                .foregroundColor(.black)
+                .foregroundColor(.primary)
                 .padding(.horizontal, 26)
                 .padding(.vertical, 14)
-                .background(Color.white)
+                .background(Color(.secondarySystemBackground))
                 .clipShape(Capsule())
                 .opacity(nextEnabled ? 1 : 0.5)
             }

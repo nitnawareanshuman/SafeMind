@@ -30,7 +30,7 @@ struct SplashView: View {
                 Text("Irene")
                     .font(.largeTitle)
                     .fontWeight(.bold)
-                    .foregroundColor(Color.black)
+                    .foregroundColor(.primary)
                     .opacity(opacity)
             }
         }

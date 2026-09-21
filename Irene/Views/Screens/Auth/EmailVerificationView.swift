@@ -32,20 +32,20 @@ struct EmailVerificationView: View {
                         // Title
                         Text("VERIFY EMAIL")
                             .font(.largeTitle.bold())
-                            .foregroundColor(.white)
+                            .foregroundColor(.primary)
 
                         // Description with email visible
                         VStack(spacing: 8) {
                             Text("We've sent an email to")
-                                .foregroundColor(.white.opacity(0.8))
+                                .foregroundColor(.secondary)
                                 .font(.subheadline)
 
                             Text(email)
                                 .font(.headline)
-                                .foregroundColor(.white)
+                                .foregroundColor(.primary)
 
                             Text("Open the link on this device to verify your email, then log in. If you verified elsewhere, return to Login.")
-                                .foregroundColor(.white.opacity(0.75))
+                                .foregroundColor(.secondary)
                                 .font(.subheadline)
                                 .multilineTextAlignment(.center)
                         }
@@ -83,7 +83,7 @@ struct EmailVerificationView: View {
 
                         // Status Message — reserved height so it doesn't shift layout
                         Text(message ?? " ")
-                            .foregroundColor(.white)
+                            .foregroundColor(.primary)
                             .font(.caption)
                             .multilineTextAlignment(.center)
                             .opacity(message == nil ? 0 : 1)
@@ -96,7 +96,7 @@ struct EmailVerificationView: View {
                     // Bottom Login Button (keep existing component)
                     HStack {
                         Text("Already verified?")
-                            .foregroundColor(.white.opacity(0.8))
+                            .foregroundColor(.secondary)
                             .font(.system(size: 15, weight: .medium))
 
                         Spacer()
@@ -118,7 +118,7 @@ struct EmailVerificationView: View {
                     .frame(height: 55)
                     .background(
                         Capsule()
-                            .stroke(Color.white.opacity(0.25), lineWidth: 1)
+                            .stroke(Color.primary.opacity(0.15), lineWidth: 1)
                     )
                     .padding(.horizontal)
                     .padding(.bottom, 20)

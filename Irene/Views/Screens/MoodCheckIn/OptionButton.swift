@@ -9,6 +9,7 @@ import SwiftUI
 
 /// A single tappable answer choice shown below the current AI question.
 struct OptionButton: View {
+    @Environment(\.colorScheme) private var colorScheme
     let option: MoodOption
     var isSelected: Bool = false
     var action: () -> Void
@@ -26,6 +27,7 @@ struct OptionButton: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 84,height: 84)
+                    .foregroundStyle(.primary)
 
             }
             Text(option.label)
@@ -35,9 +37,9 @@ struct OptionButton: View {
                 .padding(.vertical, 14)
                 .background(
                     RoundedRectangle(cornerRadius: 16, style: .continuous)
-                        .fill(isSelected ? AnyShapeStyle(accentColor) : AnyShapeStyle(.ultraThinMaterial))
+                        .fill(isSelected ? AnyShapeStyle(accentColor.opacity(colorScheme == .dark ? 0.25 : 0.4)) : AnyShapeStyle(.ultraThinMaterial))
                 )
-                .foregroundColor(isSelected ? .white : .primary)
+                .foregroundColor(.primary)
                 .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                 .overlay(
                     RoundedRectangle(cornerRadius: 16, style: .continuous)

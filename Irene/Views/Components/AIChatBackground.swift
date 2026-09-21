@@ -6,8 +6,17 @@
 import SwiftUI
 
 struct AIChatBackground: View {
+    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
+        if colorScheme == .dark {
+            BlurBackground()
+        } else {
+            lightBackground
+        }
+    }
+
+    private var lightBackground: some View {
         GeometryReader { geo in
 
             let width = geo.size.width

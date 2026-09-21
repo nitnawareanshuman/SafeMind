@@ -70,11 +70,11 @@ struct BreathingView: View {
                 VStack(spacing: 4) {
                     Text(phase.title)
                         .font(.system(size: 36, weight: .bold, design: .rounded))
-                        .foregroundColor(.black)
+                        .foregroundColor(.primary)
 
                     Text(phase.instruction)
                         .font(.system(size: 18, weight: .medium, design: .rounded))
-                        .foregroundColor(.black.opacity(0.55))
+                        .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
                 }
                 .frame(maxWidth: .infinity)

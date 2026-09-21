@@ -6,6 +6,7 @@
 import SwiftUI
 
 struct ColorGridQuestionView: View {
+    @Environment(\.colorScheme) private var colorScheme
 
     let question: MoodQuestion
     let selected: MoodOption?
@@ -81,6 +82,7 @@ struct ColorGridQuestionView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 84,height: 84)
+                        .foregroundStyle(.primary)
 
                 }
 
@@ -98,15 +100,15 @@ struct ColorGridQuestionView: View {
                 RoundedRectangle(cornerRadius: 28)
                     .fill(
                         selected
-                        ? color
-                        : Color.white.opacity(0.28)
+                        ? color.opacity(colorScheme == .dark ? 0.25 : 0.4)
+                        : Color.primary.opacity(0.06)
                     )
             )
 
             .overlay(
                 RoundedRectangle(cornerRadius: 28)
                     .stroke(
-                        Color.white.opacity(selected ? 0 : 0.15),
+                        Color.primary.opacity(selected ? 0 : 0.15),
                         lineWidth: 1
                     )
             )

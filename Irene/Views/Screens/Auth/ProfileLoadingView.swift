@@ -23,7 +23,7 @@ struct ProfileLoadingView: View {
             BlurBackground()
             ProgressView()
                 .scaleEffect(1.3)
-                .tint(.white)
+                .tint(.primary)
         }
     }
 }
@@ -38,16 +38,16 @@ struct ProfileErrorView: View {
             VStack(spacing: 20) {
                 Image(systemName: "exclamationmark.triangle.fill")
                     .font(.system(size: 44))
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
 
                 Text("We couldn't set up your profile")
                     .font(.title3.bold())
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
                     .multilineTextAlignment(.center)
 
                 Text(authVM.errorMessage ?? "Something went wrong. Please try again.")
                     .font(.subheadline)
-                    .foregroundColor(.white.opacity(0.75))
+                    .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
 
                 GradientButton(title: "Try Again") {
@@ -57,7 +57,7 @@ struct ProfileErrorView: View {
                 Button("Sign Out") {
                     authVM.signOut()
                 }
-                .foregroundColor(.white.opacity(0.7))
+                .foregroundColor(.secondary)
             }
             .padding(.horizontal, 32)
         }

@@ -21,7 +21,7 @@ struct MoodTopProgressBar: View {
         HStack(spacing: 6) {
             ForEach(0..<max(totalSteps, 1), id: \.self) { index in
                 Capsule()
-                    .fill(index <= currentStep ? Color.white : Color.white.opacity(0.25))
+                    .fill(index <= currentStep ? Color.primary : Color.primary.opacity(0.18))
                     .frame(height: 4)
                     .frame(maxWidth: .infinity)
             }

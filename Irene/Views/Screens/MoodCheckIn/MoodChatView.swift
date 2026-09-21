@@ -167,16 +167,16 @@ private struct SelectionRequiredView: View {
 
             Image(systemName: "exclamationmark.circle")
                 .font(.system(size: 56, weight: .semibold))
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
 
             Text("Please select something")
                 .font(.title2.weight(.bold))
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
                 .multilineTextAlignment(.center)
 
             Text("Looks like one or more questions were left unanswered. Go back and pick an option for each one so we can put together your check-in.")
                 .font(.subheadline)
-                .foregroundColor(.white.opacity(0.75))
+                .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 32)
 
@@ -188,10 +188,10 @@ private struct SelectionRequiredView: View {
                     Text("Back to Mood Check-In")
                 }
                 .font(.subheadline.weight(.semibold))
-                .foregroundColor(.black)
+                .foregroundColor(.primary)
                 .padding(.horizontal, 26)
                 .padding(.vertical, 14)
-                .background(Color.white)
+                .background(Color(.secondarySystemBackground))
                 .clipShape(Capsule())
             }
             .padding(.bottom, 40)

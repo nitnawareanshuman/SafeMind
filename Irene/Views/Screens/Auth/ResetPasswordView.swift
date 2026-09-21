@@ -36,11 +36,11 @@ struct ResetPasswordView: View {
 
                     Text("NEW PASSWORD")
                         .font(.largeTitle.bold())
-                        .foregroundColor(.white)
+                        .foregroundColor(.primary)
 
                     Text("Choose a new password for\n\(authVM.user?.email ?? "your account")")
                         .font(.subheadline)
-                        .foregroundColor(.white.opacity(0.75))
+                        .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
 
                     VStack(spacing: 15) {
@@ -49,7 +49,7 @@ struct ResetPasswordView: View {
 
                         Text("8+ characters, including an uppercase letter, a number, and a special character.")
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.65))
+                            .foregroundColor(.secondary)
                     }
 
                     // Error — reserved height so it doesn't shift layout
@@ -106,15 +106,15 @@ struct ResetPasswordView: View {
     private func secureField(placeholder: String, text: Binding<String>) -> some View {
         HStack {
             Image(systemName: "lock.fill")
-                .foregroundColor(.black)
+                .foregroundColor(.primary)
 
             SecureField(placeholder, text: text)
-                .foregroundColor(.black)
+                .foregroundColor(.primary)
         }
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 15)
-                .fill(Color.white)
+                .fill(Color(.secondarySystemBackground))
         )
     }
 }
