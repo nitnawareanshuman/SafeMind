@@ -1,0 +1,1253 @@
+diff --git a/Irene/Assets.xcassets/a_little.imageset/Contents.json b/Irene/Assets.xcassets/a_little.imageset/Contents.json
+index f30fb36..afc3799 100644
+--- a/Irene/Assets.xcassets/a_little.imageset/Contents.json
++++ b/Irene/Assets.xcassets/a_little.imageset/Contents.json
+@@ -17,5 +17,8 @@
+   "info" : {
+     "author" : "xcode",
+     "version" : 1
++  },
++  "properties" : {
++    "template-rendering-intent" : "template"
+   }
+ }
+diff --git a/Irene/Assets.xcassets/a_lot.imageset/Contents.json b/Irene/Assets.xcassets/a_lot.imageset/Contents.json
+index 066969c..b12402a 100644
+--- a/Irene/Assets.xcassets/a_lot.imageset/Contents.json
++++ b/Irene/Assets.xcassets/a_lot.imageset/Contents.json
+@@ -17,5 +17,8 @@
+   "info" : {
+     "author" : "xcode",
+     "version" : 1
++  },
++  "properties" : {
++    "template-rendering-intent" : "template"
+   }
+ }
+diff --git a/Irene/Assets.xcassets/anxity.imageset/Contents.json b/Irene/Assets.xcassets/anxity.imageset/Contents.json
+index 4e93133..a782a1e 100644
+--- a/Irene/Assets.xcassets/anxity.imageset/Contents.json
++++ b/Irene/Assets.xcassets/anxity.imageset/Contents.json
+@@ -17,5 +17,8 @@
+   "info" : {
+     "author" : "xcode",
+     "version" : 1
++  },
++  "properties" : {
++    "template-rendering-intent" : "template"
+   }
+ }
+diff --git a/Irene/Assets.xcassets/can't_focus.imageset/Contents.json b/Irene/Assets.xcassets/can't_focus.imageset/Contents.json
+index 5c9a41f..109f7ff 100644
+--- a/Irene/Assets.xcassets/can't_focus.imageset/Contents.json
++++ b/Irene/Assets.xcassets/can't_focus.imageset/Contents.json
+@@ -17,5 +17,8 @@
+   "info" : {
+     "author" : "xcode",
+     "version" : 1
++  },
++  "properties" : {
++    "template-rendering-intent" : "template"
+   }
+ }
+diff --git a/Irene/Assets.xcassets/excellent.imageset/Contents.json b/Irene/Assets.xcassets/excellent.imageset/Contents.json
+index 637ee05..e3655a8 100644
+--- a/Irene/Assets.xcassets/excellent.imageset/Contents.json
++++ b/Irene/Assets.xcassets/excellent.imageset/Contents.json
+@@ -17,5 +17,8 @@
+   "info" : {
+     "author" : "xcode",
+     "version" : 1
++  },
++  "properties" : {
++    "template-rendering-intent" : "template"
+   }
+ }
+diff --git a/Irene/Assets.xcassets/feel_calmer.imageset/Contents.json b/Irene/Assets.xcassets/feel_calmer.imageset/Contents.json
+index f47ba45..06aa28d 100644
+--- a/Irene/Assets.xcassets/feel_calmer.imageset/Contents.json
++++ b/Irene/Assets.xcassets/feel_calmer.imageset/Contents.json
+@@ -17,5 +17,8 @@
+   "info" : {
+     "author" : "xcode",
+     "version" : 1
++  },
++  "properties" : {
++    "template-rendering-intent" : "template"
+   }
+ }
+diff --git a/Irene/Assets.xcassets/focus.imageset/Contents.json b/Irene/Assets.xcassets/focus.imageset/Contents.json
+index cb8d372..146d969 100644
+--- a/Irene/Assets.xcassets/focus.imageset/Contents.json
++++ b/Irene/Assets.xcassets/focus.imageset/Contents.json
+@@ -17,5 +17,8 @@
+   "info" : {
+     "author" : "xcode",
+     "version" : 1
++  },
++  "properties" : {
++    "template-rendering-intent" : "template"
+   }
+ }
+diff --git a/Irene/Assets.xcassets/idk.imageset/Contents.json b/Irene/Assets.xcassets/idk.imageset/Contents.json
+index e748dba..c9feca9 100644
+--- a/Irene/Assets.xcassets/idk.imageset/Contents.json
++++ b/Irene/Assets.xcassets/idk.imageset/Contents.json
+@@ -17,5 +17,8 @@
+   "info" : {
+     "author" : "xcode",
+     "version" : 1
++  },
++  "properties" : {
++    "template-rendering-intent" : "template"
+   }
+ }
+diff --git a/Irene/Assets.xcassets/no.imageset/Contents.json b/Irene/Assets.xcassets/no.imageset/Contents.json
+index 2ea3f80..2d6add5 100644
+--- a/Irene/Assets.xcassets/no.imageset/Contents.json
++++ b/Irene/Assets.xcassets/no.imageset/Contents.json
+@@ -17,5 +17,8 @@
+   "info" : {
+     "author" : "xcode",
+     "version" : 1
++  },
++  "properties" : {
++    "template-rendering-intent" : "template"
+   }
+ }
+diff --git a/Irene/Assets.xcassets/okay.imageset/Contents.json b/Irene/Assets.xcassets/okay.imageset/Contents.json
+index 3734eb0..3a919d6 100644
+--- a/Irene/Assets.xcassets/okay.imageset/Contents.json
++++ b/Irene/Assets.xcassets/okay.imageset/Contents.json
+@@ -17,5 +17,8 @@
+   "info" : {
+     "author" : "xcode",
+     "version" : 1
++  },
++  "properties" : {
++    "template-rendering-intent" : "template"
+   }
+ }
+diff --git a/Irene/Assets.xcassets/okay_sleep.imageset/Contents.json b/Irene/Assets.xcassets/okay_sleep.imageset/Contents.json
+index f93288b..7f19ee0 100644
+--- a/Irene/Assets.xcassets/okay_sleep.imageset/Contents.json
++++ b/Irene/Assets.xcassets/okay_sleep.imageset/Contents.json
+@@ -17,5 +17,8 @@
+   "info" : {
+     "author" : "xcode",
+     "version" : 1
++  },
++  "properties" : {
++    "template-rendering-intent" : "template"
+   }
+ }
+diff --git a/Irene/Assets.xcassets/poor_sleep.imageset/Contents.json b/Irene/Assets.xcassets/poor_sleep.imageset/Contents.json
+index 8076833..742930a 100644
+--- a/Irene/Assets.xcassets/poor_sleep.imageset/Contents.json
++++ b/Irene/Assets.xcassets/poor_sleep.imageset/Contents.json
+@@ -17,5 +17,8 @@
+   "info" : {
+     "author" : "xcode",
+     "version" : 1
++  },
++  "properties" : {
++    "template-rendering-intent" : "template"
+   }
+ }
+diff --git a/Irene/Assets.xcassets/relax.imageset/Contents.json b/Irene/Assets.xcassets/relax.imageset/Contents.json
+index e873b52..4e713d0 100644
+--- a/Irene/Assets.xcassets/relax.imageset/Contents.json
++++ b/Irene/Assets.xcassets/relax.imageset/Contents.json
+@@ -17,5 +17,8 @@
+   "info" : {
+     "author" : "xcode",
+     "version" : 1
++  },
++  "properties" : {
++    "template-rendering-intent" : "template"
+   }
+ }
+diff --git a/Irene/Assets.xcassets/sad.imageset/Contents.json b/Irene/Assets.xcassets/sad.imageset/Contents.json
+index 915c930..56a8a28 100644
+--- a/Irene/Assets.xcassets/sad.imageset/Contents.json
++++ b/Irene/Assets.xcassets/sad.imageset/Contents.json
+@@ -17,5 +17,8 @@
+   "info" : {
+     "author" : "xcode",
+     "version" : 1
++  },
++  "properties" : {
++    "template-rendering-intent" : "template"
+   }
+ }
+diff --git a/Irene/Assets.xcassets/sad_focus.imageset/Contents.json b/Irene/Assets.xcassets/sad_focus.imageset/Contents.json
+index 51954b3..c589cbd 100644
+--- a/Irene/Assets.xcassets/sad_focus.imageset/Contents.json
++++ b/Irene/Assets.xcassets/sad_focus.imageset/Contents.json
+@@ -17,5 +17,8 @@
+   "info" : {
+     "author" : "xcode",
+     "version" : 1
++  },
++  "properties" : {
++    "template-rendering-intent" : "template"
+   }
+ }
+diff --git a/Irene/Assets.xcassets/sleepy.imageset/Contents.json b/Irene/Assets.xcassets/sleepy.imageset/Contents.json
+index 5bf9d3d..a441da7 100644
+--- a/Irene/Assets.xcassets/sleepy.imageset/Contents.json
++++ b/Irene/Assets.xcassets/sleepy.imageset/Contents.json
+@@ -17,5 +17,8 @@
+   "info" : {
+     "author" : "xcode",
+     "version" : 1
++  },
++  "properties" : {
++    "template-rendering-intent" : "template"
+   }
+ }
+diff --git a/Irene/Assets.xcassets/stress.imageset/Contents.json b/Irene/Assets.xcassets/stress.imageset/Contents.json
+index c657e63..ce62c8b 100644
+--- a/Irene/Assets.xcassets/stress.imageset/Contents.json
++++ b/Irene/Assets.xcassets/stress.imageset/Contents.json
+@@ -17,5 +17,8 @@
+   "info" : {
+     "author" : "xcode",
+     "version" : 1
++  },
++  "properties" : {
++    "template-rendering-intent" : "template"
+   }
+ }
+diff --git a/Irene/Assets.xcassets/very.imageset/Contents.json b/Irene/Assets.xcassets/very.imageset/Contents.json
+index 5ee2671..ab85bc2 100644
+--- a/Irene/Assets.xcassets/very.imageset/Contents.json
++++ b/Irene/Assets.xcassets/very.imageset/Contents.json
+@@ -17,5 +17,8 @@
+   "info" : {
+     "author" : "xcode",
+     "version" : 1
++  },
++  "properties" : {
++    "template-rendering-intent" : "template"
+   }
+ }
+diff --git a/Irene/Assets.xcassets/very_good_sleep.imageset/Contents.json b/Irene/Assets.xcassets/very_good_sleep.imageset/Contents.json
+index 4c08130..80be0f1 100644
+--- a/Irene/Assets.xcassets/very_good_sleep.imageset/Contents.json
++++ b/Irene/Assets.xcassets/very_good_sleep.imageset/Contents.json
+@@ -17,5 +17,8 @@
+   "info" : {
+     "author" : "xcode",
+     "version" : 1
++  },
++  "properties" : {
++    "template-rendering-intent" : "template"
+   }
+ }
+diff --git a/Irene/Assets.xcassets/very_poor_sleep.imageset/Contents.json b/Irene/Assets.xcassets/very_poor_sleep.imageset/Contents.json
+index e18725c..623ea19 100644
+--- a/Irene/Assets.xcassets/very_poor_sleep.imageset/Contents.json
++++ b/Irene/Assets.xcassets/very_poor_sleep.imageset/Contents.json
+@@ -17,5 +17,8 @@
+   "info" : {
+     "author" : "xcode",
+     "version" : 1
++  },
++  "properties" : {
++    "template-rendering-intent" : "template"
+   }
+ }
+diff --git a/Irene/Views/Components/AIChatBackground.swift b/Irene/Views/Components/AIChatBackground.swift
+index 1659a24..5473189 100644
+--- a/Irene/Views/Components/AIChatBackground.swift
++++ b/Irene/Views/Components/AIChatBackground.swift
+@@ -6,8 +6,17 @@
+ import SwiftUI
+ 
+ struct AIChatBackground: View {
++    @Environment(\.colorScheme) private var colorScheme
+ 
+     var body: some View {
++        if colorScheme == .dark {
++            BlurBackground()
++        } else {
++            lightBackground
++        }
++    }
++
++    private var lightBackground: some View {
+         GeometryReader { geo in
+ 
+             let width = geo.size.width
+diff --git a/Irene/Views/Components/BackButton.swift b/Irene/Views/Components/BackButton.swift
+index 3e7e83f..dbc975c 100644
+--- a/Irene/Views/Components/BackButton.swift
++++ b/Irene/Views/Components/BackButton.swift
+@@ -16,11 +16,11 @@ struct BackButton: View {
+         Button(action: action) {
+             Image(systemName: "chevron.left")
+                 .font(.title2)
+-                .foregroundColor(.white)
++                .foregroundColor(.primary)
+                 .padding(10)
+                 .background(
+                     Circle()
+-                        .fill(Color.white.opacity(0.2))
++                        .fill(Color.primary.opacity(0.08))
+                 )
+         }
+     }
+diff --git a/Irene/Views/Components/BlurBackground.swift b/Irene/Views/Components/BlurBackground.swift
+index 8b75f85..f7dc2b8 100644
+--- a/Irene/Views/Components/BlurBackground.swift
++++ b/Irene/Views/Components/BlurBackground.swift
+@@ -14,30 +14,37 @@ import SwiftUI
+ /// across pushes/pops instead of restarting.
+ struct BlurBackground: View {
+ 
++    @Environment(\.colorScheme) private var colorScheme
++    @Environment(\.accessibilityReduceMotion) private var reduceMotion
++
+     private let period: Double = 6
++    private var isDark: Bool { colorScheme == .dark }
+ 
+     var body: some View {
+-        TimelineView(.animation) { timeline in
+-            let t = timeline.date.timeIntervalSinceReferenceDate
++        TimelineView(.animation(minimumInterval: 1.0 / 30, paused: reduceMotion)) { timeline in
++            let t = reduceMotion ? 0 : timeline.date.timeIntervalSinceReferenceDate
+ 
+             ZStack {
+-                Color.black.opacity(0.05)
++                (isDark ? Color(hex: "090E1B") : Color(.systemBackground))
++                    .overlay(isDark ? Color.clear : Color.black.opacity(0.05))
+                     .ignoresSafeArea()
+ 
+-                blob(color: .blue.opacity(0.6), size: 300, blur: 120,
++                blob(color: (isDark ? Color(hex: "465AD6").opacity(0.42) : .blue.opacity(0.6)), size: 300, blur: 120,
+                      baseX: -115, baseY: -195, ampX: 35, ampY: 25, phase: 0, t: t)
+ 
+-                blob(color: .green.opacity(0.6), size: 300, blur: 120,
++                blob(color: (isDark ? Color(hex: "178D85").opacity(0.42) : .green.opacity(0.6)), size: 300, blur: 120,
+                      baseX: 145, baseY: -150, ampX: 25, ampY: 30, phase: 1.6, t: t)
+ 
+-                blob(color: .pink.opacity(0.5), size: 350, blur: 150,
++                blob(color: (isDark ? Color(hex: "7254AC").opacity(0.28) : .pink.opacity(0.5)), size: 350, blur: 150,
+                      baseX: 0, baseY: 255, ampX: 20, ampY: 25, phase: 3.1, t: t)
+ 
+-                blob(color: .yellow.opacity(0.5), size: 350, blur: 150,
++                blob(color: (isDark ? Color(hex: "465AD6").opacity(0.12) : .yellow.opacity(0.5)), size: 350, blur: 150,
+                      baseX: 0, baseY: -250, ampX: 40, ampY: 30, phase: 4.7, t: t)
+             }
+         }
+         .ignoresSafeArea()
++        .allowsHitTesting(false)
++        .accessibilityHidden(true)
+     }
+ 
+     /// A single soft, blurred circle that drifts smoothly around a base
+@@ -59,6 +66,10 @@ struct BlurBackground: View {
+     }
+ }
+ 
+-#Preview {
+-    BlurBackground()
++#Preview("Light") {
++    BlurBackground().preferredColorScheme(.light)
++}
++
++#Preview("Midnight Aurora") {
++    BlurBackground().preferredColorScheme(.dark)
+ }
+diff --git a/Irene/Views/Components/GradientButton.swift b/Irene/Views/Components/GradientButton.swift
+index e470eb2..d301c55 100644
+--- a/Irene/Views/Components/GradientButton.swift
++++ b/Irene/Views/Components/GradientButton.swift
+@@ -35,7 +35,7 @@ struct GradientButton: View {
+                 Text(title)
+                     .font(.system(size: 16, weight: .semibold))
+             }
+-            .foregroundColor(.black)
++            .foregroundColor(.primary)
+             .frame(maxWidth: width)
+             .frame(height: height)
+             .background(
+diff --git a/Irene/Views/Components/LoginBackground.swift b/Irene/Views/Components/LoginBackground.swift
+index b7e300b..6518e24 100644
+--- a/Irene/Views/Components/LoginBackground.swift
++++ b/Irene/Views/Components/LoginBackground.swift
+@@ -1,80 +1,8 @@
+-//
+-//  LoginBackground.swift
+-//  Irene
+-//
+-//  Created by Anshuman Nitnaware on 22/03/26.
+-//
+-
+-
+ import SwiftUI
+ 
++/// Authentication uses the same adaptive palette as the rest of Irene.
+ struct LoginBackground: View {
+-    
+-    @State private var animate = false
+-    
+     var body: some View {
+-        ZStack {
+-            
+-            // Base layer (slightly darker for login readability)
+-            LinearGradient(
+-                colors: [
+-                    Color.black.opacity(0.7),
+-                    Color.black.opacity(0.9)
+-                ],
+-                startPoint: .top,
+-                endPoint: .bottom
+-            )
+-            .ignoresSafeArea()
+-            
+-            // Top glow
+-            Circle()
+-                .fill(Color.blue.opacity(0.5))
+-                .frame(width: 280)
+-                .blur(radius: 120)
+-                .offset(x: animate ? -100 : -140, y: animate ? -250 : -200)
+-            
+-            // Right glow
+-            Circle()
+-                .fill(Color.purple.opacity(0.5))
+-                .frame(width: 260)
+-                .blur(radius: 120)
+-                .offset(x: animate ? 160 : 120, y: animate ? -120 : -180)
+-            
+-            // Bottom glow (main focus for form area)
+-            Circle()
+-                .fill(Color.pink.opacity(0.4))
+-                .frame(width: 350)
+-                .blur(radius: 150)
+-                .offset(x: animate ? 0 : -40, y: animate ? 260 : 220)
+-            
+-            // Subtle center highlight (important for login UI)
+-            Circle()
+-                .fill(
+-                    LinearGradient(
+-                        colors: [
+-                            Color.white.opacity(0.15),
+-                            Color.clear
+-                        ],
+-                        startPoint: .top,
+-                        endPoint: .bottom
+-                    )
+-                )
+-                .frame(width: 300)
+-                .blur(radius: 80)
+-            
+-        }
+-        .ignoresSafeArea()
+-        .onAppear {
+-            withAnimation(
+-                .easeInOut(duration: 8)
+-                .repeatForever(autoreverses: true)
+-            ) {
+-                animate.toggle()
+-            }
+-        }
++        BlurBackground()
+     }
+ }
+-
+-#Preview {
+-    LoginBackground()
+-}
+diff --git a/Irene/Views/Screens/Auth/EmailVerificationView.swift b/Irene/Views/Screens/Auth/EmailVerificationView.swift
+index 92df154..c8ec01d 100644
+--- a/Irene/Views/Screens/Auth/EmailVerificationView.swift
++++ b/Irene/Views/Screens/Auth/EmailVerificationView.swift
+@@ -32,20 +32,20 @@ struct EmailVerificationView: View {
+                         // Title
+                         Text("VERIFY EMAIL")
+                             .font(.largeTitle.bold())
+-                            .foregroundColor(.white)
++                            .foregroundColor(.primary)
+ 
+                         // Description with email visible
+                         VStack(spacing: 8) {
+                             Text("We've sent an email to")
+-                                .foregroundColor(.white.opacity(0.8))
++                                .foregroundColor(.secondary)
+                                 .font(.subheadline)
+ 
+                             Text(email)
+                                 .font(.headline)
+-                                .foregroundColor(.white)
++                                .foregroundColor(.primary)
+ 
+                             Text("Open the link on this device to verify your email, then log in. If you verified elsewhere, return to Login.")
+-                                .foregroundColor(.white.opacity(0.75))
++                                .foregroundColor(.secondary)
+                                 .font(.subheadline)
+                                 .multilineTextAlignment(.center)
+                         }
+@@ -83,7 +83,7 @@ struct EmailVerificationView: View {
+ 
+                         // Status Message — reserved height so it doesn't shift layout
+                         Text(message ?? " ")
+-                            .foregroundColor(.white)
++                            .foregroundColor(.primary)
+                             .font(.caption)
+                             .multilineTextAlignment(.center)
+                             .opacity(message == nil ? 0 : 1)
+@@ -96,7 +96,7 @@ struct EmailVerificationView: View {
+                     // Bottom Login Button (keep existing component)
+                     HStack {
+                         Text("Already verified?")
+-                            .foregroundColor(.white.opacity(0.8))
++                            .foregroundColor(.secondary)
+                             .font(.system(size: 15, weight: .medium))
+ 
+                         Spacer()
+@@ -118,7 +118,7 @@ struct EmailVerificationView: View {
+                     .frame(height: 55)
+                     .background(
+                         Capsule()
+-                            .stroke(Color.white.opacity(0.25), lineWidth: 1)
++                            .stroke(Color.primary.opacity(0.15), lineWidth: 1)
+                     )
+                     .padding(.horizontal)
+                     .padding(.bottom, 20)
+diff --git a/Irene/Views/Screens/Auth/ForgetPassword.swift b/Irene/Views/Screens/Auth/ForgetPassword.swift
+index 35250f1..2329c2b 100644
+--- a/Irene/Views/Screens/Auth/ForgetPassword.swift
++++ b/Irene/Views/Screens/Auth/ForgetPassword.swift
+@@ -39,7 +39,7 @@ struct ForgetPasswordView: View {
+                         // Title
+                         Text("FORGOT PASSWORD")
+                             .font(.largeTitle.bold())
+-                            .foregroundColor(.white)
++                            .foregroundColor(.primary)
+                         
+                         if !isEmailSent {
+                     
+@@ -47,7 +47,7 @@ struct ForgetPasswordView: View {
+                     
+                     Text("Enter your email and we'll send a password reset link.")
+                         .font(.subheadline)
+-                        .foregroundColor(.white.opacity(0.75))
++                        .foregroundColor(.secondary)
+                         .multilineTextAlignment(.center)
+                         .padding(.horizontal)
+                     
+@@ -56,14 +56,14 @@ struct ForgetPasswordView: View {
+                             .foregroundColor(.gray)
+                         
+                         TextField("Enter Email", text: $email)
+-                            .foregroundColor(.black)
++                            .foregroundColor(.primary)
+                             .keyboardType(.emailAddress)
+                             .autocapitalization(.none)
+                     }
+                     .padding()
+                     .background(
+                         RoundedRectangle(cornerRadius: 15)
+-                            .fill(.white)
++                            .fill(Color(.secondarySystemBackground))
+                     )
+                     
+                             // Error — reserved height so it doesn't shift layout
+@@ -106,20 +106,20 @@ struct ForgetPasswordView: View {
+                             
+                             Image(systemName: "envelope.open.fill")
+                                 .font(.system(size: 60))
+-                                .foregroundColor(.white)
++                                .foregroundColor(.primary)
+                             
+                             Text("Check your email 📩")
+                                 .font(.title2.bold())
+-                                .foregroundColor(.white)
++                                .foregroundColor(.primary)
+                             
+                             Text("If an account exists, a reset link will be sent to:\n\(email)")
+                                 .font(.subheadline)
+-                                .foregroundColor(.white.opacity(0.8))
++                                .foregroundColor(.secondary)
+                                 .multilineTextAlignment(.center)
+                             
+                             Text("Tap the link on this device — Irene will open so you can set a new password.")
+                                 .font(.caption)
+-                                .foregroundColor(.white.opacity(0.7))
++                                .foregroundColor(.secondary)
+                                 .multilineTextAlignment(.center)
+                             
+                             TimelineView(.periodic(from: .now, by: 1)) { _ in
+diff --git a/Irene/Views/Screens/Auth/LoginView.swift b/Irene/Views/Screens/Auth/LoginView.swift
+index b470613..e89c3ee 100644
+--- a/Irene/Views/Screens/Auth/LoginView.swift
++++ b/Irene/Views/Screens/Auth/LoginView.swift
+@@ -32,7 +32,7 @@ struct LoginView: View {
+                             // Title
+                             Text("LOGIN")
+                                 .font(.largeTitle.bold())
+-                                .foregroundColor(.white)
++                                .foregroundColor(.primary)
+ 
+                             // Info Message (e.g. "Email verified — please log in") — reserved
+                             // height so it doesn't shift layout. Never shown as a dialog.
+@@ -48,31 +48,31 @@ struct LoginView: View {
+                                 // Email
+                                 HStack {
+                                     Image(systemName: "envelope.fill")
+-                                        .foregroundColor(.black)
++                                        .foregroundColor(.primary)
+                                     
+                                     TextField("Enter Email", text: $email)
+-                                        .foregroundColor(.black)
++                                        .foregroundColor(.primary)
+                                         .autocapitalization(.none)
+                                         .disableAutocorrection(true)
+                                 }
+                                 .padding()
+                                 .background(
+                                     RoundedRectangle(cornerRadius: 15)
+-                                        .fill(Color.white)
++                                        .fill(Color(.secondarySystemBackground))
+                                 )
+                                 
+                                 // Password
+                                 HStack {
+                                     Image(systemName: "lock.fill")
+-                                        .foregroundColor(.black)
++                                        .foregroundColor(.primary)
+                                     
+                                     SecureField("Enter Password", text: $password)
+-                                        .foregroundColor(.black)
++                                        .foregroundColor(.primary)
+                                 }
+                                 .padding()
+                                 .background(
+                                     RoundedRectangle(cornerRadius: 15)
+-                                        .fill(Color.white)
++                                        .fill(Color(.secondarySystemBackground))
+                                 )
+                             }
+                             
+@@ -123,12 +123,12 @@ struct LoginView: View {
+                                 // Forgot Password
+                                 HStack {
+                                     Text("Forget your password?")
+-                                        .foregroundColor(.white.opacity(0.7))
++                                        .foregroundColor(.secondary)
+                                     
+                                     Button("Click Here") {
+                                         path.append(AuthRoute.forgotPassword)
+                                     }
+-                                    .foregroundColor(.white)
++                                    .foregroundColor(.primary)
+                                 }
+                                 
+                             }
+@@ -157,7 +157,7 @@ struct LoginView: View {
+                     // Bottom Fixed Sign Up Row
+                     HStack {
+                         Text("Not a member?")
+-                            .foregroundColor(.white.opacity(0.8))
++                            .foregroundColor(.secondary)
+                             .font(.system(size: 15, weight: .medium))
+                         
+                         Spacer()
+@@ -179,7 +179,7 @@ struct LoginView: View {
+                     .frame(height: 55)
+                     .background(
+                         Capsule()
+-                            .stroke(Color.white.opacity(0.25), lineWidth: 1)
++                            .stroke(Color.primary.opacity(0.15), lineWidth: 1)
+                     )
+                     .padding(.horizontal)
+                     .padding(.bottom, 20)
+@@ -246,10 +246,10 @@ struct AuthButton: View {
+                 Text(text)
+                     .font(.system(size: 16, weight: .semibold))
+             }
+-            .foregroundColor(.black)
++            .foregroundColor(.primary)
+             .frame(maxWidth: .infinity)
+             .frame(height: 50)
+-            .background(Color.white)
++            .background(Color(.secondarySystemBackground))
+             .cornerRadius(14)
+         }
+     }
+@@ -259,11 +259,11 @@ struct AuthButton: View {
+ struct OrDivider: View {
+     var body: some View {
+         HStack(spacing: 10) {
+-            Rectangle().fill(Color.white.opacity(0.25)).frame(height: 1)
++            Rectangle().fill(Color.primary.opacity(0.15)).frame(height: 1)
+             Text("OR")
+                 .font(.caption.weight(.semibold))
+-                .foregroundColor(.white.opacity(0.6))
+-            Rectangle().fill(Color.white.opacity(0.25)).frame(height: 1)
++                .foregroundColor(.secondary)
++            Rectangle().fill(Color.primary.opacity(0.15)).frame(height: 1)
+         }
+     }
+ }
+diff --git a/Irene/Views/Screens/Auth/ProfileLoadingView.swift b/Irene/Views/Screens/Auth/ProfileLoadingView.swift
+index 081c4c0..f7d83d7 100644
+--- a/Irene/Views/Screens/Auth/ProfileLoadingView.swift
++++ b/Irene/Views/Screens/Auth/ProfileLoadingView.swift
+@@ -23,7 +23,7 @@ struct ProfileLoadingView: View {
+             BlurBackground()
+             ProgressView()
+                 .scaleEffect(1.3)
+-                .tint(.white)
++                .tint(.primary)
+         }
+     }
+ }
+@@ -38,16 +38,16 @@ struct ProfileErrorView: View {
+             VStack(spacing: 20) {
+                 Image(systemName: "exclamationmark.triangle.fill")
+                     .font(.system(size: 44))
+-                    .foregroundColor(.white)
++                    .foregroundColor(.primary)
+ 
+                 Text("We couldn't set up your profile")
+                     .font(.title3.bold())
+-                    .foregroundColor(.white)
++                    .foregroundColor(.primary)
+                     .multilineTextAlignment(.center)
+ 
+                 Text(authVM.errorMessage ?? "Something went wrong. Please try again.")
+                     .font(.subheadline)
+-                    .foregroundColor(.white.opacity(0.75))
++                    .foregroundColor(.secondary)
+                     .multilineTextAlignment(.center)
+ 
+                 GradientButton(title: "Try Again") {
+@@ -57,7 +57,7 @@ struct ProfileErrorView: View {
+                 Button("Sign Out") {
+                     authVM.signOut()
+                 }
+-                .foregroundColor(.white.opacity(0.7))
++                .foregroundColor(.secondary)
+             }
+             .padding(.horizontal, 32)
+         }
+diff --git a/Irene/Views/Screens/Auth/ResetPasswordView.swift b/Irene/Views/Screens/Auth/ResetPasswordView.swift
+index fb438f2..6d3ee6b 100644
+--- a/Irene/Views/Screens/Auth/ResetPasswordView.swift
++++ b/Irene/Views/Screens/Auth/ResetPasswordView.swift
+@@ -36,11 +36,11 @@ struct ResetPasswordView: View {
+ 
+                     Text("NEW PASSWORD")
+                         .font(.largeTitle.bold())
+-                        .foregroundColor(.white)
++                        .foregroundColor(.primary)
+ 
+                     Text("Choose a new password for\n\(authVM.user?.email ?? "your account")")
+                         .font(.subheadline)
+-                        .foregroundColor(.white.opacity(0.75))
++                        .foregroundColor(.secondary)
+                         .multilineTextAlignment(.center)
+ 
+                     VStack(spacing: 15) {
+@@ -49,7 +49,7 @@ struct ResetPasswordView: View {
+ 
+                         Text("8+ characters, including an uppercase letter, a number, and a special character.")
+                             .font(.caption)
+-                            .foregroundColor(.white.opacity(0.65))
++                            .foregroundColor(.secondary)
+                     }
+ 
+                     // Error — reserved height so it doesn't shift layout
+@@ -106,15 +106,15 @@ struct ResetPasswordView: View {
+     private func secureField(placeholder: String, text: Binding<String>) -> some View {
+         HStack {
+             Image(systemName: "lock.fill")
+-                .foregroundColor(.black)
++                .foregroundColor(.primary)
+ 
+             SecureField(placeholder, text: text)
+-                .foregroundColor(.black)
++                .foregroundColor(.primary)
+         }
+         .padding()
+         .background(
+             RoundedRectangle(cornerRadius: 15)
+-                .fill(Color.white)
++                .fill(Color(.secondarySystemBackground))
+         )
+     }
+ }
+diff --git a/Irene/Views/Screens/Auth/SignUpView.swift b/Irene/Views/Screens/Auth/SignUpView.swift
+index 393cfaf..c8e63b0 100644
+--- a/Irene/Views/Screens/Auth/SignUpView.swift
++++ b/Irene/Views/Screens/Auth/SignUpView.swift
+@@ -45,7 +45,7 @@ struct SignUpView: View {
+                         // Title
+                         Text("SIGN UP")
+                             .font(.largeTitle.bold())
+-                            .foregroundColor(.white)
++                            .foregroundColor(.primary)
+ 
+                         // Input Fields
+                         VStack(spacing: 15) {
+@@ -78,7 +78,7 @@ struct SignUpView: View {
+                             Text("8+ chars · 1 number · 1 uppercase · 1 special character")
+                                 .font(.caption)
+                                 .foregroundColor(
+-                                    password.isEmpty ? .white.opacity(0.65)
++                                    password.isEmpty ? .secondary
+                                     : (isPasswordValid ? .green : .red.opacity(0.85))
+                                 )
+                                 .multilineTextAlignment(.center)
+@@ -150,18 +150,18 @@ struct SignUpView: View {
+                         // Terms
+                         VStack(spacing: 4) {
+                             Text("By signing up you agree to our")
+-                                .foregroundColor(.white.opacity(0.7))
++                                .foregroundColor(.secondary)
+                                 .font(.caption)
+ 
+                             HStack(spacing: 4) {
+                                 Button("Terms & Conditions") {}
+-                                    .foregroundColor(.white)
++                                    .foregroundColor(.primary)
+ 
+                                 Text("and")
+-                                    .foregroundColor(.white.opacity(0.7))
++                                    .foregroundColor(.secondary)
+ 
+                                 Button("Privacy Policy") {}
+-                                    .foregroundColor(.white)
++                                    .foregroundColor(.primary)
+                             }
+                             .font(.caption)
+                         }
+@@ -176,7 +176,7 @@ struct SignUpView: View {
+                 // Bottom Fixed Login Row
+                 HStack {
+                     Text("Have an account?")
+-                        .foregroundColor(.white.opacity(0.8))
++                        .foregroundColor(.secondary)
+                         .font(.system(size: 15, weight: .medium))
+ 
+                     Spacer()
+@@ -198,7 +198,7 @@ struct SignUpView: View {
+                 .frame(height: 55)
+                 .background(
+                     Capsule()
+-                        .stroke(Color.white.opacity(0.25), lineWidth: 1)
++                        .stroke(Color.primary.opacity(0.15), lineWidth: 1)
+                 )
+                 .padding(.horizontal)
+                 .padding(.bottom, 20)
+@@ -252,10 +252,10 @@ struct SignUpView: View {
+     ) -> some View {
+         HStack {
+             Image(systemName: icon)
+-                .foregroundColor(.black)
++                .foregroundColor(.primary)
+ 
+             TextField(placeholder, text: text)
+-                .foregroundColor(.black)
++                .foregroundColor(.primary)
+                 .keyboardType(keyboard)
+                 .autocapitalization(.none)
+                 .disableAutocorrection(true)
+@@ -263,7 +263,7 @@ struct SignUpView: View {
+         .padding()
+         .background(
+             RoundedRectangle(cornerRadius: 15)
+-                .fill(.white)
++                .fill(Color(.secondarySystemBackground))
+         )
+     }
+ 
+@@ -274,15 +274,15 @@ struct SignUpView: View {
+     ) -> some View {
+         HStack {
+             Image(systemName: icon)
+-                .foregroundColor(.black)
++                .foregroundColor(.primary)
+ 
+             SecureField(placeholder, text: text)
+-                .foregroundColor(.black)
++                .foregroundColor(.primary)
+         }
+         .padding()
+         .background(
+             RoundedRectangle(cornerRadius: 15)
+-                .fill(.white)
++                .fill(Color(.secondarySystemBackground))
+         )
+     }
+ }
+diff --git a/Irene/Views/Screens/Breathing/BreathingView.swift b/Irene/Views/Screens/Breathing/BreathingView.swift
+index 477c8da..bc7b1f2 100644
+--- a/Irene/Views/Screens/Breathing/BreathingView.swift
++++ b/Irene/Views/Screens/Breathing/BreathingView.swift
+@@ -70,11 +70,11 @@ struct BreathingView: View {
+                 VStack(spacing: 4) {
+                     Text(phase.title)
+                         .font(.system(size: 36, weight: .bold, design: .rounded))
+-                        .foregroundColor(.black)
++                        .foregroundColor(.primary)
+ 
+                     Text(phase.instruction)
+                         .font(.system(size: 18, weight: .medium, design: .rounded))
+-                        .foregroundColor(.black.opacity(0.55))
++                        .foregroundColor(.secondary)
+                         .multilineTextAlignment(.center)
+                 }
+                 .frame(maxWidth: .infinity)
+diff --git a/Irene/Views/Screens/HomeView.swift b/Irene/Views/Screens/HomeView.swift
+index e368ae9..5ee779f 100644
+--- a/Irene/Views/Screens/HomeView.swift
++++ b/Irene/Views/Screens/HomeView.swift
+@@ -100,16 +100,16 @@ struct HomeView: View {
+             VStack(alignment: .leading, spacing: 4) {
+                 Text("Mood Check-In")
+                     .font(.headline)
+-                    .foregroundColor(.black)
++                    .foregroundColor(.primary)
+                 Text("How are you feeling right now?")
+                     .font(.subheadline)
+-                    .foregroundColor(.black.opacity(0.7))
++                    .foregroundColor(.secondary)
+             }
+ 
+             Spacer()
+ 
+             Image(systemName: "chevron.right")
+-                .foregroundColor(.black.opacity(0.6))
++                .foregroundColor(.secondary)
+         }
+         .padding(18)
+         .frame(maxWidth: .infinity)
+diff --git a/Irene/Views/Screens/MoodCheckIn/ColorGridQuestionView.swift b/Irene/Views/Screens/MoodCheckIn/ColorGridQuestionView.swift
+index b04d21f..4de964d 100644
+--- a/Irene/Views/Screens/MoodCheckIn/ColorGridQuestionView.swift
++++ b/Irene/Views/Screens/MoodCheckIn/ColorGridQuestionView.swift
+@@ -6,6 +6,7 @@
+ import SwiftUI
+ 
+ struct ColorGridQuestionView: View {
++    @Environment(\.colorScheme) private var colorScheme
+ 
+     let question: MoodQuestion
+     let selected: MoodOption?
+@@ -81,6 +82,7 @@ struct ColorGridQuestionView: View {
+                         .resizable()
+                         .scaledToFit()
+                         .frame(width: 84,height: 84)
++                        .foregroundStyle(.primary)
+ 
+                 }
+ 
+@@ -98,15 +100,15 @@ struct ColorGridQuestionView: View {
+                 RoundedRectangle(cornerRadius: 28)
+                     .fill(
+                         selected
+-                        ? color
+-                        : Color.white.opacity(0.28)
++                        ? color.opacity(colorScheme == .dark ? 0.25 : 0.4)
++                        : Color.primary.opacity(0.06)
+                     )
+             )
+ 
+             .overlay(
+                 RoundedRectangle(cornerRadius: 28)
+                     .stroke(
+-                        Color.white.opacity(selected ? 0 : 0.15),
++                        Color.primary.opacity(selected ? 0 : 0.15),
+                         lineWidth: 1
+                     )
+             )
+diff --git a/Irene/Views/Screens/MoodCheckIn/EmojiFaceQuestionView.swift b/Irene/Views/Screens/MoodCheckIn/EmojiFaceQuestionView.swift
+index b75986a..c6efa06 100644
+--- a/Irene/Views/Screens/MoodCheckIn/EmojiFaceQuestionView.swift
++++ b/Irene/Views/Screens/MoodCheckIn/EmojiFaceQuestionView.swift
+@@ -15,6 +15,7 @@
+ import SwiftUI
+ 
+ struct EmojiFaceQuestionView: View {
++    @Environment(\.colorScheme) private var colorScheme
+     let question: MoodQuestion
+     let selected: MoodOption?
+     var onSelect: (MoodOption) -> Void
+@@ -75,8 +76,8 @@ struct EmojiFaceQuestionView: View {
+                 .font(.subheadline.weight(.semibold))
+                 .padding(.horizontal, 20)
+                 .padding(.vertical, 12)
+-                .background(isSelected ? (option.color ?? .pink) : Color(.secondarySystemBackground))
+-                .foregroundColor(isSelected ? .white : .primary)
++                .background(isSelected ? (option.color ?? .pink).opacity(colorScheme == .dark ? 0.25 : 0.4) : Color(.secondarySystemBackground))
++                .foregroundColor(.primary)
+                 .clipShape(Capsule())
+         }
+         .buttonStyle(.plain)
+@@ -94,8 +95,7 @@ struct CheckInFooterButtons: View {
+     /// Hidden entirely on the very first question — there's nothing behind it.
+     var showPrevious: Bool = false
+     /// Pass `true` when this footer sits on a dark card (e.g. the worry
+-    /// grid) so the Previous control stays legible; the white Next pill
+-    /// works on both.
++    /// grid) so the Previous control stays legible. Next uses an adaptive surface.
+     var onDarkBackground: Bool = false
+ 
+     var body: some View {
+@@ -107,7 +107,7 @@ struct CheckInFooterButtons: View {
+                         Text("Previous")
+                     }
+                     .font(.subheadline.weight(.semibold))
+-                    .foregroundColor(onDarkBackground ? .white : .black.opacity(0.7))
++                    .foregroundColor(onDarkBackground ? .white : .primary)
+                     .padding(.horizontal, 20)
+                     .padding(.vertical, 14)
+                     .background(
+@@ -116,7 +116,7 @@ struct CheckInFooterButtons: View {
+                     )
+                     .overlay(
+                         Capsule()
+-                            .stroke(onDarkBackground ? Color.white.opacity(0.18) : Color.black.opacity(0.06), lineWidth: 1)
++                            .stroke(onDarkBackground ? Color.white.opacity(0.18) : Color.primary.opacity(0.08), lineWidth: 1)
+                     )
+                 }
+                 .transition(.scale.combined(with: .opacity))
+@@ -130,10 +130,10 @@ struct CheckInFooterButtons: View {
+                     Image(systemName: "chevron.right")
+                 }
+                 .font(.subheadline.weight(.semibold))
+-                .foregroundColor(.black)
++                .foregroundColor(.primary)
+                 .padding(.horizontal, 26)
+                 .padding(.vertical, 14)
+-                .background(Color.white)
++                .background(Color(.secondarySystemBackground))
+                 .clipShape(Capsule())
+                 .opacity(nextEnabled ? 1 : 0.5)
+             }
+diff --git a/Irene/Views/Screens/MoodCheckIn/MoodChatView.swift b/Irene/Views/Screens/MoodCheckIn/MoodChatView.swift
+index 921ea05..479ae85 100644
+--- a/Irene/Views/Screens/MoodCheckIn/MoodChatView.swift
++++ b/Irene/Views/Screens/MoodCheckIn/MoodChatView.swift
+@@ -167,16 +167,16 @@ private struct SelectionRequiredView: View {
+ 
+             Image(systemName: "exclamationmark.circle")
+                 .font(.system(size: 56, weight: .semibold))
+-                .foregroundColor(.white)
++                .foregroundColor(.primary)
+ 
+             Text("Please select something")
+                 .font(.title2.weight(.bold))
+-                .foregroundColor(.white)
++                .foregroundColor(.primary)
+                 .multilineTextAlignment(.center)
+ 
+             Text("Looks like one or more questions were left unanswered. Go back and pick an option for each one so we can put together your check-in.")
+                 .font(.subheadline)
+-                .foregroundColor(.white.opacity(0.75))
++                .foregroundColor(.secondary)
+                 .multilineTextAlignment(.center)
+                 .padding(.horizontal, 32)
+ 
+@@ -188,10 +188,10 @@ private struct SelectionRequiredView: View {
+                     Text("Back to Mood Check-In")
+                 }
+                 .font(.subheadline.weight(.semibold))
+-                .foregroundColor(.black)
++                .foregroundColor(.primary)
+                 .padding(.horizontal, 26)
+                 .padding(.vertical, 14)
+-                .background(Color.white)
++                .background(Color(.secondarySystemBackground))
+                 .clipShape(Capsule())
+             }
+             .padding(.bottom, 40)
+diff --git a/Irene/Views/Screens/MoodCheckIn/MoodTopProgressBar.swift b/Irene/Views/Screens/MoodCheckIn/MoodTopProgressBar.swift
+index ca4e16e..d0e8204 100644
+--- a/Irene/Views/Screens/MoodCheckIn/MoodTopProgressBar.swift
++++ b/Irene/Views/Screens/MoodCheckIn/MoodTopProgressBar.swift
+@@ -21,7 +21,7 @@ struct MoodTopProgressBar: View {
+         HStack(spacing: 6) {
+             ForEach(0..<max(totalSteps, 1), id: \.self) { index in
+                 Capsule()
+-                    .fill(index <= currentStep ? Color.white : Color.white.opacity(0.25))
++                    .fill(index <= currentStep ? Color.primary : Color.primary.opacity(0.18))
+                     .frame(height: 4)
+                     .frame(maxWidth: .infinity)
+             }
+diff --git a/Irene/Views/Screens/MoodCheckIn/OptionButton.swift b/Irene/Views/Screens/MoodCheckIn/OptionButton.swift
+index 0d4a6c2..4dab83e 100644
+--- a/Irene/Views/Screens/MoodCheckIn/OptionButton.swift
++++ b/Irene/Views/Screens/MoodCheckIn/OptionButton.swift
+@@ -9,6 +9,7 @@ import SwiftUI
+ 
+ /// A single tappable answer choice shown below the current AI question.
+ struct OptionButton: View {
++    @Environment(\.colorScheme) private var colorScheme
+     let option: MoodOption
+     var isSelected: Bool = false
+     var action: () -> Void
+@@ -26,6 +27,7 @@ struct OptionButton: View {
+                     .resizable()
+                     .scaledToFit()
+                     .frame(width: 84,height: 84)
++                    .foregroundStyle(.primary)
+ 
+             }
+             Text(option.label)
+@@ -35,9 +37,9 @@ struct OptionButton: View {
+                 .padding(.vertical, 14)
+                 .background(
+                     RoundedRectangle(cornerRadius: 16, style: .continuous)
+-                        .fill(isSelected ? AnyShapeStyle(accentColor) : AnyShapeStyle(.ultraThinMaterial))
++                        .fill(isSelected ? AnyShapeStyle(accentColor.opacity(colorScheme == .dark ? 0.25 : 0.4)) : AnyShapeStyle(.ultraThinMaterial))
+                 )
+-                .foregroundColor(isSelected ? .white : .primary)
++                .foregroundColor(.primary)
+                 .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                 .overlay(
+                     RoundedRectangle(cornerRadius: 16, style: .continuous)
+diff --git a/Irene/Views/Screens/Music/NowPlayingView.swift b/Irene/Views/Screens/Music/NowPlayingView.swift
+index 5a529f1..590a7dc 100644
+--- a/Irene/Views/Screens/Music/NowPlayingView.swift
++++ b/Irene/Views/Screens/Music/NowPlayingView.swift
+@@ -11,13 +11,17 @@ struct NowPlayingView: View {
+             VStack {
+                 topBar
+                 Spacer()
+-                songInfo
+-                progressSlider
+-                controls
++                VStack {
++                    songInfo
++                    progressSlider
++                    controls
++                }
++                .padding(.vertical, 24)
++                .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 28))
++                .padding(.horizontal, 16)
+             }
+             .padding(.bottom, 24)
+         }
+-        .preferredColorScheme(.dark)
+     }
+ 
+     // MARK: - Background
+@@ -35,13 +39,13 @@ struct NowPlayingView: View {
+                 if case .success(let image) = phase {
+                     image.resizable().aspectRatio(contentMode: .fill)
+                 } else {
+-                    Color.black
++                    BlurBackground()
+                 }
+             }
+             .ignoresSafeArea()
+             .overlay(Color.black.opacity(0.45).ignoresSafeArea())
+         } else {
+-            Color.black.ignoresSafeArea()
++            BlurBackground()
+         }
+     }
+ 
+@@ -54,7 +58,7 @@ struct NowPlayingView: View {
+             } label: {
+                 Image(systemName: "chevron.down")
+                     .font(.title3)
+-                    .foregroundColor(.white)
++                    .foregroundColor(.primary)
+                     .padding(12)
+                     .background(.ultraThinMaterial, in: Circle())
+             }
+@@ -68,11 +72,11 @@ struct NowPlayingView: View {
+         VStack(spacing: 6) {
+             Text(viewModel.currentSong?.title ?? "")
+                 .font(.title2).fontWeight(.bold)
+-                .foregroundColor(.white)
++                .foregroundColor(.primary)
+                 .multilineTextAlignment(.center)
+             if let artist = viewModel.currentSong?.artist {
+                 Text(artist)
+-                    .foregroundColor(.white.opacity(0.75))
++                    .foregroundColor(.secondary)
+             }
+         }
+         .padding(.horizontal, 32)
+@@ -86,7 +90,7 @@ struct NowPlayingView: View {
+                     set: { viewModel.seek(toFraction: $0) }
+                 )
+             )
+-            .tint(.white)
++            .tint(.primary)
+ 
+             HStack {
+                 Text(formatted(viewModel.elapsedSeconds))
+@@ -94,7 +98,7 @@ struct NowPlayingView: View {
+                 Text(formatted(viewModel.durationSeconds))
+             }
+             .font(.caption)
+-            .foregroundColor(.white.opacity(0.7))
++            .foregroundColor(.secondary)
+         }
+         .padding(.horizontal, 32)
+         .padding(.top, 28)
+@@ -105,7 +109,7 @@ struct NowPlayingView: View {
+             Button { viewModel.toggleLoop() } label: {
+                 Image(systemName: "repeat")
+                     .font(.title3)
+-                    .foregroundColor(viewModel.isLooping ? .white : .white.opacity(0.5))
++                    .foregroundColor(viewModel.isLooping ? .primary : .secondary)
+             }
+             Button { viewModel.playPrevious() } label: {
+                 Image(systemName: "backward.fill").font(.title2)
+@@ -123,7 +127,7 @@ struct NowPlayingView: View {
+                 .font(.title3)
+                 .opacity(0)
+         }
+-        .foregroundColor(.white)
++        .foregroundColor(.primary)
+         .padding(.top, 20)
+     }
+ 
+diff --git a/Irene/Views/Screens/SafeCircle/AddSafeCircleContactView.swift b/Irene/Views/Screens/SafeCircle/AddSafeCircleContactView.swift
+index 584650d..f183688 100644
+--- a/Irene/Views/Screens/SafeCircle/AddSafeCircleContactView.swift
++++ b/Irene/Views/Screens/SafeCircle/AddSafeCircleContactView.swift
+@@ -143,7 +143,7 @@ struct AddSafeCircleContactView: View {
+         } label: {
+             Label("Add from Contacts", systemImage: "person.crop.circle.badge.plus")
+                 .font(.system(size: 16, weight: .semibold))
+-                .foregroundColor(.black)
++                .foregroundColor(.primary)
+                 .frame(maxWidth: .infinity)
+                 .frame(height: 50)
+                 .background(
+diff --git a/Irene/Views/Screens/SafeCircle/SafeCircleContactsView.swift b/Irene/Views/Screens/SafeCircle/SafeCircleContactsView.swift
+index b875cc2..1686070 100644
+--- a/Irene/Views/Screens/SafeCircle/SafeCircleContactsView.swift
++++ b/Irene/Views/Screens/SafeCircle/SafeCircleContactsView.swift
+@@ -70,7 +70,7 @@ struct SafeCircleContactsView: View {
+             } label: {
+                 Label("Add a close friend", systemImage: "plus")
+                     .font(.system(size: 15, weight: .semibold))
+-                    .foregroundColor(.black)
++                    .foregroundColor(.primary)
+                     .padding(.horizontal, 100)
+                     .padding(.vertical, 20)
+                     .background(
+diff --git a/Irene/Views/Screens/SplashView.swift b/Irene/Views/Screens/SplashView.swift
+index 714ee46..6c9b5be 100644
+--- a/Irene/Views/Screens/SplashView.swift
++++ b/Irene/Views/Screens/SplashView.swift
+@@ -30,7 +30,7 @@ struct SplashView: View {
+                 Text("Irene")
+                     .font(.largeTitle)
+                     .fontWeight(.bold)
+-                    .foregroundColor(Color.black)
++                    .foregroundColor(.primary)
+                     .opacity(opacity)
+             }
+         }

@@ -31,12 +31,14 @@ struct ContentView: View {
 
     var body: some View {
         ZStack {
-            if showSplash {
+            if showSplash || authVM.isProcessingAuthLink {
                 SplashView()
                     .transition(.opacity)
             } else if authVM.isPasswordRecovery {
                 ResetPasswordView()
                     .transition(.opacity.combined(with: .move(edge: .trailing)))
+            } else if let email = authVM.pendingVerificationEmail {
+                EmailVerificationView(email: email)
             } else if authVM.user == nil {
                 AuthFlowView()
                     .transition(.opacity)
@@ -80,6 +82,15 @@ struct ContentView: View {
         .animation(.easeInOut(duration: 0.35), value: authVM.profileCheckFailed)
         .animation(.easeInOut(duration: 0.35), value: showMoodCheckIn)
         .animation(.easeInOut(duration: 0.35), value: showSafeCircleOnboarding)
+        .alert("Authentication", isPresented: Binding(
+            get: { authVM.authLinkError != nil },
+            set: { if !$0 { authVM.authLinkError = nil } }
+        )) {
+            Button("OK") { authVM.authLinkError = nil }
+            Button("Back to Login") { authVM.signOut() }
+        } message: {
+            Text(authVM.authLinkError ?? "")
+        }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
                 minimumSplashElapsed = true
@@ -92,3 +103,4 @@ struct ContentView: View {
     ContentView()
         .environmentObject(AuthViewModel())
 }
+

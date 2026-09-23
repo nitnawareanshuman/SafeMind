@@ -32,7 +32,7 @@ struct LoginView: View {
                             // Title
                             Text("LOGIN")
                                 .font(.largeTitle.bold())
-                                .foregroundColor(.white)
+                                .foregroundColor(.primary)
 
                             // Info Message (e.g. "Email verified — please log in") — reserved
                             // height so it doesn't shift layout. Never shown as a dialog.
@@ -48,46 +48,60 @@ struct LoginView: View {
                                 // Email
                                 HStack {
                                     Image(systemName: "envelope.fill")
-                                        .foregroundColor(.black)
+                                        .foregroundColor(.primary)
                                     
                                     TextField("Enter Email", text: $email)
-                                        .foregroundColor(.black)
+                                        .foregroundColor(.primary)
                                         .autocapitalization(.none)
                                         .disableAutocorrection(true)
                                 }
                                 .padding()
                                 .background(
                                     RoundedRectangle(cornerRadius: 15)
-                                        .fill(Color.white)
+                                        .fill(Color(.secondarySystemBackground))
                                 )
                                 
                                 // Password
                                 HStack {
                                     Image(systemName: "lock.fill")
-                                        .foregroundColor(.black)
+                                        .foregroundColor(.primary)
                                     
                                     SecureField("Enter Password", text: $password)
-                                        .foregroundColor(.black)
+                                        .foregroundColor(.primary)
                                 }
                                 .padding()
                                 .background(
                                     RoundedRectangle(cornerRadius: 15)
-                                        .fill(Color.white)
+                                        .fill(Color(.secondarySystemBackground))
                                 )
                             }
                             
                             // Error Message — reserved height so it doesn't shift layout
-                            Text(errorMsg ?? " ")
+                            Text(errorMsg ?? authVM.errorMessage ?? " ")
                                 .foregroundColor(.red)
                                 .font(.caption)
-                                .opacity(errorMsg == nil ? 0 : 1)
+                                .opacity(errorMsg == nil && authVM.errorMessage == nil ? 0 : 1)
                             
+                            TimelineView(.periodic(from: .now, by: 1)) { _ in
+                                let seconds = authVM.resendSeconds(email: email)
+                                Button(seconds > 0 ? "Resend verification in \(seconds)s" : "Resend verification email") {
+                                    Task {
+                                        do {
+                                            try await authVM.resendVerification(email: email)
+                                            authVM.infoMessage = "If verification is pending, check your email."
+                                        } catch { errorMsg = error.localizedDescription }
+                                    }
+                                }
+                                .disabled(email.isEmpty || seconds > 0)
+                            }
+
                             // Buttons
                             VStack(spacing: 15) {
                                 
                                 // Email Login
                                 GradientButton(title: "Login", icon: "arrow.right") {
                                     
+                                    guard !authVM.isLoading else { return }
                                     if email.isEmpty || password.isEmpty {
                                         errorMsg = "Please fill all fields"
                                     } else {
@@ -109,12 +123,12 @@ struct LoginView: View {
                                 // Forgot Password
                                 HStack {
                                     Text("Forget your password?")
-                                        .foregroundColor(.white.opacity(0.7))
+                                        .foregroundColor(.secondary)
                                     
                                     Button("Click Here") {
                                         path.append(AuthRoute.forgotPassword)
                                     }
-                                    .foregroundColor(.white)
+                                    .foregroundColor(.primary)
                                 }
                                 
                             }
@@ -143,7 +157,7 @@ struct LoginView: View {
                     // Bottom Fixed Sign Up Row
                     HStack {
                         Text("Not a member?")
-                            .foregroundColor(.white.opacity(0.8))
+                            .foregroundColor(.secondary)
                             .font(.system(size: 15, weight: .medium))
                         
                         Spacer()
@@ -165,7 +179,7 @@ struct LoginView: View {
                     .frame(height: 55)
                     .background(
                         Capsule()
-                            .stroke(Color.white.opacity(0.25), lineWidth: 1)
+                            .stroke(Color.primary.opacity(0.15), lineWidth: 1)
                     )
                     .padding(.horizontal)
                     .padding(.bottom, 20)
@@ -232,10 +246,10 @@ struct AuthButton: View {
                 Text(text)
                     .font(.system(size: 16, weight: .semibold))
             }
-            .foregroundColor(.black)
+            .foregroundColor(.primary)
             .frame(maxWidth: .infinity)
             .frame(height: 50)
-            .background(Color.white)
+            .background(Color(.secondarySystemBackground))
             .cornerRadius(14)
         }
     }
@@ -245,11 +259,11 @@ struct AuthButton: View {
 struct OrDivider: View {
     var body: some View {
         HStack(spacing: 10) {
-            Rectangle().fill(Color.white.opacity(0.25)).frame(height: 1)
+            Rectangle().fill(Color.primary.opacity(0.15)).frame(height: 1)
             Text("OR")
                 .font(.caption.weight(.semibold))
-                .foregroundColor(.white.opacity(0.6))
-            Rectangle().fill(Color.white.opacity(0.25)).frame(height: 1)
+                .foregroundColor(.secondary)
+            Rectangle().fill(Color.primary.opacity(0.15)).frame(height: 1)
         }
     }
 }
@@ -258,3 +272,4 @@ struct OrDivider: View {
     LoginView(path: .constant(NavigationPath()))
         .environmentObject(AuthViewModel())
 }
+

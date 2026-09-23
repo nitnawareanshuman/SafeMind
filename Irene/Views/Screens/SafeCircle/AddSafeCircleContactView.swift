@@ -143,7 +143,7 @@ struct AddSafeCircleContactView: View {
         } label: {
             Label("Add from Contacts", systemImage: "person.crop.circle.badge.plus")
                 .font(.system(size: 16, weight: .semibold))
-                .foregroundColor(.black)
+                .foregroundColor(.primary)
                 .frame(maxWidth: .infinity)
                 .frame(height: 50)
                 .background(

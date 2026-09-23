@@ -70,7 +70,7 @@ struct SafeCircleContactsView: View {
             } label: {
                 Label("Add a close friend", systemImage: "plus")
                     .font(.system(size: 15, weight: .semibold))
-                    .foregroundColor(.black)
+                    .foregroundColor(.primary)
                     .padding(.horizontal, 100)
                     .padding(.vertical, 20)
                     .background(

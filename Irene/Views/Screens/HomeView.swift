@@ -100,16 +100,16 @@ struct HomeView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text("Mood Check-In")
                     .font(.headline)
-                    .foregroundColor(.black)
+                    .foregroundColor(.primary)
                 Text("How are you feeling right now?")
                     .font(.subheadline)
-                    .foregroundColor(.black.opacity(0.7))
+                    .foregroundColor(.secondary)
             }
 
             Spacer()
 
             Image(systemName: "chevron.right")
-                .foregroundColor(.black.opacity(0.6))
+                .foregroundColor(.secondary)
         }
         .padding(18)
         .frame(maxWidth: .infinity)

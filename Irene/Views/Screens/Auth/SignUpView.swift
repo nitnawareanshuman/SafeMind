@@ -45,7 +45,7 @@ struct SignUpView: View {
                         // Title
                         Text("SIGN UP")
                             .font(.largeTitle.bold())
-                            .foregroundColor(.white)
+                            .foregroundColor(.primary)
 
                         // Input Fields
                         VStack(spacing: 15) {
@@ -78,7 +78,7 @@ struct SignUpView: View {
                             Text("8+ chars · 1 number · 1 uppercase · 1 special character")
                                 .font(.caption)
                                 .foregroundColor(
-                                    password.isEmpty ? .white.opacity(0.65)
+                                    password.isEmpty ? .secondary
                                     : (isPasswordValid ? .green : .red.opacity(0.85))
                                 )
                                 .multilineTextAlignment(.center)
@@ -150,18 +150,18 @@ struct SignUpView: View {
                         // Terms
                         VStack(spacing: 4) {
                             Text("By signing up you agree to our")
-                                .foregroundColor(.white.opacity(0.7))
+                                .foregroundColor(.secondary)
                                 .font(.caption)
 
                             HStack(spacing: 4) {
                                 Button("Terms & Conditions") {}
-                                    .foregroundColor(.white)
+                                    .foregroundColor(.primary)
 
                                 Text("and")
-                                    .foregroundColor(.white.opacity(0.7))
+                                    .foregroundColor(.secondary)
 
                                 Button("Privacy Policy") {}
-                                    .foregroundColor(.white)
+                                    .foregroundColor(.primary)
                             }
                             .font(.caption)
                         }
@@ -176,7 +176,7 @@ struct SignUpView: View {
                 // Bottom Fixed Login Row
                 HStack {
                     Text("Have an account?")
-                        .foregroundColor(.white.opacity(0.8))
+                        .foregroundColor(.secondary)
                         .font(.system(size: 15, weight: .medium))
 
                     Spacer()
@@ -198,7 +198,7 @@ struct SignUpView: View {
                 .frame(height: 55)
                 .background(
                     Capsule()
-                        .stroke(Color.white.opacity(0.25), lineWidth: 1)
+                        .stroke(Color.primary.opacity(0.15), lineWidth: 1)
                 )
                 .padding(.horizontal)
                 .padding(.bottom, 20)
@@ -252,10 +252,10 @@ struct SignUpView: View {
     ) -> some View {
         HStack {
             Image(systemName: icon)
-                .foregroundColor(.black)
+                .foregroundColor(.primary)
 
             TextField(placeholder, text: text)
-                .foregroundColor(.black)
+                .foregroundColor(.primary)
                 .keyboardType(keyboard)
                 .autocapitalization(.none)
                 .disableAutocorrection(true)
@@ -263,7 +263,7 @@ struct SignUpView: View {
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 15)
-                .fill(.white)
+                .fill(Color(.secondarySystemBackground))
         )
     }
 
@@ -274,15 +274,15 @@ struct SignUpView: View {
     ) -> some View {
         HStack {
             Image(systemName: icon)
-                .foregroundColor(.black)
+                .foregroundColor(.primary)
 
             SecureField(placeholder, text: text)
-                .foregroundColor(.black)
+                .foregroundColor(.primary)
         }
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 15)
-                .fill(.white)
+                .fill(Color(.secondarySystemBackground))
         )
     }
 }

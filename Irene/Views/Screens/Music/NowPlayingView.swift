@@ -11,13 +11,17 @@ struct NowPlayingView: View {
             VStack {
                 topBar
                 Spacer()
-                songInfo
-                progressSlider
-                controls
+                VStack {
+                    songInfo
+                    progressSlider
+                    controls
+                }
+                .padding(.vertical, 24)
+                .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 28))
+                .padding(.horizontal, 16)
             }
             .padding(.bottom, 24)
         }
-        .preferredColorScheme(.dark)
     }
 
     // MARK: - Background
@@ -35,13 +39,13 @@ struct NowPlayingView: View {
                 if case .success(let image) = phase {
                     image.resizable().aspectRatio(contentMode: .fill)
                 } else {
-                    Color.black
+                    BlurBackground()
                 }
             }
             .ignoresSafeArea()
             .overlay(Color.black.opacity(0.45).ignoresSafeArea())
         } else {
-            Color.black.ignoresSafeArea()
+            BlurBackground()
         }
     }
 
@@ -54,7 +58,7 @@ struct NowPlayingView: View {
             } label: {
                 Image(systemName: "chevron.down")
                     .font(.title3)
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
                     .padding(12)
                     .background(.ultraThinMaterial, in: Circle())
             }
@@ -68,11 +72,11 @@ struct NowPlayingView: View {
         VStack(spacing: 6) {
             Text(viewModel.currentSong?.title ?? "")
                 .font(.title2).fontWeight(.bold)
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
                 .multilineTextAlignment(.center)
             if let artist = viewModel.currentSong?.artist {
                 Text(artist)
-                    .foregroundColor(.white.opacity(0.75))
+                    .foregroundColor(.secondary)
             }
         }
         .padding(.horizontal, 32)
@@ -86,7 +90,7 @@ struct NowPlayingView: View {
                     set: { viewModel.seek(toFraction: $0) }
                 )
             )
-            .tint(.white)
+            .tint(.primary)
 
             HStack {
                 Text(formatted(viewModel.elapsedSeconds))
@@ -94,7 +98,7 @@ struct NowPlayingView: View {
                 Text(formatted(viewModel.durationSeconds))
             }
             .font(.caption)
-            .foregroundColor(.white.opacity(0.7))
+            .foregroundColor(.secondary)
         }
         .padding(.horizontal, 32)
         .padding(.top, 28)
@@ -105,7 +109,7 @@ struct NowPlayingView: View {
             Button { viewModel.toggleLoop() } label: {
                 Image(systemName: "repeat")
                     .font(.title3)
-                    .foregroundColor(viewModel.isLooping ? .white : .white.opacity(0.5))
+                    .foregroundColor(viewModel.isLooping ? .primary : .secondary)
             }
             Button { viewModel.playPrevious() } label: {
                 Image(systemName: "backward.fill").font(.title2)
@@ -123,7 +127,7 @@ struct NowPlayingView: View {
                 .font(.title3)
                 .opacity(0)
         }
-        .foregroundColor(.white)
+        .foregroundColor(.primary)
         .padding(.top, 20)
     }
 

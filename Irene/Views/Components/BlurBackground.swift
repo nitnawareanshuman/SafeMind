@@ -14,30 +14,37 @@ import SwiftUI
 /// across pushes/pops instead of restarting.
 struct BlurBackground: View {
 
+    @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
     private let period: Double = 6
+    private var isDark: Bool { colorScheme == .dark }
 
     var body: some View {
-        TimelineView(.animation) { timeline in
-            let t = timeline.date.timeIntervalSinceReferenceDate
+        TimelineView(.animation(minimumInterval: 1.0 / 30, paused: reduceMotion)) { timeline in
+            let t = reduceMotion ? 0 : timeline.date.timeIntervalSinceReferenceDate
 
             ZStack {
-                Color.black.opacity(0.05)
+                (isDark ? Color(hex: "090E1B") : Color(.systemBackground))
+                    .overlay(isDark ? Color.clear : Color.black.opacity(0.05))
                     .ignoresSafeArea()
 
-                blob(color: .blue.opacity(0.6), size: 300, blur: 120,
+                blob(color: (isDark ? Color(hex: "465AD6").opacity(0.42) : .blue.opacity(0.6)), size: 300, blur: 120,
                      baseX: -115, baseY: -195, ampX: 35, ampY: 25, phase: 0, t: t)
 
-                blob(color: .green.opacity(0.6), size: 300, blur: 120,
+                blob(color: (isDark ? Color(hex: "178D85").opacity(0.42) : .green.opacity(0.6)), size: 300, blur: 120,
                      baseX: 145, baseY: -150, ampX: 25, ampY: 30, phase: 1.6, t: t)
 
-                blob(color: .pink.opacity(0.5), size: 350, blur: 150,
+                blob(color: (isDark ? Color(hex: "7254AC").opacity(0.28) : .pink.opacity(0.5)), size: 350, blur: 150,
                      baseX: 0, baseY: 255, ampX: 20, ampY: 25, phase: 3.1, t: t)
 
-                blob(color: .yellow.opacity(0.5), size: 350, blur: 150,
+                blob(color: (isDark ? Color(hex: "465AD6").opacity(0.12) : .yellow.opacity(0.5)), size: 350, blur: 150,
                      baseX: 0, baseY: -250, ampX: 40, ampY: 30, phase: 4.7, t: t)
             }
         }
         .ignoresSafeArea()
+        .allowsHitTesting(false)
+        .accessibilityHidden(true)
     }
 
     /// A single soft, blurred circle that drifts smoothly around a base
@@ -59,6 +66,10 @@ struct BlurBackground: View {
     }
 }
 
-#Preview {
-    BlurBackground()
+#Preview("Light") {
+    BlurBackground().preferredColorScheme(.light)
+}
+
+#Preview("Midnight Aurora") {
+    BlurBackground().preferredColorScheme(.dark)
 }
